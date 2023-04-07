@@ -1,0 +1,83 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://scenes/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/Level/enemies/mob.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/GUI/HUD.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/scripts/title.gd" type="Script" id=4]
+[ext_resource path="res://res/FreeTileset/png/BG/BG.png" type="Texture" id=5]
+[ext_resource path="res://res/FreeTileset/tile001.tres" type="TileSet" id=6]
+[ext_resource path="res://res/audios/Cyberleaf Music - The 8-bit Jukebox Lite/WakingTheDemons.wav" type="AudioStream" id=7]
+[ext_resource path="res://res/FreeTileset/png/Object/Sign_2.png" type="Texture" id=8]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 4 )
+Mob = ExtResource( 2 )
+
+[node name="bgColor" type="ColorRect" parent="."]
+margin_right = 1027.0
+margin_bottom = 599.0
+color = Color( 0, 0, 0, 0.592157 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false,
+"_editor_description_": "The base bg fill with single color. "
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_top = -1.47412
+margin_right = 1025.0
+margin_bottom = 598.526
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Timer_mob" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="Timer_score" type="Timer" parent="."]
+
+[node name="Timer_start" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2( -7.774, 0 )
+tile_set = ExtResource( 6 )
+cell_size = Vector2( 40, 40 )
+cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 131072, 25, 0, 131097, 22, 0, 196608, 28, 0, 196633, 26, 0, 262144, 28, 0, 262169, 26, 0, 327680, 28, 0, 327705, 26, 0, 393216, 28, 0, 393241, 26, 0, 458752, 28, 0, 458777, 26, 0, 524288, 28, 0, 524313, 26, 0, 589824, 28, 0, 589849, 26, 0, 655360, 31, 0, 655361, 23, 0, 655362, 23, 0, 655363, 25, 0, 655385, 26, 0, 720896, 27, 0, 720897, 27, 0, 720898, 27, 0, 720899, 28, 0, 720921, 26, 0, 786432, 30, 0, 786433, 30, 0, 786434, 30, 0, 786435, 35, 0, 786442, 38, 0, 786443, 37, 0, 786444, 37, 0, 786445, 37, 0, 786446, 37, 0, 786447, 36, 0, 786457, 26, 0, 851968, 28, 0, 851969, 32, 0, 851970, 32, 0, 851971, 32, 0, 851972, 32, 0, 851973, 32, 0, 851974, 32, 0, 851975, 32, 0, 851976, 32, 0, 851977, 32, 0, 851978, 32, 0, 851979, 32, 0, 851980, 32, 0, 851981, 32, 0, 851982, 32, 0, 851983, 32, 0, 851984, 32, 0, 851985, 32, 0, 851986, 32, 0, 851987, 32, 0, 851988, 32, 0, 851989, 32, 0, 851990, 32, 0, 851991, 32, 0, 851992, 32, 0, 851993, 26, 0, 917504, 33, 0, 917505, 33, 0, 917506, 33, 0, 917507, 33, 0, 917508, 33, 0, 917509, 33, 0, 917510, 33, 0, 917511, 33, 0, 917512, 33, 0, 917513, 33, 0, 917514, 33, 0, 917515, 33, 0, 917516, 33, 0, 917517, 33, 0, 917518, 33, 0, 917519, 33, 0, 917520, 33, 0, 917521, 33, 0, 917522, 33, 0, 917523, 33, 0, 917524, 33, 0, 917525, 33, 0, 917526, 33, 0, 917527, 33, 0, 917528, 33, 0, 917529, 33, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="KinematicBody2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 96, 368 )
+speed = 0
+jump_speed = 0
+gravity = 0
+
+[node name="TextureButton" type="TextureButton" parent="."]
+margin_left = 483.178
+margin_top = 414.799
+margin_right = 545.178
+margin_bottom = 478.799
+texture_normal = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HUD" parent="." instance=ExtResource( 3 )]
+[connection signal="timeout" from="Timer_mob" to="." method="_on_Timer_mob_timeout"]
+[connection signal="timeout" from="Timer_score" to="." method="_on_Timer_score_timeout"]
+[connection signal="timeout" from="Timer_start" to="." method="_on_Timer_start_timeout"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]
