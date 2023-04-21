@@ -9,19 +9,27 @@
 [ext_resource path="res://scenes/Level/objs/goalPoint.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/Level/Level_safe.gd" type="Script" id=8]
 
-
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 8 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Player_RigidBody2D" parent="." instance=ExtResource( 2 )]
+position = Vector2( 90, 398.585 )
+z_index = 1
+z_as_relative = false
+speed = 250
+jump_speed = -500
+gravity = 1300
+
+[node name="Camera2D" type="Camera2D" parent="Player_RigidBody2D"]
+position = Vector2( -90, -398.585 )
 offset = Vector2( 93.834, 339.2 )
 current = true
 
-[node name="bg_node" type="Node2D" parent="Camera2D"]
+[node name="bg_node" type="Node2D" parent="Player_RigidBody2D/Camera2D"]
 position = Vector2( -1299.42, -50.9158 )
-z_index = -1
+z_index = -2
 
-[node name="TextureRect" type="TextureRect" parent="Camera2D/bg_node"]
+[node name="TextureRect" type="TextureRect" parent="Player_RigidBody2D/Camera2D/bg_node"]
 light_mask = 0
 margin_left = 858.0
 margin_right = 1972.0
@@ -32,14 +40,6 @@ stretch_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Player_RigidBody2D" parent="." instance=ExtResource( 2 )]
-position = Vector2( 90, 398.585 )
-z_index = 1
-z_as_relative = false
-speed = 250
-jump_speed = -500
-gravity = 1300
 
 [node name="pos_start" type="Position2D" parent="."]
 position = Vector2( 92.3544, 318.895 )

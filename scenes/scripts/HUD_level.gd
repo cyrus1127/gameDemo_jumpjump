@@ -6,6 +6,7 @@ signal timeToReset
 signal btn_pressed_retry
 signal meun_closed
 signal meun_onshow
+signal item_selected
 
 # Declare member variables here. Examples:
 var init_hp = 100
@@ -102,4 +103,9 @@ func _on_TextureButton_pressed():
 
 func _on_HUD_node_pauseMenu_menu_closed():
 	emit_signal("meun_closed")
+	pass # Replace with function body.
+
+
+func _on_HUD_node_shopView_item_selected(index):
+	emit_signal("item_selected",index)
 	pass # Replace with function body.

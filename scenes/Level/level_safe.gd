@@ -2,19 +2,36 @@ extends Node2D
 
 
 # Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
+var screen_size
 var isShopMenuReadyToShow = false
+
+## =-=-=-=-=- player informations
+var player_hp = 100
+var player_sp = 100
+var player_coins = 0
+var player_exp = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	check_play_pos()
+	
+	#Player data ready
+	player_coins =  GLOBAL.playerData.balance
+	player_exp = GLOBAL.playerData.level_exp
+	player_hp = GLOBAL.playerData.hp
+	player_sp = GLOBAL.playerData.sp
+	
+	#Scene ready
+	$Player_RigidBody2D.start($pos_start.position)
+	$HUD_level.update_hp(player_hp)
+	$HUD_level.update_coin(GLOBAL.playerData.balance)
+	
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	check_play_pos()
+	
 	var select = Input.is_action_pressed("ui_select")
 	
 	if isShopMenuReadyToShow and select:
@@ -24,7 +41,8 @@ func _process(delta):
 	pass
 
 func check_play_pos():
-	$Camera2D.position = $Player_RigidBody2D.position + Vector2(-100,-350)
+	screen_size = get_viewport_rect().size
+	$Player_RigidBody2D/Camera2D .position = Vector2(-100,-350)
 	pass # Replace with function body.
 
 func _on_GoalArea2D_player_in():

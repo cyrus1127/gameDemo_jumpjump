@@ -13,7 +13,6 @@
 [ext_resource path="res://scenes/GUI/HUD_shopList.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/GUI/HUD_pauseMenu.tscn" type="PackedScene" id=12]
 
-
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 5 )
 
@@ -339,6 +338,7 @@ visible = false
 [connection signal="button_down" from="panel_result/rect_result/btn_nextlevel" to="." method="_on_btn_nextlevel_button_down"]
 [connection signal="button_down" from="panel_result_dead/btn_retry" to="." method="_on_btn_retry_button_down"]
 [connection signal="button_down" from="panel_result_dead/btn_backtotitle_dead" to="." method="_on_btn_backtotitle_dead_button_down"]
+[connection signal="item_selected" from="HUD_node_shopView" to="." method="_on_HUD_node_shopView_item_selected"]
 [connection signal="shop_closed" from="HUD_node_shopView" to="." method="_on_HUD_node_shopView_shop_closed"]
 [connection signal="timeout" from="timer_reborn" to="." method="_on_timer_reborn_timeout"]
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
