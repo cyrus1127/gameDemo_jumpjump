@@ -134,6 +134,7 @@ margin_left = 790.101
 margin_top = 84.4993
 margin_right = 849.101
 margin_bottom = 143.499
+shortcut_in_tooltip = false
 action_mode = 0
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 9 )

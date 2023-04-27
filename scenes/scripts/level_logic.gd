@@ -116,12 +116,13 @@ func addTrap():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	get_input()
+	if gameStart :
+		get_input()
 #	if velocity.x != 0:
 #		$map.position += (velocity.normalized() * 1) * delta
 #		$map.position.x = clamp($map.position.x, screen_size.x - map_width , 0)
 #		velocity.x = 0
-	updateEachTrap(delta)
+		updateEachTrap(delta)
 	
 	
 ## =-=-=-=-=-=-=-=-= Processing function

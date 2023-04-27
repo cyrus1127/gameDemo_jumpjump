@@ -256,13 +256,13 @@ script = ExtResource( 2 )
 speed = 125
 jump_speed = -125
 gravity = 1000
+isTouchScreenOn = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, 0.728 )
 scale = Vector2( 1.55, 1.55 )
 frames = SubResource( 39 )
 animation = "idle"
-frame = 7
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

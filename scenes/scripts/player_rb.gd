@@ -10,7 +10,9 @@ export var speed = 400
 export (int) var jump_speed = -500
 export (int) var gravity = 1200
 export (bool) var dropEnable = false
+export (bool) var isTouchScreenOn = false
 
+#var move_direction:Vector2 = Vector2.RIGHT
 var velocity = Vector2()
 var jumping = false
 var jumpVecCosumming = 0
@@ -50,17 +52,45 @@ func _ready():
 #	$Attack_Area2D/CollisionShape2D_R .set_visible(false)
 	pass # Replace with function body.
 
+func get_mobile_input():
+	var move_input = Vector2(
+		Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
+#			Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+		0
+	).clamped(1) #just in case someone uses buttons - Joystick already returns clamped value
+	
+	if move_input.x > 0.3 || move_input.x < -0.3:
+		if move_input != Vector2.ZERO: velocity = move_input * speed
+	
+		var right = move_input.x > 0
+		var left = move_input.x < 0
+	
+		if velocity.y != 0:
+			if velocity.y != 0 : 
+				cancelAttack()
+				$AnimatedSprite.animation = "jump"	
+		elif velocity.x != 0:
+			if  (right || left) :
+				cancelAttack()
+				$AnimatedSprite.animation = "run"		
+				$AnimatedSprite.flip_h = left
+				isAtkOnLeft = left
+	else :
+		$AnimatedSprite.animation = "idle"
+		velocity = Vector2.ZERO
+	
+	pass
 
-func get_input():
-	
-	var attack = Input.is_action_pressed("ui_select")
-	
+func get_controller_input():
+
 	velocity.x = 0
+	
 	var right = Input.is_action_pressed("ui_right")
 	var left = Input.is_action_pressed("ui_left") 
+	var down = Input.is_action_pressed("ui_down")
 	var jump = Input.is_action_pressed("ui_up") 
 	var jump_release = Input.is_action_just_released("ui_up")
-	var down = Input.is_action_pressed("ui_down")
+	var attack = Input.is_action_pressed("ui_select")
 	
 	if attack:
 		doActionAttack()
@@ -147,7 +177,11 @@ func _process(delta):
 func _physics_process(delta):
 	# move itself	
 	if !doPause :
-		get_input()
+		
+		if isTouchScreenOn :
+			get_mobile_input()
+		else : 
+			get_controller_input()
 		
 		if is_on_floor():
 			if jumping:

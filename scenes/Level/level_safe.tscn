@@ -31,9 +31,10 @@ z_index = -2
 
 [node name="TextureRect" type="TextureRect" parent="Player_RigidBody2D/Camera2D/bg_node"]
 light_mask = 0
-margin_left = 858.0
-margin_right = 1972.0
-margin_bottom = 747.0
+margin_left = 859.157
+margin_top = -1.15704
+margin_right = 1973.16
+margin_bottom = 745.843
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 2
