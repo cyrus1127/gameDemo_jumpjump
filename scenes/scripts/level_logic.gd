@@ -107,7 +107,7 @@ func addTrap():
 				#set the mob with path
 				var obj_set = {}
 				obj_set.path = pathFol
-				obj_set.prog = 0
+				obj_set.prog = 0.15
 				obj_set.flip = false
 				obj_set.mob = obj
 				traps.push_back(obj_set)			
@@ -115,14 +115,14 @@ func addTrap():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	
+	updateEachTrap(delta)
 	if gameStart :
 		get_input()
 #	if velocity.x != 0:
 #		$map.position += (velocity.normalized() * 1) * delta
 #		$map.position.x = clamp($map.position.x, screen_size.x - map_width , 0)
 #		velocity.x = 0
-		updateEachTrap(delta)
+		
 	
 	
 ## =-=-=-=-=-=-=-=-= Processing function
