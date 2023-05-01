@@ -20,6 +20,8 @@ func _on_body_entered(body):
 	else:
 		print("coin : player in")
 		emit_signal("coin_hit", self)
-		queue_free()
+		$Sprite.hide()
+		$CollisionShape2D.queue_free()
+		$Particles2D.restart()
 	pass # Replace with function body.
 
