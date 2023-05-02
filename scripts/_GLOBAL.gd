@@ -193,6 +193,12 @@ func change_music(node_name:String, delay:float = 1) -> void:
 #	current_music = node_name
 	pass
 
+func change_sfx(node_name:String, delay:float = 1) -> void:
+	if !GLOBAL.get_node("sfx/"+node_name).is_playing():
+		GLOBAL.get_node("sfx/"+node_name).play()
+#
+	pass
+	
 func musicOnOff() -> void:
 	music_isOn = !music_isOn
 

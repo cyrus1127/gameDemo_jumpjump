@@ -20,6 +20,7 @@ func _on_body_entered(body):
 	else:
 		print("coin : player in")
 		emit_signal("coin_hit", self)
+		GLOBAL.change_sfx("coin")
 		$Sprite.hide()
 		$CollisionShape2D.queue_free()
 		$Particles2D.restart()

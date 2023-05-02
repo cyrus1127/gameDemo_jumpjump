@@ -190,6 +190,7 @@ func deductPlayHP(d_HP):
 
 func _on_DeadArea2D_player_in():
 	$Player_RigidBody2D.stop()
+	GLOBAL.change_sfx("dead")
 	# reset player positon
 	deductPlayHP(30)
 	if player_hp > 0: # give reset# game over
@@ -199,6 +200,7 @@ pass
 
 func _on_GoalArea_player_in():
 	$Player_RigidBody2D.stop()
+	GLOBAL.change_sfx("goal")
 	$HUD_level.showResult(score, jumpCount, fallCount)
 pass # Replace with function body.
 

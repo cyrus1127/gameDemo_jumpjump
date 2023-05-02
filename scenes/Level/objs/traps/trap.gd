@@ -94,6 +94,7 @@ func _on_TriggerArea_body_entered(body):
 		isPlayerInside = true
 		if curActType == ActionType.T1 || curActType == ActionType.T2 :
 			$AnimatedSprite.play()
+			GLOBAL.change_sfx("trap0")
 		else:
 			emit_signal("player_collap")
 	pass # Replace with function body.

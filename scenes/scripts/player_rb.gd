@@ -103,13 +103,16 @@ func get_controller_input():
 			if velocity.y >= 0 && velocity.y <= 10 && jumpVecCosumming == 0: # give some margin
 				velocity.y = jump_speed
 				jumpVecCosumming += jump_speed
+				GLOBAL.change_sfx("jump")
+				jumping = true
 #				print("Add jump" + str(velocity))
-				if !is_on_floor():
-					print("hit the top ?? " + str(velocity))	
+#				if is_on_floor():
+#					print("hit the top ?? " + str(velocity))	
 			else:
 				print("jumping not finished" + str(velocity))
 		if jump_release:
 			if jumpVecCosumming < 0:
+				jumping = false
 				jumpVecCosumming = 0 # reset as button released 
 		if down and dropEnable:
 			player_drop_from_curPlatefrom()
@@ -117,7 +120,8 @@ func get_controller_input():
 		if takingHit :
 			$AnimatedSprite.animation = "take_hit"
 		elif isOnAttackAction:
-			$AnimatedSprite.animation = "attack_wp1"
+#			$AnimatedSprite.animation = "attack_wp1"
+			print("")
 		elif (Input.is_action_just_released("ui_right") || Input.is_action_just_released("ui_left")  || (velocity.x > -1 && velocity.x < 1 && velocity.y >= 0)):
 			$AnimatedSprite.animation = "idle"
 		else:
@@ -142,8 +146,10 @@ func player_drop_from_curPlatefrom():
 	
 func doActionAttack():
 	
-	isOnAttackAction = true
-	$AnimatedSprite.animation = "attack_wp1"
+	if !isOnAttackAction:
+		$AnimatedSprite.animation = "attack_wp1"
+		GLOBAL.change_sfx("attack1")
+		isOnAttackAction = true
 #	yield($AnimatedSprite.animation.ends_with("attack_wp1"), "true")
 	pass
 
@@ -163,6 +169,7 @@ func _process(delta):
 			if $AnimatedSprite.frame == 3 :
 				isOnAttackAction = false
 				isAttackActiving = false
+				$AnimatedSprite.animation = "idle"
 			if $AnimatedSprite.frame == 2 :
 				if  enemybody_in && inAtkZoneMob:
 					emit_signal("hit_monster",inAtkZoneMob)
@@ -183,10 +190,10 @@ func _physics_process(delta):
 		else : 
 			get_controller_input()
 		
-		if is_on_floor():
-			if jumping:
-				jumping = false
-				$AnimatedSprite.animation = "idle"
+		if is_on_floor() && jumping:
+#			jumping = false
+#			$AnimatedSprite.animation = "idle"
+			print("")
 		else :
 			velocity.y += gravity * delta
 		velocity = move_and_slide(velocity,Vector2(0, -1))
