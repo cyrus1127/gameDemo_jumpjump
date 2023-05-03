@@ -1,5 +1,6 @@
 extends Node2D
 
+signal closed
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -17,5 +18,6 @@ func _ready():
 
 
 func _on_TextureButton_pressed():
+	emit_signal("closed")
 	hide()
 	pass # Replace with function body.

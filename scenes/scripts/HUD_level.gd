@@ -7,12 +7,16 @@ signal btn_pressed_retry
 signal meun_closed
 signal meun_onshow
 signal item_selected
+signal character_info_onshow
+signal character_info_closed
+
 
 # Declare member variables here. Examples:
 var init_hp = 100
 var init_sp = 100
 var timer_reborn_counting
 
+export var touchEnable = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,6 +24,10 @@ func _ready():
 	update_sp(init_sp)
 	update_coin(GLOBAL)
 	$panel_result.hide()
+	
+	if touchEnable :
+		$Control.show()
+	
 	pass # Replace with function body.
 
 func update_hp(n_val):
@@ -108,4 +116,20 @@ func _on_HUD_node_pauseMenu_menu_closed():
 
 func _on_HUD_node_shopView_item_selected(index):
 	emit_signal("item_selected",index)
+	pass # Replace with function body.
+
+
+func _on_btn_trigger_pressed():
+	emit_signal("character_info_onshow")
+	$HUD_node_characterInfo.show()
+	$Control.hide()
+	$CharacterInfo_short.hide()
+	pass # Replace with function body.
+
+
+func _on_HUD_node_characterInfo_closed():
+	emit_signal("character_info_closed")
+	if touchEnable :
+		$Control.show()
+	$CharacterInfo_short.show()
 	pass # Replace with function body.

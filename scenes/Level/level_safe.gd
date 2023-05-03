@@ -26,6 +26,9 @@ func _ready():
 	$HUD_level.update_hp(player_hp)
 	$HUD_level.update_coin(GLOBAL.playerData.balance)
 	
+	if $Player_RigidBody2D.isTouchScreenOn:
+		$HUD_level/Control
+	
 	pass # Replace with function body.
 
 

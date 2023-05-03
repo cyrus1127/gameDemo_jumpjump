@@ -4,9 +4,9 @@ var tile_size:int = 32
 var file:File = File.new()
 var file_path:String
 var scene_index:int = 0
-var level_index:int = 0
-var last_level_reach:int = 0
-var level_max:int = 10
+var stage_index:int = 0
+var last_stage_reach:int = 0
+var stage_max:int = 10
 var scene_name:String = "main"
 var dead_scene:PackedScene = preload("res://scenes/title.tscn")
 var esc_scene:PackedScene = preload("res://scenes/title.tscn")
@@ -16,6 +16,22 @@ var passPhrase:String = "OkdfPooie0029?/dll"
 var current_music:String = ""
 var music_isOn = true
 var playerData : PlayerData
+
+var items_data_all = {
+  "values": [
+	{  "name": "Wine", "detail":"this is food. Recover HP 20", "price": 20,  "type": "Recover", "recoverType":"hp", "value":20},
+	{  "name": "Apple", "detail":"this is food. Recover HP 20", "price": 3,  "type": "Recover", "recoverType":"hp", "value":20},
+	{  "name": "Beer", "detail":"this is food. Recover HP 20", "price": 10,  "type": "Recover", "recoverType":"hp", "value":20},
+	{  "name": "Bread", "detail":"this is food. Recover HP 20", "price": 5,  "type": "Recover", "recoverType":"hp", "value":20},
+	{  "name": "Cheese", "detail":"this is food. Recover HP 20", "price": 7,  "type": "Recover", "recoverType":"hp", "value":20},
+	{  "name": "Fish Steak", "detail":"this is food. Recover SP 20", "price": 18,  "type": "Recover", "recoverType":"sp", "value":20},
+	{  "name": "Green Apple", "detail":"this is food. Recover SP 20", "price": 2,  "type": "Recover", "recoverType":"sp", "value":20},
+	{  "name": "Ham", "detail":"this is food. Recover SP 20", "price": 12,  "type": "Recover", "recoverType":"sp", "value":20},
+	{  "name": "Meat", "detail":"this is food. Recover SP 20", "price": 25,  "type": "Recover", "recoverType":"sp", "value":20},
+	{  "name": "Mushroom", "detail":"this is food. Recover SP 20", "price": 8,  "type": "Recover", "recoverType":"sp", "value":20},
+	{  "name": "Wine 2", "detail":"this is food. Recover SP 20", "price": 17,  "type": "Recover", "recoverType":"sp", "value":20}
+  ]
+}
 
 # for debug only
 func _ready():
@@ -27,7 +43,7 @@ func _ready():
 	print(OS.get_window_size().x)
 	print(OS.get_window_size().y)
 	playerData = PlayerData.new()
-	level_index = 0 
+	stage_index = 0 
 	load_game()
 
 func _process(delta) -> void:
@@ -51,7 +67,7 @@ func restart_scene() -> void:
 #	scene_fade = scene_fade_out(.5)
 #	yield(scene_fade, "tween_completed")
 #
-#	file_path = "res://scenes/level"+str(level_index)+".tscn"
+#	file_path = "res://scenes/level"+str(stage_index)+".tscn"
 #	if file.file_exists(file_path):
 #		get_tree().change_scene(file_path)
 #
@@ -82,19 +98,19 @@ func _next_scene(scene:String = "", fade_out:float = 1, fade_in:float = .5) -> v
 	yield(get_tree().create_timer(fade_out),"timeout")
 	
 	if scene == "" || scene == "level":
-		file_path = "res://scenes/Level/level"+str(level_index + 1)+".tscn"
+		file_path = "res://scenes/Level/level"+str(stage_index + 1)+".tscn"
 		if file.file_exists(file_path):
 			save_game()
-			level_index += 1
+			stage_index += 1
 			get_tree().change_scene(file_path)
 		else:
-			level_index = 0
+			stage_index = 0
 			scene_index = 0
 			get_tree().change_scene("res://scenes/title.tscn")
 	elif scene == "shop":
 		get_tree().change_scene("res://scenes/Level/level_safe.tscn")
 	elif scene == "title":
-		level_index = 0
+		stage_index = 0
 		scene_index = 0
 		get_tree().change_scene("res://scenes/title.tscn")
 	else:
@@ -149,7 +165,7 @@ func save_game() -> void:
 	file.open_encrypted_with_pass(savePath, File.WRITE, passPhrase)
 
 	var datas:Dictionary = {}
-	datas.level = last_level_reach 
+	datas.level = last_stage_reach 
 	datas.playerData = playerData.getDataDic()
 
 	file.store_string(JSON.print(datas))
@@ -157,14 +173,14 @@ func save_game() -> void:
 
 func load_game() -> void:
 	if !file.file_exists(savePath):
-		level_index = 0
+		stage_index = 0
 
 	else:
 		file.open_encrypted_with_pass(savePath, File.READ, passPhrase)
 		var datas = parse_json(file.get_as_text())
 		file.close()
 
-		last_level_reach = datas.level
+		last_stage_reach = datas.level
 		for k in datas.keys():
 			if k == "playerData":
 				playerData.dataRestore(datas[k])

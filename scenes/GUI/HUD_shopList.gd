@@ -10,40 +10,24 @@ enum CateType{
 }
 
 # Declare member variables here. Examples:
-var items_data_all = {
-  "values": [
-	{  "name": "Wine",  "price": 20,  "type": "Recover"},
-	{  "name": "Apple",  "price": 3,  "type": "Recover"},
-	{  "name": "Beer",  "price": 10,  "type": "Recover"},
-	{  "name": "Bread",  "price": 5,  "type": "Recover"},
-	{  "name": "Cheese",  "price": 7,  "type": "Recover"},
-	{  "name": "Fish Steak",  "price": 18,  "type": "Recover"},
-	{  "name": "Green Apple",  "price": 2,  "type": "Recover"},
-	{  "name": "Ham",  "price": 12,  "type": "Recover"},
-	{  "name": "Meat",  "price": 25,  "type": "Recover"},
-	{  "name": "Mushroom",  "price": 8,  "type": "Recover"},
-	{  "name": "Wine 2",  "price": 17,  "type": "Recover"}
-	
-	,{  "name": "Wine",  "price": 20,  "type": "Recover"},
-	{  "name": "Apple",  "price": 3,  "type": "Recover"},
-	{  "name": "Beer",  "price": 10,  "type": "Recover"},
-	{  "name": "Bread",  "price": 5,  "type": "Recover"},
-	{  "name": "Cheese",  "price": 7,  "type": "Recover"},
-	{  "name": "Fish Steak",  "price": 18,  "type": "Recover"},
-	{  "name": "Green Apple",  "price": 2,  "type": "Recover"},
-	{  "name": "Ham",  "price": 12,  "type": "Recover"},
-	{  "name": "Meat",  "price": 25,  "type": "Recover"},
-	{  "name": "Mushroom",  "price": 8,  "type": "Recover"},
-	{  "name": "Wine 2",  "price": 17,  "type": "Recover"}
-  ]
-}
-
+var toLetAmt = 0
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	changeListedItem(CateType.Recover)
+	
+	var allItems = getItems()
+	if allItems:
+		$item_info_rect/ScrollContainer/VScrollBar/ItemList.select(0)
+		_on_ItemList_item_selected(0)
+		
+	
 	pass # Replace with function body.
+
+func getItems():
+	var allItems := GLOBAL.items_data_all["values"] as Array
+	return allItems
 
 func changeListedItem(n_type : int):
 	#do clear all existing development items from list before add new
@@ -52,7 +36,7 @@ func changeListedItem(n_type : int):
 	#load item list
 	var imagePath = "res://res/Texture/Food/"
 	var imageExtension = ".png"
-	var allItems := items_data_all["values"] as Array
+	var allItems = getItems()
 	if allItems:
 		for n in allItems.size():
 			var texturePath = imagePath + allItems[n].name + imageExtension
@@ -68,6 +52,9 @@ func changeListedItem(n_type : int):
 #func _process(delta):
 #	pass
 
+func updateAmt():
+	$Node_content/amt_/lbl_amt.text = str(toLetAmt)
+	pass
 
 func _on_TextureButton_pressed():
 	hide()
@@ -77,9 +64,39 @@ func _on_TextureButton_pressed():
 
 func _on_ItemList_item_selected(index):
 	emit_signal("item_selected",index)
+	
+	toLetAmt = 1
+	updateAmt()
+
+	var allItems = getItems()
+	if allItems:
+		$Node_content/lbl_name.text = allItems[index].name
+		$Node_content/lbl_detail.text = allItems[index].detail
+		$Node_content
+	
 	pass # Replace with function body.
 
 
 func _on_VScrollBar_changed():
 	print("_on_VScrollBar_changed")
+	pass # Replace with function body.
+
+
+func _on_btn_amt_dec_button_down():
+	if toLetAmt - 1 >= 1:
+		toLetAmt -= 1
+	updateAmt()
+	pass # Replace with function body.
+
+
+func _on_btn_amt_inc_button_down():
+	if toLetAmt +1  <= 999:
+		toLetAmt += 1
+	updateAmt()
+	pass # Replace with function body.
+
+
+func _on_btn_buy_button_down():
+	toLetAmt = 1
+	updateAmt()
 	pass # Replace with function body.
