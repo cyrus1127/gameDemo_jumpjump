@@ -15,23 +15,22 @@ outline_color = Color( 0.968627, 0.968627, 0.968627, 1 )
 font_data = ExtResource( 3 )
 fallback/0 = ExtResource( 1 )
 
-[sub_resource type="StyleBoxEmpty" id=11]
+[sub_resource type="StyleBoxEmpty" id=2]
 
-[sub_resource type="StyleBoxEmpty" id=12]
+[sub_resource type="StyleBoxEmpty" id=3]
 
-[sub_resource type="StyleBoxEmpty" id=9]
+[sub_resource type="StyleBoxEmpty" id=4]
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=5]
 size = 24
 font_data = ExtResource( 7 )
 
-[sub_resource type="InputEventAction" id=2]
-action = "ui_select"
+[sub_resource type="InputEventAction" id=6]
 
-[sub_resource type="ShortCut" id=3]
-shortcut = SubResource( 2 )
+[sub_resource type="ShortCut" id=7]
+shortcut = SubResource( 6 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=8]
 size = 26
 outline_size = 1
 font_data = ExtResource( 4 )
@@ -86,21 +85,44 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -503.0
-margin_top = -133.0
-margin_right = 513.0
-margin_bottom = 277.0
-custom_styles/hover = SubResource( 11 )
-custom_styles/pressed = SubResource( 12 )
-custom_styles/normal = SubResource( 9 )
-custom_fonts/font = SubResource( 10 )
+margin_left = -151.624
+margin_top = -120.0
+margin_right = -16.6243
+margin_bottom = 290.0
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 shortcut_in_tooltip = false
 action_mode = 0
-shortcut = SubResource( 3 )
-text = "< Press to start >"
+shortcut = SubResource( 7 )
+text = "Start"
+clip_text = true
 __meta__ = {
-"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="btn_shop" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 15.0
+margin_top = -119.0
+margin_right = 147.0
+margin_bottom = 291.0
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+shortcut_in_tooltip = false
+action_mode = 0
+shortcut = SubResource( 7 )
+text = "Shop"
+clip_text = true
+__meta__ = {
 "_edit_use_anchors_": false
 }
 
@@ -180,7 +202,7 @@ margin_left = 16.7461
 margin_top = 23.8675
 margin_right = 241.746
 margin_bottom = 57.8675
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0.505882, 1, 0.133333, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Top Scores"
@@ -204,3 +226,4 @@ __meta__ = {
 }
 [connection signal="timeout" from="Timer_msg" to="." method="_on_Timer_msg_timeout"]
 [connection signal="pressed" from="btn_start" to="." method="_on_btn_start_pressed"]
+[connection signal="pressed" from="btn_shop" to="." method="_on_btn_shop_pressed"]

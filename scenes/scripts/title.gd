@@ -32,6 +32,12 @@ func game_over():
 func new_game():
 	GLOBAL.next_scene()
 	pass
+	
+	
+func _on_HUD_go_shop():
+	GLOBAL._next_scene("shop")
+	pass # Replace with function body.
+
 
 func _on_Timer_start_timeout():
 	$Timer_mob.start()

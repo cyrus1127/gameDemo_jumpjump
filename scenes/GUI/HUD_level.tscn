@@ -365,6 +365,7 @@ action_down = "ui_down"
 [connection signal="closed" from="HUD_node_characterInfo" to="." method="_on_HUD_node_characterInfo_closed"]
 [connection signal="item_selected" from="HUD_node_shopView" to="." method="_on_HUD_node_shopView_item_selected"]
 [connection signal="shop_closed" from="HUD_node_shopView" to="." method="_on_HUD_node_shopView_shop_closed"]
+[connection signal="userInfo_changed" from="HUD_node_shopView" to="." method="_on_HUD_node_shopView_userInfo_changed"]
 [connection signal="timeout" from="timer_reborn" to="." method="_on_timer_reborn_timeout"]
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
 [connection signal="pressed" from="CharacterInfo_short" to="." method="_on_btn_trigger_pressed"]

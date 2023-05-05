@@ -2,6 +2,7 @@ extends Node2D
 
 signal shop_closed
 signal item_selected
+signal userInfo_changed
 
 enum CateType{
 	Recover,
@@ -10,7 +11,8 @@ enum CateType{
 }
 
 # Declare member variables here. Examples:
-var toLetAmt = 0
+var toLetAmt = 1
+var toLetindex = 0
 
 
 # Called when the node enters the scene tree for the first time.
@@ -21,7 +23,7 @@ func _ready():
 	if allItems:
 		$item_info_rect/ScrollContainer/VScrollBar/ItemList.select(0)
 		_on_ItemList_item_selected(0)
-		
+		toLetindex = 0
 	
 	pass # Replace with function body.
 
@@ -64,7 +66,7 @@ func _on_TextureButton_pressed():
 
 func _on_ItemList_item_selected(index):
 	emit_signal("item_selected",index)
-	
+	toLetindex = index
 	toLetAmt = 1
 	updateAmt()
 
@@ -97,6 +99,38 @@ func _on_btn_amt_inc_button_down():
 
 
 func _on_btn_buy_button_down():
+	#{  "name": "Wine 2", "detail":"this is food. Recover SP 20", "price": 17,  "type": "Recover", "recoverType":"sp", "value":20 , "amt":0}
+	var toBuyItemD = getItems()[toLetindex]
+	
+	#check balance
+	if GLOBAL.playerData.balance - (toLetAmt * toBuyItemD.price ) >= 0 :
+		if GLOBAL.playerData.items.size() == 0 :
+			toBuyItemD["amt"] = toLetAmt
+			GLOBAL.playerData.items.push_back(toBuyItemD)
+			GLOBAL.change_sfx("buysell")
+		else : 
+			var findItem = null
+			for extItem in GLOBAL.playerData.items :
+				if extItem.name == toBuyItemD.name :
+					findItem = extItem
+					break
+					
+			if findItem:
+				findItem.amt += toLetAmt
+			else : #no existing item
+				toBuyItemD["amt"] = toLetAmt
+				GLOBAL.playerData.items.push_back(toBuyItemD)
+			GLOBAL.change_sfx("buysell")
+		GLOBAL.playerData.balance -= (toLetAmt * toBuyItemD.price )
+		$HUD_node_msg_box.showMsg(toBuyItemD.name + " x" + str(toLetAmt) + " in your bag !")
+		emit_signal("userInfo_changed")
+	else :
+		$HUD_node_msg_box.showMsg("balance not enough")
+	
+	
 	toLetAmt = 1
 	updateAmt()
+	
 	pass # Replace with function body.
+
+

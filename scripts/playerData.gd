@@ -13,7 +13,7 @@ var weapon_id = -1
 var sheld_id = -1
 var headware_id = -1
 var bodyware_id = -1
-var items = []
+var items : Array = []
 
 
 func _init():

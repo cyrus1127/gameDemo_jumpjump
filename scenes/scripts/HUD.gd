@@ -1,5 +1,6 @@
 extends CanvasLayer
 signal start_game
+signal go_shop
 
 # Declare member variables here. Examples:
 
@@ -46,4 +47,9 @@ func _on_btn_start_pressed():
 	$lbl_title.hide()
 	$btn_start.hide()
 	emit_signal("start_game")
+	pass # Replace with function body.
+
+
+func _on_btn_shop_pressed():
+	emit_signal("go_shop")
 	pass # Replace with function body.

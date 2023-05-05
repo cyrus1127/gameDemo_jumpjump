@@ -77,9 +77,12 @@ func restart_scene() -> void:
 #	get_tree().paused = false
 	pass
 
-func back_to_title() -> void:
-	
+func back_to_title(var dataSave : bool = false ) -> void:
 	_next_scene("title")
+	if dataSave:
+		save_game()
+	
+
 
 func next_scene() -> void:
 	

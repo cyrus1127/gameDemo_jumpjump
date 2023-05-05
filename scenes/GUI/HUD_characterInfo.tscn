@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://scenes/GUI/HUD_characterInfo.gd" type="Script" id=1]
 [ext_resource path="res://res/GUI_set_0/imgs/icon_cross.png" type="Texture" id=2]
@@ -20,6 +20,16 @@
 [ext_resource path="res://res/GUI_set_0/imgs/board&bar/bar_fill_blue.png" type="Texture" id=18]
 [ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_S_pressed.png" type="Texture" id=19]
 [ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_S_off.png" type="Texture" id=20]
+[ext_resource path="res://fonts/norwester.otf" type="DynamicFontData" id=21]
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 10
+use_filter = true
+extra_spacing_top = -5
+font_data = ExtResource( 21 )
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.141176, 0.870588, 0.0823529, 1 )
@@ -48,6 +58,18 @@ expand_margin_bottom = 2.0
 [sub_resource type="StyleBoxTexture" id=4]
 texture = ExtResource( 18 )
 region_rect = Rect2( 0, 0, 42, 3 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 30
+font_data = ExtResource( 21 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 20
+font_data = ExtResource( 21 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 20
+font_data = ExtResource( 21 )
 
 [node name="HUD_node_characterInfo" type="Node2D"]
 script = ExtResource( 1 )
@@ -129,17 +151,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ItemList" type="ItemList" parent="item_info_rect"]
-margin_left = 15.1456
-margin_top = 18.4902
-margin_right = 113.146
-margin_bottom = 76.4902
-items = [ "", ExtResource( 13 ), false, "", ExtResource( 14 ), false ]
-auto_height = true
+[node name="ScrollContainer" type="ScrollContainer" parent="item_info_rect"]
+margin_left = 37.0
+margin_top = 19.0
+margin_right = 194.0
+margin_bottom = 140.0
+rect_scale = Vector2( 0.5, 0.5 )
+mouse_filter = 2
+custom_styles/bg = SubResource( 9 )
+follow_focus = true
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VScrollBar" type="VScrollBar" parent="item_info_rect/ScrollContainer"]
+margin_right = 12.0
+margin_bottom = 12.0
+
+[node name="ItemList" type="ItemList" parent="item_info_rect/ScrollContainer/VScrollBar"]
+margin_right = 157.0
+margin_bottom = 122.0
+custom_fonts/font = SubResource( 8 )
+items = [ "x1", ExtResource( 13 ), false, "x2", ExtResource( 14 ), false ]
 max_columns = 4
 same_column_width = true
-fixed_column_width = 15
-icon_scale = 0.5
+fixed_column_width = 30
+icon_mode = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -156,10 +194,19 @@ patch_margin_top = 15
 patch_margin_right = 15
 patch_margin_bottom = 15
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="KinematicBody2D" parent="user_info_rect" instance=ExtResource( 16 )]
+position = Vector2( 19.3201, 23.1349 )
+scale = Vector2( 0.5, 0.5 )
+z_index = 1
+speed = 0
+jump_speed = 0
+gravity = 0
+
+[node name="KinematicBody2D2" parent="user_info_rect" instance=ExtResource( 16 )]
 position = Vector2( 19.3201, 23.1349 )
 scale = Vector2( 0.5, 0.5 )
 z_index = 1
@@ -376,4 +423,57 @@ expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Control" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_name" type="Label" parent="Control"]
+margin_left = 378.227
+margin_top = 213.297
+margin_right = 418.227
+margin_bottom = 227.297
+custom_fonts/font = SubResource( 5 )
+text = "XXXXX	"
+
+[node name="lbl_name2" type="Label" parent="Control"]
+margin_left = 377.0
+margin_top = 252.0
+margin_right = 521.0
+margin_bottom = 367.0
+custom_fonts/font = SubResource( 6 )
+text = "XXXXXX"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_use" type="TextureButton" parent="Control"]
+margin_left = 395.639
+margin_top = 424.176
+margin_right = 505.639
+margin_bottom = 464.176
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 6 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_" type="Label" parent="Control/btn_use"]
+margin_right = 110.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 7 )
+text = "Use"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+[connection signal="item_selected" from="item_info_rect/ScrollContainer/VScrollBar/ItemList" to="." method="_on_ItemList_item_selected"]
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="button_down" from="Control/btn_use" to="." method="_on_btn_use_button_down"]

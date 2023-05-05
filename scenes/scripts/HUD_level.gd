@@ -22,7 +22,7 @@ export var touchEnable = false
 func _ready():
 	update_hp(init_hp)
 	update_sp(init_sp)
-	update_coin(GLOBAL)
+	update_coin(GLOBAL.playerData.balance)
 	$panel_result.hide()
 	
 	if touchEnable :
@@ -122,6 +122,7 @@ func _on_HUD_node_shopView_item_selected(index):
 func _on_btn_trigger_pressed():
 	emit_signal("character_info_onshow")
 	$HUD_node_characterInfo.show()
+	$HUD_node_characterInfo.update()
 	$Control.hide()
 	$CharacterInfo_short.hide()
 	pass # Replace with function body.
@@ -132,4 +133,9 @@ func _on_HUD_node_characterInfo_closed():
 	if touchEnable :
 		$Control.show()
 	$CharacterInfo_short.show()
+	pass # Replace with function body.
+
+
+func _on_HUD_node_shopView_userInfo_changed():
+	update_coin(GLOBAL.playerData.balance)
 	pass # Replace with function body.

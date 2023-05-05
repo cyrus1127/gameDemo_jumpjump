@@ -50,7 +50,7 @@ func check_play_pos():
 
 func _on_GoalArea2D_player_in():
 #	go next level
-	get_tree().change_scene("res://scens/game.tscn")
+	GLOBAL.next_scene()
 	pass # Replace with function body.
 
 
@@ -71,4 +71,9 @@ func _on_ItemShop_player_leave_Shop():
 
 func _on_HUD_level_meun_closed():
 	$Player_RigidBody2D.resume()
+	pass # Replace with function body.
+
+
+func _on_EscArea2D_player_in():
+	GLOBAL.back_to_title(true)
 	pass # Replace with function body.

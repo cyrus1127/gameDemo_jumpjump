@@ -75,6 +75,10 @@ position = Vector2( 352, 440 )
 [node name="GoalArea2D" parent="." instance=ExtResource( 7 )]
 position = Vector2( 670.225, 438.536 )
 
+[node name="EscArea2D" parent="." instance=ExtResource( 7 )]
+position = Vector2( -109.37, 438.536 )
+scale = Vector2( -1, 1 )
+
 [node name="DeadArea2D" parent="." instance=ExtResource( 6 )]
 [connection signal="btn_pressed_backtotitle" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_backtotitle"]
 [connection signal="btn_pressed_nextlevel" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_nextlevel"]
@@ -84,4 +88,5 @@ position = Vector2( 670.225, 438.536 )
 [connection signal="player_in_Shop" from="ItemShop" to="." method="_on_ItemShop_player_in_Shop"]
 [connection signal="player_leave_Shop" from="ItemShop" to="." method="_on_ItemShop_player_leave_Shop"]
 [connection signal="player_in" from="GoalArea2D" to="." method="_on_GoalArea2D_player_in"]
+[connection signal="player_in" from="EscArea2D" to="." method="_on_EscArea2D_player_in"]
 [connection signal="player_in" from="DeadArea2D" to="." method="_on_DeadArea2D_player_in"]

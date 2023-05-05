@@ -80,4 +80,5 @@ __meta__ = {
 [connection signal="timeout" from="Timer_mob" to="." method="_on_Timer_mob_timeout"]
 [connection signal="timeout" from="Timer_score" to="." method="_on_Timer_score_timeout"]
 [connection signal="timeout" from="Timer_start" to="." method="_on_Timer_start_timeout"]
+[connection signal="go_shop" from="HUD" to="." method="_on_HUD_go_shop"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
