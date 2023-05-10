@@ -260,9 +260,6 @@ margin_right = 415.0
 margin_bottom = 440.0
 texture_normal = ExtResource( 9 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextureRect" type="TextureRect" parent="Node_content/btn_amt_inc"]
 margin_left = -2.998
@@ -307,6 +304,7 @@ __meta__ = {
 
 [node name="HUD_node_msg_box" parent="." instance=ExtResource( 16 )]
 visible = false
+
 [connection signal="changed" from="item_info_rect/ScrollContainer/VScrollBar" to="." method="_on_VScrollBar_changed"]
 [connection signal="item_selected" from="item_info_rect/ScrollContainer/VScrollBar/ItemList" to="." method="_on_ItemList_item_selected"]
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]

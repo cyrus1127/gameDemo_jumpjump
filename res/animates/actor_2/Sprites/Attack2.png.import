@@ -2,7 +2,7 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Attack2.png-46bb6aef47246d22e941cda0a662e24f.stex"
+path="res://import/Attack2.png-46bb6aef47246d22e941cda0a662e24f.stex"
 metadata={
 "vram_texture": false
 }
@@ -10,7 +10,7 @@ metadata={
 [deps]
 
 source_file="res://res/animates/actor_2/Sprites/Attack2.png"
-dest_files=[ "res://.import/Attack2.png-46bb6aef47246d22e941cda0a662e24f.stex" ]
+dest_files=[ "res://import/Attack2.png-46bb6aef47246d22e941cda0a662e24f.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

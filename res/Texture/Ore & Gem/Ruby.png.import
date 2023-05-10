@@ -2,7 +2,7 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Ruby.png-8af406ac5ac5eb11e2a8d252f6cb92ab.stex"
+path="res://import/Ruby.png-8af406ac5ac5eb11e2a8d252f6cb92ab.stex"
 metadata={
 "vram_texture": false
 }
@@ -10,7 +10,7 @@ metadata={
 [deps]
 
 source_file="res://res/Texture/Ore & Gem/Ruby.png"
-dest_files=[ "res://.import/Ruby.png-8af406ac5ac5eb11e2a8d252f6cb92ab.stex" ]
+dest_files=[ "res://import/Ruby.png-8af406ac5ac5eb11e2a8d252f6cb92ab.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

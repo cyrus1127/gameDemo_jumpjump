@@ -2,7 +2,7 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Wooden Sword.png-93c392e2b152d4b89a75ebc01d6d26f7.stex"
+path="res://import/Wooden Sword.png-93c392e2b152d4b89a75ebc01d6d26f7.stex"
 metadata={
 "vram_texture": false
 }
@@ -10,7 +10,7 @@ metadata={
 [deps]
 
 source_file="res://res/Texture/Weapon & Tool/Wooden Sword.png"
-dest_files=[ "res://.import/Wooden Sword.png-93c392e2b152d4b89a75ebc01d6d26f7.stex" ]
+dest_files=[ "res://import/Wooden Sword.png-93c392e2b152d4b89a75ebc01d6d26f7.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

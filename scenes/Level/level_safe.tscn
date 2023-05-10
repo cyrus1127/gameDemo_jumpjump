@@ -7,7 +7,7 @@
 [ext_resource path="res://scenes/Level/objs/itemShop.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/Level/objs/gameOver.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/Level/objs/goalPoint.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/Level/Level_safe.gd" type="Script" id=8]
+[ext_resource path="res://scenes/Level/level_safe.gd" type="Script" id=8]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 8 )
@@ -80,10 +80,14 @@ position = Vector2( -109.37, 438.536 )
 scale = Vector2( -1, 1 )
 
 [node name="DeadArea2D" parent="." instance=ExtResource( 6 )]
+
 [connection signal="btn_pressed_backtotitle" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_backtotitle"]
 [connection signal="btn_pressed_nextlevel" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_nextlevel"]
 [connection signal="btn_pressed_retry" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_retry"]
+[connection signal="character_info_closed" from="HUD_level" to="." method="_on_HUD_level_character_info_closed"]
+[connection signal="character_info_onshow" from="HUD_level" to="." method="_on_HUD_level_character_info_onshow"]
 [connection signal="meun_closed" from="HUD_level" to="." method="_on_HUD_level_meun_closed"]
+[connection signal="meun_onshow" from="HUD_level" to="." method="_on_HUD_level_meun_onshow"]
 [connection signal="timeToReset" from="HUD_level" to="." method="_on_HUD_level_timeToReset"]
 [connection signal="player_in_Shop" from="ItemShop" to="." method="_on_ItemShop_player_in_Shop"]
 [connection signal="player_leave_Shop" from="ItemShop" to="." method="_on_ItemShop_player_leave_Shop"]

@@ -2,7 +2,7 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon_cross.png-8ef304c013d79ea1d77cde107469657a.stex"
+path="res://import/icon_cross.png-8ef304c013d79ea1d77cde107469657a.stex"
 metadata={
 "vram_texture": false
 }
@@ -10,7 +10,7 @@ metadata={
 [deps]
 
 source_file="res://res/GUI_set_0/imgs/icon_cross.png"
-dest_files=[ "res://.import/icon_cross.png-8ef304c013d79ea1d77cde107469657a.stex" ]
+dest_files=[ "res://import/icon_cross.png-8ef304c013d79ea1d77cde107469657a.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

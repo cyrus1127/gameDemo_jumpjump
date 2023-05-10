@@ -2,7 +2,7 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bar_fill_lightblue.png-5b29e3a922e95791f6a40ef8a6538783.stex"
+path="res://import/bar_fill_lightblue.png-5b29e3a922e95791f6a40ef8a6538783.stex"
 metadata={
 "vram_texture": false
 }
@@ -10,7 +10,7 @@ metadata={
 [deps]
 
 source_file="res://res/GUI_set_0/imgs/board&bar/bar_fill_lightblue.png"
-dest_files=[ "res://.import/bar_fill_lightblue.png-5b29e3a922e95791f6a40ef8a6538783.stex" ]
+dest_files=[ "res://import/bar_fill_lightblue.png-5b29e3a922e95791f6a40ef8a6538783.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

@@ -68,10 +68,10 @@ func setType(nType) -> void:
 		curActType = nType
 	var mob_types = $AnimatedSprite.frames.get_animation_names() # get full list of animation
 	if curActType == ActionType.T1 || curActType == ActionType.T2 : 
-		$AnimatedSprite._set_playing(false)
+		$AnimatedSprite.set_playing(false)
 		$AnimatedSprite.set_frame(0)
 	else : 
-		$AnimatedSprite._set_playing(true)
+		$AnimatedSprite.set_playing(true)
 	$AnimatedSprite.animation = mob_types[curActType]   # do random animation 	
 
 func updateAnimation():

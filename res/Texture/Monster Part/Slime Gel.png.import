@@ -2,7 +2,7 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Slime Gel.png-87aa4a99989df3c383e9554fb7b1f231.stex"
+path="res://import/Slime Gel.png-87aa4a99989df3c383e9554fb7b1f231.stex"
 metadata={
 "vram_texture": false
 }
@@ -10,7 +10,7 @@ metadata={
 [deps]
 
 source_file="res://res/Texture/Monster Part/Slime Gel.png"
-dest_files=[ "res://.import/Slime Gel.png-87aa4a99989df3c383e9554fb7b1f231.stex" ]
+dest_files=[ "res://import/Slime Gel.png-87aa4a99989df3c383e9554fb7b1f231.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

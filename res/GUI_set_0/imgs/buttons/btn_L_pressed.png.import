@@ -2,7 +2,7 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/btn_L_pressed.png-1f5f85476321690fb4c06599144520c6.stex"
+path="res://import/btn_L_pressed.png-1f5f85476321690fb4c06599144520c6.stex"
 metadata={
 "vram_texture": false
 }
@@ -10,7 +10,7 @@ metadata={
 [deps]
 
 source_file="res://res/GUI_set_0/imgs/buttons/btn_L_pressed.png"
-dest_files=[ "res://.import/btn_L_pressed.png-1f5f85476321690fb4c06599144520c6.stex" ]
+dest_files=[ "res://import/btn_L_pressed.png-1f5f85476321690fb4c06599144520c6.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

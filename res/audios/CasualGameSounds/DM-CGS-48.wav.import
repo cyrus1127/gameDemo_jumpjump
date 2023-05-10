@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/DM-CGS-48.wav-87c98faa823273836ae9760c84ae2815.sample"
+path="res://import/DM-CGS-48.wav-87c98faa823273836ae9760c84ae2815.sample"
 
 [deps]
 
 source_file="res://res/audios/CasualGameSounds/DM-CGS-48.wav"
-dest_files=[ "res://.import/DM-CGS-48.wav-87c98faa823273836ae9760c84ae2815.sample" ]
+dest_files=[ "res://import/DM-CGS-48.wav-87c98faa823273836ae9760c84ae2815.sample" ]
 
 [params]
 
@@ -17,5 +17,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

@@ -25,10 +25,15 @@ func _ready():
 	update_coin(GLOBAL.playerData.balance)
 	$panel_result.hide()
 	
+	pass # Replace with function body.
+
+func setTouchOn(var isNeed : bool = false):
+	touchEnable = isNeed
 	if touchEnable :
 		$Control.show()
-	
-	pass # Replace with function body.
+	else :
+		$Control.hide()
+	pass
 
 func update_hp(n_val):
 	$CharacterInfo_short/bar_hp.value = n_val;
@@ -52,7 +57,7 @@ func showDeadView(isReborn):
 	$panel_result_dead.show()
 	
 	if isReborn :
-		timer_reborn_counting = 5
+		timer_reborn_counting = 1
 		$panel_result_dead/lbl_subtitle.text = "reborn in "+ str(timer_reborn_counting) +"s"
 		$panel_result_dead/lbl_subtitle.show()
 		$panel_result_dead/btn_retry.hide()
@@ -138,4 +143,12 @@ func _on_HUD_node_characterInfo_closed():
 
 func _on_HUD_node_shopView_userInfo_changed():
 	update_coin(GLOBAL.playerData.balance)
+	pass # Replace with function body.
+
+
+func _on_jump_button_down():
+	pass # Replace with function body.
+
+
+func _on_attack_button_down():
 	pass # Replace with function body.

@@ -58,39 +58,70 @@ func get_mobile_input():
 #			Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 		0
 	).clamped(1) #just in case someone uses buttons - Joystick already returns clamped value
+	var down = Input.get_action_strength("ui_down")
+	var jump = Input.is_action_pressed("ui_jump") 
+	var jump_release = Input.is_action_just_released("ui_jump")
+	var attack = Input.is_action_pressed("ui_attack")
 	
-	if move_input.x > 0.3 || move_input.x < -0.3:
-		if move_input != Vector2.ZERO: velocity = move_input * speed
+	if jump and down and dropEnable:
+			player_drop_from_curPlatefrom()
+	elif jump and !jumping:
+			if velocity.y >= 0 && velocity.y <= 10 && jumpVecCosumming == 0: # give some margin
+					velocity.y = jump_speed
+					jumpVecCosumming += jump_speed
+					GLOBAL.change_sfx("jump")
+					jumping = true
+	#				print("Add jump" + str(velocity))
+	#				if is_on_floor():
+	#					print("hit the top ?? " + str(velocity))	
+			else:
+				print("jumping not finished" + str(velocity))
+	elif jump_release:
+		if jumpVecCosumming < 0:
+			jumping = false
+			jumpVecCosumming = 0 
 	
-		var right = move_input.x > 0
-		var left = move_input.x < 0
-	
+	if attack:
+		doActionAttack()
+	else : 
+		if isOnAttackAction:
+	#			$AnimatedSprite.animation = "attack_wp1"
+				print("")
 		if velocity.y != 0:
-			if velocity.y != 0 : 
 				cancelAttack()
 				$AnimatedSprite.animation = "jump"	
-		elif velocity.x != 0:
-			if  (right || left) :
-				cancelAttack()
-				$AnimatedSprite.animation = "run"		
-				$AnimatedSprite.flip_h = left
-				isAtkOnLeft = left
-	else :
-		$AnimatedSprite.animation = "idle"
-		velocity = Vector2.ZERO
+		if move_input.x > 0.3 || move_input.x < -0.3:
+			if move_input != Vector2.ZERO: 
+				var n_veloc = move_input * speed
+				velocity.x = n_veloc.x
+		
+			var right = move_input.x > 0
+			var left = move_input.x < 0
+
+			if velocity.x != 0:
+				if  (right || left) :
+					cancelAttack()
+					$AnimatedSprite.flip_h = left
+					isAtkOnLeft = left
+					if velocity.y == 0:
+						$AnimatedSprite.animation = "run"
+		
+		else :
+#			$AnimatedSprite.animation = "idle"
+			velocity.x = 0
 	
 	pass
 
 func get_controller_input():
 
 	velocity.x = 0
-	
 	var right = Input.is_action_pressed("ui_right")
 	var left = Input.is_action_pressed("ui_left") 
+	var up = Input.is_action_pressed("ui_up")
 	var down = Input.is_action_pressed("ui_down")
-	var jump = Input.is_action_pressed("ui_up") 
-	var jump_release = Input.is_action_just_released("ui_up")
-	var attack = Input.is_action_pressed("ui_select")
+	var jump = Input.is_action_pressed("ui_jump") 
+	var jump_release = Input.is_action_just_released("ui_jump")
+	var attack = Input.is_action_pressed("ui_attack")
 	
 	if attack:
 		doActionAttack()
@@ -126,9 +157,8 @@ func get_controller_input():
 			$AnimatedSprite.animation = "idle"
 		else:
 			if velocity.y != 0:
-				if velocity.y != 0 : 
-					cancelAttack()
-					$AnimatedSprite.animation = "jump"	
+				cancelAttack()
+				$AnimatedSprite.animation = "jump"	
 			if velocity.x != 0:
 				if  (right || left) :
 					cancelAttack()
@@ -184,7 +214,6 @@ func _process(delta):
 func _physics_process(delta):
 	# move itself	
 	if !doPause :
-		
 		if isTouchScreenOn :
 			get_mobile_input()
 		else : 
@@ -197,6 +226,9 @@ func _physics_process(delta):
 		else :
 			velocity.y += gravity * delta
 		velocity = move_and_slide(velocity,Vector2(0, -1))
+		if velocity.y == 0 && velocity.x == 0 && isTouchScreenOn:
+			if !isOnAttackAction:
+				$AnimatedSprite.animation = "idle"
 pass
 
 

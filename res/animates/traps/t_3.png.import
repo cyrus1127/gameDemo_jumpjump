@@ -2,7 +2,7 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/t_3.png-7f4b2232384ecfaebbe16fcfbd176cfd.stex"
+path="res://import/t_3.png-7f4b2232384ecfaebbe16fcfbd176cfd.stex"
 metadata={
 "vram_texture": false
 }
@@ -10,7 +10,7 @@ metadata={
 [deps]
 
 source_file="res://res/animates/traps/t_3.png"
-dest_files=[ "res://.import/t_3.png-7f4b2232384ecfaebbe16fcfbd176cfd.stex" ]
+dest_files=[ "res://import/t_3.png-7f4b2232384ecfaebbe16fcfbd176cfd.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

@@ -2,7 +2,7 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Take Hit - white silhouette.png-0d447bda1dd3ade11fb75efdde443386.stex"
+path="res://import/Take Hit - white silhouette.png-0d447bda1dd3ade11fb75efdde443386.stex"
 metadata={
 "vram_texture": false
 }
@@ -10,7 +10,7 @@ metadata={
 [deps]
 
 source_file="res://res/animates/actor_2/Sprites/Take Hit - white silhouette.png"
-dest_files=[ "res://.import/Take Hit - white silhouette.png-0d447bda1dd3ade11fb75efdde443386.stex" ]
+dest_files=[ "res://import/Take Hit - white silhouette.png-0d447bda1dd3ade11fb75efdde443386.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

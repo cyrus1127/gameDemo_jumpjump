@@ -44,6 +44,8 @@ func _ready():
 	$Player_RigidBody2D.start($pos_start.position)
 	$HUD_level.update_hp(player_hp)
 	$HUD_level.update_coin(GLOBAL.playerData.balance)
+	$HUD_level.setTouchOn($Player_RigidBody2D.isTouchScreenOn)
+	
 	
 	var mapBase = $map/map_base
 	var cell_bounds = mapBase.get_used_rect()
@@ -235,7 +237,6 @@ func _on_Coin_coin_hit(obj):
 		$HUD_level.update_coin(GLOBAL.playerData.balance)
 		
 	pass # Replace with function body.
-
 
 
 func _on_HUD_level_meun_onshow():

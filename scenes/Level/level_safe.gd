@@ -25,6 +25,7 @@ func _ready():
 	$Player_RigidBody2D.start($pos_start.position)
 	$HUD_level.update_hp(player_hp)
 	$HUD_level.update_coin(GLOBAL.playerData.balance)
+	$HUD_level.setTouchOn($Player_RigidBody2D.isTouchScreenOn)
 	
 	if $Player_RigidBody2D.isTouchScreenOn:
 		$HUD_level/Control
@@ -36,8 +37,9 @@ func _ready():
 func _process(delta):
 	
 	var select = Input.is_action_pressed("ui_select")
+	var attack = Input.is_action_pressed("ui_attack")
 	
-	if isShopMenuReadyToShow and select:
+	if isShopMenuReadyToShow and (select || attack ):
 		$HUD_level/HUD_node_shopView.show()
 		$Player_RigidBody2D.stop()
 		
@@ -58,6 +60,9 @@ func _on_DeadArea2D_player_in():
 	$Player_RigidBody2D.start($pos_start.position)
 	pass # Replace with function body.
 
+func _on_EscArea2D_player_in():
+	GLOBAL.back_to_title(true)
+	pass # Replace with function body.
 
 func _on_ItemShop_player_in_Shop():
 	isShopMenuReadyToShow = true
@@ -73,7 +78,16 @@ func _on_HUD_level_meun_closed():
 	$Player_RigidBody2D.resume()
 	pass # Replace with function body.
 
+func _on_HUD_level_meun_onshow():
+	$Player_RigidBody2D.stop()
+	pass # Replace with function body.
 
-func _on_EscArea2D_player_in():
-	GLOBAL.back_to_title(true)
+
+func _on_HUD_level_character_info_onshow():
+	$Player_RigidBody2D.stop()
+	pass # Replace with function body.
+
+
+func _on_HUD_level_character_info_closed():
+	$Player_RigidBody2D.resume()
 	pass # Replace with function body.
