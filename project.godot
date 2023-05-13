@@ -50,7 +50,20 @@ _global_script_class_icons={
 
 [application]
 
-config/name="JumpJump(Demo)"
+config/name="JumpJump"
+config/description="The game play is designed as a platform game style.
+In the game, user can control the character to jump in the map to the end point to finish each level.
+Each 5 level finished will go to safe zone. Safety zone will have a shop and character won't die and have a escape point for exit and Safe.
+
+game included : 
+- character info
+- character item bag
+- character can use all the item, is showing in the bag (but no effect)
+- shop with hard coded items for buy
+- mobile touch panel ( move , jump , attack )
+- simple game logic with cycling
+- game title
+- game menu"
 run/main_scene="res://scenes/main.tscn"
 config/use_hidden_project_data_directory=false
 config/icon="res://res/icon_e.png"
