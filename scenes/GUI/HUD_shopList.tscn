@@ -1,0 +1,313 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://res/GUI_set_0/imgs/icon_cross.png" type="Texture" id=1]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_S_on.png" type="Texture" id=2]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_M_off.png" type="Texture" id=3]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_M_pressed.png" type="Texture" id=4]
+[ext_resource path="res://res/GUI_set_0/imgs/board&bar/board_1.png" type="Texture" id=5]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_M_on.png" type="Texture" id=6]
+[ext_resource path="res://res/Texture/Food/Bread.png" type="Texture" id=7]
+[ext_resource path="res://res/Texture/Food/Cheese.png" type="Texture" id=8]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_S_pressed.png" type="Texture" id=9]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_S_off.png" type="Texture" id=10]
+[ext_resource path="res://scenes/GUI/HUD_shopList.gd" type="Script" id=11]
+[ext_resource path="res://res/GUI_set_0/imgs/icon_arrow_right.png" type="Texture" id=12]
+[ext_resource path="res://res/GUI_set_0/imgs/board&bar/settingbar_holder.png" type="Texture" id=13]
+[ext_resource path="res://res/GUI_set_0/imgs/icon_arrow_left.png" type="Texture" id=14]
+[ext_resource path="res://fonts/norwester.otf" type="DynamicFontData" id=15]
+[ext_resource path="res://scenes/GUI/HUD_msgBox.tscn" type="PackedScene" id=16]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 10
+use_filter = true
+extra_spacing_top = -5
+font_data = ExtResource( 15 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 30
+font_data = ExtResource( 15 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 20
+font_data = ExtResource( 15 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 20
+font_data = ExtResource( 15 )
+
+[node name="HUD_node_shopView" type="Node2D"]
+script = ExtResource( 11 )
+
+[node name="item_info_rect" type="NinePatchRect" parent="."]
+margin_left = 229.341
+margin_top = 98.8681
+margin_right = 351.341
+margin_bottom = 184.868
+rect_scale = Vector2( 5, 5 )
+texture = ExtResource( 5 )
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="btn_filter_0" type="TextureButton" parent="item_info_rect"]
+margin_left = 46.9318
+margin_top = 8.22783
+margin_right = 144.932
+margin_bottom = 48.2278
+rect_scale = Vector2( 0.2, 0.2 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 4 )
+texture_disabled = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="item_info_rect/btn_filter_0"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -35.0
+margin_top = -10.0
+margin_right = 33.0
+margin_bottom = 7.0
+text = "item"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="btn_filter_1" type="TextureButton" parent="item_info_rect"]
+margin_left = 68.8865
+margin_top = 8.32585
+margin_right = 166.886
+margin_bottom = 48.3258
+rect_scale = Vector2( 0.2, 0.2 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 4 )
+texture_disabled = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="item_info_rect/btn_filter_1"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -38.5
+margin_top = -10.9503
+margin_right = 38.5
+margin_bottom = 6.04971
+text = "equipments"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="item_info_rect"]
+margin_left = 47.0
+margin_top = 20.0
+margin_right = 184.0
+margin_bottom = 139.0
+rect_scale = Vector2( 0.5, 0.5 )
+mouse_filter = 2
+custom_styles/bg = SubResource( 1 )
+follow_focus = true
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VScrollBar" type="VScrollBar" parent="item_info_rect/ScrollContainer"]
+margin_right = 12.0
+margin_bottom = 12.0
+
+[node name="ItemList" type="ItemList" parent="item_info_rect/ScrollContainer/VScrollBar"]
+margin_right = 137.0
+margin_bottom = 119.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+custom_fonts/font = SubResource( 5 )
+items = [ "$1", ExtResource( 7 ), false, "$10", ExtResource( 8 ), false ]
+max_columns = 4
+same_column_width = true
+fixed_column_width = 25
+icon_mode = 0
+icon_scale = 0.8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureButton" type="TextureButton" parent="."]
+margin_left = 790.101
+margin_top = 84.4993
+margin_right = 849.101
+margin_bottom = 143.499
+shortcut_in_tooltip = false
+action_mode = 0
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 9 )
+texture_disabled = ExtResource( 10 )
+expand = true
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="TextureButton"]
+margin_left = 6.48096
+margin_top = 4.51907
+margin_right = 52.481
+margin_bottom = 50.5191
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Node_content" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_name" type="Label" parent="Node_content"]
+margin_left = 249.0
+margin_top = 199.0
+margin_right = 448.0
+margin_bottom = 274.0
+custom_fonts/font = SubResource( 2 )
+text = "?????
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_detail" type="Label" parent="Node_content"]
+margin_left = 249.0
+margin_top = 256.0
+margin_right = 432.0
+margin_bottom = 334.0
+custom_fonts/font = SubResource( 3 )
+text = "???? is something xxxxx,xx,xxx,x,x,x
+"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="amt_" type="TextureRect" parent="Node_content"]
+margin_left = 256.0
+margin_top = 400.0
+margin_right = 416.0
+margin_bottom = 440.0
+texture = ExtResource( 13 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lbl_amt" type="Label" parent="Node_content/amt_"]
+margin_right = 152.0
+margin_bottom = 40.0
+custom_fonts/font = SubResource( 4 )
+text = "999"
+align = 1
+valign = 1
+
+[node name="btn_amt_dec" type="TextureButton" parent="Node_content"]
+margin_left = 256.0
+margin_top = 400.0
+margin_right = 296.0
+margin_bottom = 440.0
+texture_normal = ExtResource( 9 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Node_content/btn_amt_dec"]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 14 )
+expand = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="btn_amt_inc" type="TextureButton" parent="Node_content"]
+margin_left = 375.0
+margin_top = 400.0
+margin_right = 415.0
+margin_bottom = 440.0
+texture_normal = ExtResource( 9 )
+expand = true
+
+[node name="TextureRect" type="TextureRect" parent="Node_content/btn_amt_inc"]
+margin_left = -2.998
+margin_right = 37.002
+margin_bottom = 40.0
+texture = ExtResource( 12 )
+expand = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="btn_buy" type="TextureButton" parent="Node_content"]
+margin_left = 288.0
+margin_top = 456.0
+margin_right = 386.0
+margin_bottom = 496.0
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 4 )
+texture_disabled = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Node_content/btn_buy"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -38.5
+margin_top = -16.512
+margin_right = 38.5
+margin_bottom = 14.488
+text = "Buy"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="HUD_node_msg_box" parent="." instance=ExtResource( 16 )]
+visible = false
+
+[connection signal="changed" from="item_info_rect/ScrollContainer/VScrollBar" to="." method="_on_VScrollBar_changed"]
+[connection signal="item_selected" from="item_info_rect/ScrollContainer/VScrollBar/ItemList" to="." method="_on_ItemList_item_selected"]
+[connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="button_down" from="Node_content/btn_amt_dec" to="." method="_on_btn_amt_dec_button_down"]
+[connection signal="button_down" from="Node_content/btn_amt_inc" to="." method="_on_btn_amt_inc_button_down"]
+[connection signal="button_down" from="Node_content/btn_buy" to="." method="_on_btn_buy_button_down"]
