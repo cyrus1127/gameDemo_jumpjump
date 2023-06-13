@@ -125,6 +125,8 @@ func get_controller_input():
 	
 	if attack:
 		doActionAttack()
+#	elif takingHit :
+#			$AnimatedSprite.animation = "take_hit"
 	else :
 		if right: 
 			velocity.x += speed
@@ -148,9 +150,8 @@ func get_controller_input():
 		if down and dropEnable:
 			player_drop_from_curPlatefrom()
 		
-		if takingHit :
-			$AnimatedSprite.animation = "take_hit"
-		elif isOnAttackAction:
+		
+		if isOnAttackAction:
 #			$AnimatedSprite.animation = "attack_wp1"
 			print("")
 		elif (Input.is_action_just_released("ui_right") || Input.is_action_just_released("ui_left")  || (velocity.x > -1 && velocity.x < 1 && velocity.y >= 0)):
@@ -189,8 +190,15 @@ func cancelAttack():
 #	$Attack_Area2D/CollisionShape2D_R .set_visible(false)
 
 func onHit():
-	$AnimatedSprite.animation = "take_hit"
-	takingHit = true
+	if !takingHit:
+		#force other action stop
+		isAttackActiving = false
+		isOnAttackAction = false
+		
+		$AnimatedSprite.set_frame(0)
+		$AnimatedSprite.animation = "take_hit"
+		takingHit = true
+		
 
 func _process(delta):	
 	
@@ -205,7 +213,7 @@ func _process(delta):
 					emit_signal("hit_monster",inAtkZoneMob)
 #			#do reset to idle
 	if takingHit :
-		if 	$AnimatedSprite.animation.begins_with("take_hit") :
+		if takingHit 	|| $AnimatedSprite.animation.begins_with("take_hit") :
 			if $AnimatedSprite.frame == 3 :
 				takingHit = false
 	
@@ -214,21 +222,23 @@ func _process(delta):
 func _physics_process(delta):
 	# move itself	
 	if !doPause :
-		if isTouchScreenOn :
-			get_mobile_input()
-		else : 
-			get_controller_input()
-		
-		if is_on_floor() && jumping:
-#			jumping = false
-#			$AnimatedSprite.animation = "idle"
-			print("")
-		else :
-			velocity.y += gravity * delta
-		velocity = move_and_slide(velocity,Vector2(0, -1))
-		if velocity.y == 0 && velocity.x == 0 && isTouchScreenOn:
-			if !isOnAttackAction:
-				$AnimatedSprite.animation = "idle"
+		if !takingHit:
+			if isTouchScreenOn :
+				get_mobile_input()
+			else : 
+				get_controller_input()
+			
+			if is_on_floor() && jumping:
+	#			jumping = false
+	#			$AnimatedSprite.animation = "idle"
+				print("")
+			else :
+				velocity.y += gravity * delta
+			velocity = move_and_slide(velocity,Vector2(0, -1))
+			
+			if velocity.y == 0 && velocity.x == 0 && isTouchScreenOn:
+				if !isOnAttackAction:
+					$AnimatedSprite.animation = "idle"
 pass
 
 
