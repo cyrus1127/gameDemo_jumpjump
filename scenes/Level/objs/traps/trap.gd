@@ -91,12 +91,13 @@ func _on_AnimatedSprite_animation_finished():
 func _on_TriggerArea_body_entered(body):
 	var player := body as KinematicBody2D
 	if player :
-		isPlayerInside = true
 		if curActType == ActionType.T1 || curActType == ActionType.T2 :
 			$AnimatedSprite.play()
 			GLOBAL.change_sfx("trap0")
 		else:
-			emit_signal("player_collap")
+			if self.position.y > 0 && self.position.x > 0 :
+				isPlayerInside = true
+				emit_signal("player_collap")
 	pass # Replace with function body.
 
 
