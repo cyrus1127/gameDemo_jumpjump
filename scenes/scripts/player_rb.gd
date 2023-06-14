@@ -69,8 +69,8 @@ func get_mobile_input():
 			if velocity.y >= 0 && velocity.y <= 10 && jumpVecCosumming == 0: # give some margin
 					velocity.y = jump_speed
 					jumpVecCosumming += jump_speed
-					GLOBAL.change_sfx("jump")
 					jumping = true
+					GLOBAL.change_sfx("jump")
 	#				print("Add jump" + str(velocity))
 	#				if is_on_floor():
 	#					print("hit the top ?? " + str(velocity))	
@@ -84,9 +84,6 @@ func get_mobile_input():
 	if attack || isOnAttackAction:
 		doActionAttack()
 	else : 
-		if isOnAttackAction:
-	#			$AnimatedSprite.animation = "attack_wp1"
-				print("")
 		if velocity.y <= -0.1 || velocity.y >= 0.1:
 				cancelAttack()
 				$AnimatedSprite.animation = "jump"	
@@ -136,8 +133,8 @@ func get_controller_input():
 			if velocity.y >= 0 && velocity.y <= 10 && jumpVecCosumming == 0: # give some margin
 				velocity.y = jump_speed
 				jumpVecCosumming += jump_speed
-				GLOBAL.change_sfx("jump")
 				jumping = true
+				GLOBAL.change_sfx("jump")
 #				print("Add jump" + str(velocity))
 #				if is_on_floor():
 #					print("hit the top ?? " + str(velocity))	
@@ -229,11 +226,7 @@ func _physics_process(delta):
 			else : 
 				get_controller_input()
 			
-			if is_on_floor() && jumping:
-	#			jumping = false
-	#			$AnimatedSprite.animation = "idle"
-				print("")
-			else :
+			if !(is_on_floor() && jumping):
 				velocity.y += gravity * delta
 			velocity = move_and_slide(velocity,Vector2(0, -1))
 			

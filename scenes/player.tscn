@@ -253,9 +253,8 @@ extents = Vector2( 22.4764, 20.7365 )
 [node name="KinematicBody2D" type="KinematicBody2D"]
 collision/safe_margin = 3.5
 script = ExtResource( 2 )
-speed = 125
-jump_speed = -125
-gravity = 1000
+speed = 250
+gravity = 1300
 isTouchScreenOn = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -263,6 +262,7 @@ position = Vector2( 0, 0.728 )
 scale = Vector2( 1.55, 1.55 )
 frames = SubResource( 39 )
 animation = "idle"
+frame = 5
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

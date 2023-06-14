@@ -12,7 +12,7 @@ var score
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize() # make new seed for random
-	
+	$KinematicBody2D.doPause = true
 	pass # Replace with function body.
 
 
