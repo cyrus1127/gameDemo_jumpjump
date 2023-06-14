@@ -23,9 +23,6 @@ script = ExtResource( 2 )
 position = Vector2( 188.52, 371.902 )
 z_index = 1
 z_as_relative = false
-speed = 250
-jump_speed = -500
-gravity = 1300
 
 [node name="Camera2D" type="Camera2D" parent="Player_RigidBody2D"]
 position = Vector2( -134.917, -322.675 )
@@ -182,6 +179,7 @@ position = Vector2( -363.312, -374.284 )
 
 [node name="monster_sborn" type="Position2D" parent="."]
 position = Vector2( 354.739, 393.803 )
+
 [connection signal="hit_monster" from="Player_RigidBody2D" to="." method="_on_Player_RigidBody2D_hit_monster"]
 [connection signal="monster_touch" from="Player_RigidBody2D" to="." method="_on_Player_RigidBody2D_monster_touch"]
 [connection signal="btn_pressed_backtotitle" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_backtotitle"]

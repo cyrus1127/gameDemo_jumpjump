@@ -46,6 +46,7 @@ func _ready():
 	$HUD_level.update_coin(GLOBAL.playerData.balance)
 	$HUD_level.setTouchOn($Player_RigidBody2D.isTouchScreenOn)
 	
+	print("my player ("+$Player_RigidBody2D.name+") : " + str($Player_RigidBody2D))
 	
 	var mapBase = $map/map_base
 	var cell_bounds = mapBase.get_used_rect()

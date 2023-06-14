@@ -124,13 +124,14 @@ scale = Vector2( 0.624, 1 )
 [node name="dropAbleArea9" parent="map" instance=ExtResource( 10 )]
 position = Vector2( -77.7111, 432.233 )
 scale = Vector2( 0.624, 1 )
+monitorable = false
 
 [node name="dropAbleArea10" parent="map" instance=ExtResource( 10 )]
 position = Vector2( -321.055, 387.988 )
 scale = Vector2( 0.624, 1 )
 
 [node name="dropAbleArea3" parent="map" instance=ExtResource( 10 )]
-position = Vector2( 280.214, 111.745 )
+position = Vector2( 282, 112 )
 scale = Vector2( 2.04, 1 )
 
 [node name="dropAbleArea4" parent="map" instance=ExtResource( 10 )]

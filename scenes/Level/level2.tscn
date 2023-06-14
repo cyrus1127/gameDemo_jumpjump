@@ -19,9 +19,6 @@ Mob = ExtResource( 10 )
 [node name="Player_RigidBody2D" parent="." instance=ExtResource( 3 )]
 position = Vector2( 90, 398.585 )
 z_as_relative = false
-speed = 250
-jump_speed = -500
-gravity = 1300
 
 [node name="Camera2D" type="Camera2D" parent="Player_RigidBody2D"]
 position = Vector2( -90, -398.585 )
@@ -122,6 +119,7 @@ position = Vector2( -676.345, 195.829 )
 
 [node name="Trap" parent="." instance=ExtResource( 11 )]
 position = Vector2( 1242.52, 467.155 )
+
 [connection signal="hit_monster" from="Player_RigidBody2D" to="." method="_on_Player_RigidBody2D_hit_monster"]
 [connection signal="monster_touch" from="Player_RigidBody2D" to="." method="_on_Player_RigidBody2D_monster_touch"]
 [connection signal="btn_pressed_backtotitle" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_backtotitle"]
