@@ -19,9 +19,7 @@ func _ready():
 
 func _on_DeadArea2D_body_entered(body):
 	var player := body as KinematicBody2D
-	if not player: 
-		return
-	else:
+	if player && player.name.match(GLOBAL.playerObjName): 
 		print("player in")
 		emit_signal("player_in")
 	pass # Replace with function body.

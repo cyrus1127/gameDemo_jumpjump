@@ -90,12 +90,17 @@ func _on_AnimatedSprite_animation_finished():
 
 func _on_TriggerArea_body_entered(body):
 	var player := body as KinematicBody2D
-	if player :
+	if player && player.name.match(GLOBAL.playerObjName): 
 		if curActType == ActionType.T1 || curActType == ActionType.T2 :
 			$AnimatedSprite.play()
 			GLOBAL.change_sfx("trap0")
+			isPlayerInside = true
 		else:
-			if self.position.y > 0 && self.position.x > 0 :
+			if self.position.y != 0 && self.position.x != 0 :
+				print(self.name + " hit player " + str(player.position) + " , self " + str(self.position) )
+				var shape = $CollisionShape2D.shape as CircleShape2D
+				print("shape Radius : " + str(shape.radius))
+#				if Rect2(self.position, Vector2(shape.radius,shape.radius)).has_point(player.position) :
 				isPlayerInside = true
 				emit_signal("player_collap")
 	pass # Replace with function body.
@@ -103,7 +108,7 @@ func _on_TriggerArea_body_entered(body):
 
 func _on_TriggerArea_body_exited(body):
 	var player := body as KinematicBody2D
-	if player :
+	if player && player.name.match(GLOBAL.playerObjName): 
 		isPlayerInside = false
 	pass # Replace with function body.
 

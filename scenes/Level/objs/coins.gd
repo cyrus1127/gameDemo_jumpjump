@@ -15,14 +15,12 @@ func _ready():
 
 func _on_body_entered(body):
 	var player := body as KinematicBody2D
-	if not player: 
-		return
-	else:
-		print("coin : player in")
+	if player && player.name.match(GLOBAL.playerObjName): 
 		emit_signal("coin_hit", self)
 		GLOBAL.change_sfx("coin")
 		$Sprite.hide()
 		$CollisionShape2D.queue_free()
 		$Particles2D.restart()
+	
 	pass # Replace with function body.
 

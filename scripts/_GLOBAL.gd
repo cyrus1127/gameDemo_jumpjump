@@ -16,6 +16,7 @@ var passPhrase:String = "OkdfPooie0029?/dll"
 var current_music:String = ""
 var music_isOn = true
 var playerData : PlayerData
+const playerObjName = "Player_RigidBody2D"
 
 var items_data_all = {
   "values": [
