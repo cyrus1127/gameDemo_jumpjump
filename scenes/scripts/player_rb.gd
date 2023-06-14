@@ -81,13 +81,13 @@ func get_mobile_input():
 			jumping = false
 			jumpVecCosumming = 0 
 	
-	if attack:
+	if attack || isOnAttackAction:
 		doActionAttack()
 	else : 
 		if isOnAttackAction:
 	#			$AnimatedSprite.animation = "attack_wp1"
 				print("")
-		if velocity.y != 0:
+		if velocity.y <= -0.1 || velocity.y >= 0.1:
 				cancelAttack()
 				$AnimatedSprite.animation = "jump"	
 		if move_input.x > 0.3 || move_input.x < -0.3:
@@ -181,6 +181,7 @@ func doActionAttack():
 		$AnimatedSprite.animation = "attack_wp1"
 		GLOBAL.change_sfx("attack1")
 		isOnAttackAction = true
+		velocity.x = 0
 #	yield($AnimatedSprite.animation.ends_with("attack_wp1"), "true")
 	pass
 
@@ -237,7 +238,7 @@ func _physics_process(delta):
 			velocity = move_and_slide(velocity,Vector2(0, -1))
 			
 			if velocity.y == 0 && velocity.x == 0 && isTouchScreenOn:
-				if !isOnAttackAction:
+				if !isOnAttackAction && !$AnimatedSprite.animation.begins_with("idle")  :
 					$AnimatedSprite.animation = "idle"
 pass
 

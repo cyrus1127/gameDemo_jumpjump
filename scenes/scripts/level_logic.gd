@@ -280,12 +280,14 @@ func _on_Player_RigidBody2D_monster_touch(body):
 
 
 func _on_dropAbleArea_player_in():
-	$Player_RigidBody2D.dropEnable = true
+	if !$Player_RigidBody2D.dropEnable:
+		$Player_RigidBody2D.dropEnable = true
 	pass # Replace with function body.
 
 
 func _on_dropAbleArea_player_out():
-	$Player_RigidBody2D.dropEnable = false
+	if $Player_RigidBody2D.dropEnable:
+		$Player_RigidBody2D.dropEnable = false
 	pass # Replace with function body.
 
 
