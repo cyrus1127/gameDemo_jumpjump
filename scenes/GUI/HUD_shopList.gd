@@ -28,7 +28,7 @@ func _ready():
 	pass # Replace with function body.
 
 func getItems():
-	var allItems := GLOBAL.items_data_all["values"] as Array
+	var allItems := GLOBAL.items_food_data_all["values"] as Array
 	return allItems
 
 func changeListedItem(n_type : int):
@@ -36,16 +36,10 @@ func changeListedItem(n_type : int):
 	$item_info_rect/ScrollContainer/VScrollBar/ItemList.clear()
 	
 	#load item list
-	var imagePath = "res://res/Texture/Food/"
-	var imageExtension = ".png"
 	var allItems = getItems()
 	if allItems:
 		for n in allItems.size():
-			var texturePath = imagePath + allItems[n].name + imageExtension
-#			var image = Image.load_from_file(texturePath)
-			var texture = load(texturePath)
-#			var texture = ImageTexture.new().create_from_image(image)
-			
+			var texture = GLOBAL.getCommonItemTexture(allItems[n].name)			
 			$item_info_rect/ScrollContainer/VScrollBar/ItemList.add_item("", texture ,true)
 		
 	pass

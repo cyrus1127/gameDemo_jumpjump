@@ -18,7 +18,7 @@ var music_isOn = true
 var playerData : PlayerData
 const playerObjName = "Player_RigidBody2D"
 
-var items_data_all = {
+var items_food_data_all = {
   "values": [
 	{  "name": "Wine", "detail":"this is food. Recover HP 20", "price": 20,  "type": "Recover", "recoverType":"hp", "value":20},
 	{  "name": "Apple", "detail":"this is food. Recover HP 20", "price": 3,  "type": "Recover", "recoverType":"hp", "value":20},
@@ -34,6 +34,13 @@ var items_data_all = {
   ]
 }
 
+var items_equipment_data_all = {
+  "values": [
+	{  "id":10, "name": "Wooden Armor", "detail":"this is armor. ", "price": 200,  "type": "Equipment", "porperties":{"hp":0, "sp":0, "atk":0, "def":1}},
+	{  "id":20, "name": "Knife", "detail":"this is weapon. ", "price": 400,  "type": "Weapon", "porperties":{"hp":0, "sp":0, "atk":1, "def":0}}
+  ]
+}
+
 # for debug only
 func _ready():
 	print("[Screen Metrics]")
@@ -45,6 +52,7 @@ func _ready():
 	print(OS.get_window_size().y)
 	playerData = PlayerData.new()
 	stage_index = 0 
+	seed(OS.get_time().hash())
 	load_game()
 
 func _process(delta) -> void:
@@ -233,3 +241,26 @@ func _on_Tween_tween_started(object, key):
 func _on_Tween_tween_completed(object, key):
 	print("tween run finished ")
 	pass # Replace with function body.
+
+
+# =-=-=-=-=-=-=-=-= Texture helper function
+func getCommonItemTexture(name):
+	var imagePath = "res://res/Texture/Food/"
+		
+	var texturePath = imagePath + name + ".png"
+	var texture = load(texturePath)
+	if texture :
+		return texture
+	
+	return null
+
+func getEquipmentTexture(name , isWeapon = false):
+	var imagePath = "res://res/Texture/Equipment/"
+	if isWeapon:
+		imagePath = "res://res/Texture/Weapon & Tool/"
+		
+	var texturePath = imagePath + name + ".png"
+	var texture = load(texturePath)
+	if texture :
+		return texture
+	return null

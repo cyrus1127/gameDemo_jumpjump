@@ -9,6 +9,8 @@ export var min_speed = 20
 export var max_speed = 200
 export (ActionType) var curActType = ActionType.Idle
 export (bool) var auto_move = false
+export (Array) var dropItems
+export (PackedScene) var dropItem
 
 var speedFraction = 10
 export var speed = 400
@@ -20,6 +22,7 @@ var doPause = false
 var animationSequance = []
 var animationSeqIdx = 0
 
+var isKilled = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -80,6 +83,41 @@ func setType(nType) -> void:
 
 func updateAnimation():
 	
+	pass
+	
+func processKillDropItems():
+	
+	if !isKilled:
+		isKilled = true
+		
+		var dropCount = 1 + randi() % 4
+		var curParent = get_parent()
+		
+		$AnimatedSprite.hide()
+		$CollisionShape2D.queue_free()
+		
+		if curParent :
+			print('drop count :' + str(dropCount))
+			while dropCount > 0 :
+				var picktype = randi() % 3
+				var nItem = dropItem.instance()
+				match (picktype):
+					0 : #coins
+						(nItem as ItemObj).setItemDetail()
+					1 :
+						var items = GLOBAL.items_food_data_all["values"]
+						(nItem as ItemObj).setItemDetail( items[randi() % items.size()])
+					2 : 
+						print('drop eq')
+						var items = GLOBAL.items_equipment_data_all["values"]
+						(nItem as ItemObj).setItemDetail( items[randi() % items.size()])
+
+				curParent.add_child(nItem)
+				nItem.position = position
+				dropCount -= 1
+				if dropCount == 0 :
+					killed()
+
 	pass
 
 
