@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scenes/Level/objs/gameOver.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Level/objs/triggerAreas/gameOver.gd" type="Script" id=1]
 
 [sub_resource type="LineShape2D" id=1]
 normal = Vector2( 0.00326785, -0.999995 )
