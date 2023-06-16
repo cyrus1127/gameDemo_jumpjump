@@ -22,12 +22,17 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://scenes/Level/objs/gameObj.gd"
+"path": "res://scenes/Level/objs/triggerAreas/gameObj.gd"
 }, {
 "base": "Object",
 "class": "ItemData",
 "language": "GDScript",
 "path": "res://scripts/itemData.gd"
+}, {
+"base": "RigidBody2D",
+"class": "ItemObj",
+"language": "GDScript",
+"path": "res://scenes/Level/objs/dropItem.gd"
 }, {
 "base": "Object",
 "class": "PlayerData",
@@ -44,6 +49,7 @@ _global_script_class_icons={
 "EnemyObj": "",
 "GameObj": "",
 "ItemData": "",
+"ItemObj": "",
 "PlayerData": "",
 "TrapObj": ""
 }

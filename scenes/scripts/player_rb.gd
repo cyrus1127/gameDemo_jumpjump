@@ -1,5 +1,6 @@
 extends KinematicBody2D
 signal hit_monster
+signal item_touch
 signal monster_touch
 signal hit_check_point
 signal hit_info_board
@@ -22,7 +23,7 @@ var takingHit = false
 
 var isOnAttackAction = false
 var isAttackActiving = false
-var isAtkOnLeft = false
+var isFaseToLeft = false
 var enemybody_in = false
 var inAtkZoneMob
 
@@ -30,13 +31,15 @@ var inAtkZoneMob
 # var a = 2
 # var b = "text"
 
-func start(pos):
-	position = pos
+func start(pos = null):
+	if pos : 
+		position = pos
 	resume()
 	pass
 
 func resume():
 	doPause = false
+	$CollisionShape2D.disabled = false
 	pass
 
 func stop():
@@ -44,6 +47,7 @@ func stop():
 #	jump_speed = 0
 #	gravity = 0
 	doPause = true
+	$CollisionShape2D.disabled = true
 	pass
 
 # Called when the node enters the scene tree for the first time.
@@ -99,7 +103,7 @@ func get_mobile_input():
 				if  (right || left) :
 					cancelAttack()
 					$AnimatedSprite.flip_h = left
-					isAtkOnLeft = left
+					isFaseToLeft = left
 					if velocity.y == 0:
 						$AnimatedSprite.animation = "run"
 		
@@ -162,7 +166,7 @@ func get_controller_input():
 					cancelAttack()
 					$AnimatedSprite.animation = "run"		
 					$AnimatedSprite.flip_h = left
-					isAtkOnLeft = left
+					isFaseToLeft = left
 			
 	pass
 
@@ -207,7 +211,7 @@ func _process(delta):
 				isAttackActiving = false
 				$AnimatedSprite.animation = "idle"
 			if $AnimatedSprite.frame == 2 :
-				if  enemybody_in && inAtkZoneMob:
+				if  enemybody_in && is_instance_valid(inAtkZoneMob) :
 					emit_signal("hit_monster",inAtkZoneMob)
 #			#do reset to idle
 	if takingHit :
@@ -269,27 +273,39 @@ func setEmeIn(body, isIn : bool) -> void:
 
 ## evnet for attack zone 
 func _on_Attack_Area2D_body_entered(body):
-	if !isAtkOnLeft :
+	if isEnemyBody(body) && !isFaseToLeft :
 		setEmeIn(body, true)
 
 func _on_Attack_Area2D_body_exited(body):
-	if !isAtkOnLeft :
+	if isEnemyBody(body) && isFaseToLeft :
 		setEmeIn(body, false)
 
 func _on_Attack_Area2DL_body_entered(body):
-	if isAtkOnLeft :
+	if isEnemyBody(body) && isFaseToLeft :
 		setEmeIn(body, true)
 
 func _on_Attack_Area2DL_body_exited(body):
-	if isAtkOnLeft :
+	if isEnemyBody(body) && !isFaseToLeft :
 		setEmeIn(body, false)
 
 ## evnet for body zone 
 func _on_body_Area2D_body_entered(body):
-	var mob := body as RigidBody2D
-	if mob :
+	if isItemBody(body) : 
+		emit_signal("item_touch",body)
+	if isEnemyBody(body) :
 		emit_signal("monster_touch",body)
 	pass # Replace with function body.
 
+func isEnemyBody(body):
+	var obj_item := body as EnemyObj
+	if obj_item : 
+		return true
+	
+	return false
 
-
+func isItemBody(body):
+	var obj_item := body as ItemObj
+	if obj_item : 
+		return true
+	
+	return false

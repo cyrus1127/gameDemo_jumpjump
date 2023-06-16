@@ -54,7 +54,7 @@ func _ready():
 	var mapSize = Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size).size
 	map_width = mapSize.x
 	
-	addMob()
+	#look up all path in the map
 	addTrap()
 	
 	yield(get_tree(),"idle_frame")
@@ -63,28 +63,28 @@ func _ready():
 	
 	pass # Replace with function body.
 
-func addMob():
-#	for idx in get_child_count():
-#		var childPath := get_child(idx) as Path2D
-#		if childPath:
-#			print("have Mob Path")
+func addMob(mobPath):
+
+	if mobPath:
+		print("have Mob Path " + mobPath.name)
 #
-#			var pathFol = childPath.get_child(0) as PathFollow2D
-#			var mob = Mob.instance()
-#
-#			mobPaths.push_back(pathFol)
-#			add_child(mob)
-#			pathFol.set_process(true)
-#			mob.position = pathFol.position
-#			mob.rotation = pathFol.rotation
-#
-#			#set the mob with path
-#			var mob_set = {}
-#			mob_set.path = pathFol
-#			mob_set.prog = 0
-#			mob_set.flip = false
-#			mob_set.mob = mob
-#			mobs.push_back(mob_set)
+		var path = mobPath.get_child(0) as PathFollow2D
+		var mob = Mob.instance()
+
+		mobPaths.push_back(path)
+		add_child(mob)
+		mobPath.set_process(true)
+		mob.position = path.position
+		mob.rotation = path.rotation
+
+		#set the mob with path
+		var mob_set = {}
+		mob_set.path = path
+		mob_set.prog = 0
+		mob_set.flip = false
+		mob_set.mob = mob
+		mobs.push_back(mob_set)
+	
 	pass
 			
 func addTrap():
@@ -114,7 +114,10 @@ func addTrap():
 				obj_set.flip = false
 				obj_set.mob = obj
 				traps.push_back(obj_set)			
-		
+			else :
+				if Mob :
+					addMob(childPath)
+	pass	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -219,6 +222,7 @@ func _on_HUD_level_btn_pressed_nextlevel():
 
 
 func _on_HUD_level_btn_pressed_retry():
+# warning-ignore:return_value_discarded
 	get_tree().reload_current_scene()
 	pass # Replace with function body.
 
@@ -264,11 +268,13 @@ func _on_Player_RigidBody2D_hit_monster(body):
 				if mob == cMod:
 					rm_idx = i
 					break
-		
+		# remove from the array
 		if rm_idx > -1:
 			mobs.remove(rm_idx)
-		cMod.killed()
-	
+		
+		#purge the killed monster from scene
+		cMod.processKillDropItems()
+#		cMod.killed()
 	pass # Replace with function body.
 
 
@@ -299,4 +305,23 @@ func _on_Trap_player_collap():
 
 func _on_pathTrap_player_collap():
 	deductPlayHP(10)
+	pass # Replace with function body.
+
+
+func _on_Player_RigidBody2D_item_touch(body):
+	var itemData = (body as ItemObj).getdata()
+	(body as ItemObj).playerPicked()
+	
+	#update data
+	match (itemData.type):
+		"Coins":
+			$Sprite.texture #change nothing
+			print(" drop item be default  ")
+		"Recover":
+			print('get a food')
+		"Equipment":
+			print('get a eq')
+		"Weapon":
+			print('get a weapon')
+	
 	pass # Replace with function body.

@@ -4,12 +4,12 @@
 [ext_resource path="res://scenes/scripts/level_logic.gd" type="Script" id=2]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://res/FreeTileset/png/BG/BG.png" type="Texture" id=4]
-[ext_resource path="res://scenes/Level/objs/gameOver.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/Level/objs/goalPoint.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/Level/objs/triggerAreas/gameOver.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Level/objs/triggerAreas/goalPoint.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/Level/objs/coins.tscn" type="PackedScene" id=7]
 [ext_resource path="res://res/FreeTileset/tile001.tres" type="TileSet" id=8]
-[ext_resource path="res://scenes/Level/objs/instanceWakk.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/Level/objs/dropAbleZone.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/Level/objs/triggerAreas/instanceWakk.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/Level/objs/triggerAreas/dropAbleZone.tscn" type="PackedScene" id=10]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
