@@ -82,7 +82,9 @@ func changeListedItem(n_type : int):
 				texture = GLOBAL.getCommonItemTexture(nItem.name)
 				
 			if texture:
-				var amt = nItem.amt
+				var amt = 1
+				if (nItem as Dictionary).keys().find('amt') != -1 :
+					amt = nItem.amt
 				$item_info_rect/ScrollContainer/VScrollBar/ItemList.add_item("x"+str(amt), texture ,true)
 		
 	pass

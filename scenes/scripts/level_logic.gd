@@ -313,15 +313,30 @@ func _on_Player_RigidBody2D_item_touch(body):
 	(body as ItemObj).playerPicked()
 	
 	#update data
-	match (itemData.type):
-		"Coins":
-			$Sprite.texture #change nothing
-			print(" drop item be default  ")
-		"Recover":
-			print('get a food')
-		"Equipment":
-			print('get a eq')
-		"Weapon":
-			print('get a weapon')
+	if itemData.type == "Coins":
+		GLOBAL.playerData.balance += itemData.value
+		$HUD_level.update_coin(GLOBAL.playerData.balance)
+	if itemData.type == "Recover":
+		print('get a food')
+		if GLOBAL.playerData.items.size() == 0 :
+			GLOBAL.playerData.items.push_back(itemData)
+		else : 
+			var findItem = null
+			for extItem in GLOBAL.playerData.items :
+				if extItem.name == itemData.name :
+					findItem = extItem
+					break
+					
+			if findItem:
+				findItem.amt += 1
+			else : #no existing item
+				itemData["amt"] = 1
+				GLOBAL.playerData.items.push_back(itemData)
+	if itemData.type == "Equipment" || itemData.type == "Weapon":
+		GLOBAL.playerData.items.push_back(itemData)
+			
+	#check balance
 	
+	
+
 	pass # Replace with function body.
