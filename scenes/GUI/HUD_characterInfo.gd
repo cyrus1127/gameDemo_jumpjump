@@ -11,11 +11,13 @@ enum CateType{
 	All
 }
 var itemIndex = 0
-var slots = [$user_info_rect/slot_head/tb_equirping, $user_info_rect/slot_body/tb_equirping, $user_info_rect/slot_weap1/tb_equirping, $user_info_rect/slot_weap2/tb_equirping]
+var slots = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$user_info_rect/mode.stop()
+	
+	slots = [$user_info_rect/slot_head/tb_equirping, $user_info_rect/slot_body/tb_equirping, $user_info_rect/slot_weap1/tb_equirping, $user_info_rect/slot_weap2/tb_equirping]
 	update()
 		
 	pass # Replace with function body.
@@ -32,6 +34,10 @@ func update():
 		$item_info_rect/ScrollContainer/VScrollBar/ItemList.select(0)
 		_on_ItemList_item_selected(0)
 		itemIndex = 0
+		
+		$user_info_rect/lbl_p_str.text = "STR : " + str(GLOBAL.playerData.getStr())
+		$user_info_rect/lbl_p_dev.text = "DEV : " + str(GLOBAL.playerData.getDex())
+		
 	else:
 		$Control/lbl_name.text = "---"
 		$Control/lbl_name2.text = "---"
@@ -120,21 +126,34 @@ func _on_btn_use_button_down():
 			else:
 				allItems[itemIndex].amt -= 1
 			GLOBAL.change_sfx("fooditemUse")
-		elif curType.match("Recover"):
+		elif curType.match("Weapon") || curType.match("Equipment"):
 			print('should equip item')
-			#do check the character equiping item
+			if equipItem(allItems[itemIndex]) :
+				print('item equiped')	
+				(allItems[itemIndex] as Dictionary)["equiped"] = true
+			else :
+				print('item cant equip with some issues')	
 		else :
 			print('other types')
 			
 		update()
 	pass # Replace with function body.
 
-
+func equipItem(data):
+	var id = data.id
+	if data.type.match("Weapon") : 
+		GLOBAL.playerData.weapon_id = id
+		return true
+	elif data.type.match("Equipment") : 
+		GLOBAL.playerData.bodyware_id = id
+		return true
+	
+	return false
 
 func _on_eqSlot_pressed(extra_arg_0):
 	
 	#should unequip the wearing item
-	print("equipment slot - "+str(extra_arg_0)+" pressed")
+	
 	
 	match (extra_arg_0):
 		1:
@@ -148,5 +167,6 @@ func _on_eqSlot_pressed(extra_arg_0):
 			
 	var slot = slots[extra_arg_0 -1] as TouchScreenButton
 	slot.hide()	
-
+	print("equipment slot - "+str(extra_arg_0)+" unequiped")
+	
 	pass # Replace with function body.
