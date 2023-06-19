@@ -5,11 +5,14 @@ signal player_collap
 
 enum ActionType {Idle , Move , RangeAttack , CloseAttack}
 
+export var baseLevel = 1
+export var baseExp = 10
 export var min_speed = 20
 export var max_speed = 200
 export (ActionType) var curActType = ActionType.Idle
 export (bool) var auto_move = false
 export (Array) var dropItems
+export (PackedScene) var expGenAnim
 export (PackedScene) var dropItem
 
 var speedFraction = 10
@@ -39,6 +42,9 @@ func _ready():
 	
 	pass # Replace with function body.
 
+func setStageLevel(nStageLv):
+	nStageLv
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -84,19 +90,35 @@ func setType(nType) -> void:
 func updateAnimation():
 	
 	pass
+
+func _getExp(playerLv):
+	if playerLv <= baseLevel :
+		var nExp = baseExp
+		for diff in range(0, (baseLevel - playerLv)):
+			nExp += ((diff+1) - log(diff+1)) * baseExp
+		return nExp
 	
-func processKillDropItems():
+	return 0
+
+func processKillDropItems(playerLv):
 	
 	if !isKilled:
 		isKilled = true
 		
 		var dropCount = 1 + randi() % 4
 		var curParent = get_parent()
+		var expPass = _getExp(playerLv)
 		
 		$AnimatedSprite.hide()
 		$CollisionShape2D.queue_free()
 		
 		if curParent :
+			if expGenAnim : 
+				var nAnimLabel = expGenAnim.instance() as ExpGetAnim
+				nAnimLabel.position = position # + Vector2(0, 50)
+				curParent.add_child(nAnimLabel)
+				nAnimLabel.startWithText(expPass)
+			
 			print('drop count :' + str(dropCount))
 			while dropCount > 0 :
 				var picktype = randi() % 3
@@ -117,8 +139,8 @@ func processKillDropItems():
 				dropCount -= 1
 				if dropCount == 0 :
 					killed()
-
-	pass
+		return expPass ## end of the function , pass the find exp to level logic
+	return 0
 
 
 func _on_AnimatedSprite_animation_finished():

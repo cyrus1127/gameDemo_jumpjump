@@ -33,4 +33,4 @@ func startAnim():
 
 func animEnded():
 	print("tween end")
-#	queue_free()
+	queue_free()
