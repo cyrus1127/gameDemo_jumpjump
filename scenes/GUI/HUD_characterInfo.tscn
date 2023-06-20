@@ -89,7 +89,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_filter_0" type="TextureButton" parent="item_info_rect"]
+[node name="btn_filter_all" type="TextureButton" parent="item_info_rect"]
 margin_left = 12.702
 margin_top = 8.22783
 margin_right = 110.702
@@ -100,11 +100,33 @@ texture_pressed = ExtResource( 6 )
 texture_disabled = ExtResource( 5 )
 expand = true
 stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Label" type="Label" parent="item_info_rect/btn_filter_0"]
+[node name="Label" type="Label" parent="item_info_rect/btn_filter_all"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -35.0
+margin_top = -10.0
+margin_right = 33.0
+margin_bottom = 7.0
+text = "all"
+align = 1
+valign = 1
+
+[node name="btn_filter_1" type="TextureButton" parent="item_info_rect"]
+margin_left = 34.6728
+margin_top = 8.22783
+margin_right = 132.673
+margin_bottom = 48.2278
+rect_scale = Vector2( 0.2, 0.2 )
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 6 )
+texture_disabled = ExtResource( 5 )
+expand = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="item_info_rect/btn_filter_1"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -116,14 +138,11 @@ margin_bottom = 7.0
 text = "item"
 align = 1
 valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="btn_filter_1" type="TextureButton" parent="item_info_rect"]
-margin_left = 34.6567
+[node name="btn_filter_2" type="TextureButton" parent="item_info_rect"]
+margin_left = 56.6275
 margin_top = 8.32585
-margin_right = 132.657
+margin_right = 154.628
 margin_bottom = 48.3258
 rect_scale = Vector2( 0.2, 0.2 )
 texture_normal = ExtResource( 8 )
@@ -131,11 +150,8 @@ texture_pressed = ExtResource( 6 )
 texture_disabled = ExtResource( 5 )
 expand = true
 stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Label" type="Label" parent="item_info_rect/btn_filter_1"]
+[node name="Label" type="Label" parent="item_info_rect/btn_filter_2"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -474,6 +490,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[connection signal="button_down" from="item_info_rect/btn_filter_all" to="." method="_on_btn_filter_button_down" binds= [ 0 ]]
+[connection signal="button_down" from="item_info_rect/btn_filter_1" to="." method="_on_btn_filter_button_down" binds= [ 1 ]]
+[connection signal="button_down" from="item_info_rect/btn_filter_2" to="." method="_on_btn_filter_button_down" binds= [ 2 ]]
 [connection signal="item_selected" from="item_info_rect/ScrollContainer/VScrollBar/ItemList" to="." method="_on_ItemList_item_selected"]
 [connection signal="pressed" from="user_info_rect/slot_head/tb_equirping" to="." method="_on_eqSlot_pressed" binds= [ 1 ]]
 [connection signal="pressed" from="user_info_rect/slot_body/tb_equirping" to="." method="_on_eqSlot_pressed" binds= [ 2 ]]
