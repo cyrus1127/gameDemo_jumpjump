@@ -3,7 +3,7 @@ extends RigidBody2D
 
 signal player_collap
 
-enum ActionType {Idle , Move , RangeAttack , CloseAttack}
+enum ActionType {Idle , Move , RangeAttack , CloseAttack, Death}
 
 export var baseLevel = 1
 export var baseExp = 10
@@ -48,6 +48,12 @@ func setStageLevel(nStageLv):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
+	#check killed animation status
+	if isKilled && $AnimatedSprite.get_frame() == ($AnimatedSprite.frames.get_frame_count($AnimatedSprite.animation) -1):
+		yield(get_tree().create_timer(1), "timeout")
+		killed()
+	
 	pass
 
 func _physics_process(delta):
@@ -86,6 +92,11 @@ func setType(nType) -> void:
 		
 	if  curActType == ActionType.RangeAttack:
 		animationSequance = ["idle" , "attack_2"]
+		
+	if curActType == ActionType.Death:
+		animationSequance = ["death" ]
+		$AnimatedSprite.animation = "death"
+		$AnimatedSprite.set_frame(0)
 
 func updateAnimation():
 	
@@ -104,12 +115,13 @@ func processKillDropItems(playerLv):
 	
 	if !isKilled:
 		isKilled = true
+		setType(ActionType.Death)
 		
 		var dropCount = 1 + randi() % 4
 		var curParent = get_parent()
 		var expPass = _getExp(playerLv)
 		
-		$AnimatedSprite.hide()
+#		$AnimatedSprite.hide()
 		$CollisionShape2D.queue_free()
 		
 		if curParent :
@@ -137,8 +149,7 @@ func processKillDropItems(playerLv):
 				curParent.add_child(nItem)
 				nItem.position = position
 				dropCount -= 1
-				if dropCount == 0 :
-					killed()
+				
 		return expPass ## end of the function , pass the find exp to level logic
 	return 0
 
