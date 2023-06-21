@@ -8,7 +8,8 @@ signal go_shop
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$playerInfo/lbl_.text = str(GLOBAL.playerData.level)
+	$playerInfo/lbl_level.text = "Level : " + str(GLOBAL.playerData.level)
+	$playerInfo/lbl_Coins.text = "Coins : " + str(GLOBAL.playerData.balance)
 	pass # Replace with function body.
 
 
