@@ -7,7 +7,7 @@ position = Vector2( 72, 153 )
 current = true
 
 [node name="bg_node" type="Node2D" parent="."]
-z_index = -1
+z_index = -5
 __meta__ = {
 "_edit_lock_": true
 }
