@@ -5,6 +5,7 @@ class_name PlayerData
 var name = ""
 var level = 0
 var level_exp = 0 #overall experiens got entirely
+var left_exp = -1 #current after cal
 var hp = -1 #maximum
 var sp = -1 #maximum
 var balance = -1 #money
@@ -73,14 +74,15 @@ func getExp(lv):
 	return nExp
 	
 func getLevel() -> int:
-	var left_exp = level_exp
+	left_exp = level_exp
 	var calLv = 0;
-	
-	while left_exp > 0:
+	var deductExp = getExp(calLv)
+	while left_exp - deductExp >= 0:
+		left_exp -= deductExp
 		calLv += 1
-		left_exp -= getExp(calLv)
+		deductExp = getExp(calLv)
 		
-	print("level : " + str(calLv))
+	print("level : " + str(calLv) + ", exp :" + str(left_exp))
 	
 	return calLv
 	

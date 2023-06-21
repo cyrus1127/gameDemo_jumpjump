@@ -357,7 +357,8 @@ margin_right = 169.953
 margin_bottom = 73.0
 rect_scale = Vector2( 0.2, 0.2 )
 custom_styles/fg = SubResource( 1 )
-value = 10.0
+step = 1.0
+value = 100.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

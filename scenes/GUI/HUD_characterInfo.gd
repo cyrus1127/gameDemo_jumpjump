@@ -37,6 +37,9 @@ func update():
 		$item_info_rect/ScrollContainer/VScrollBar/ItemList.select(0)
 		_on_ItemList_item_selected(0)
 		itemIndex = 0
+		$user_info_rect/lbl_level.text = "LV : " + str(GLOBAL.playerData.level)
+		$user_info_rect/ProgressBar_exp.value = GLOBAL.playerData.left_exp
+		$user_info_rect/ProgressBar_exp.max_value = GLOBAL.playerData.getExp(GLOBAL.playerData.level)
 		
 		$user_info_rect/lbl_p_str.text = "STR : " + str(GLOBAL.playerData.getStr())
 		$user_info_rect/lbl_p_dev.text = "DEV : " + str(GLOBAL.playerData.getDex())
