@@ -122,6 +122,7 @@ func addTrap():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	updateEachTrap(delta)
+	updateEachMob(delta)
 	updateCamPos(delta)
 	if gameStart :
 		get_input()
@@ -149,6 +150,39 @@ func check_play_pos():
 	
 	pass # Replace with function body.
 
+func updateEachMob(delta):
+	if mobs.size() :
+		for obj_set in mobs:
+			var pathFol = obj_set.path as PathFollow2D
+			var prog = obj_set.prog
+			var flip = obj_set.flip as bool
+			var obj = obj_set.mob as EnemyObj
+			# handle flip
+
+			# caluate
+			if flip :
+				prog -= obj.getMoveSpeed(1) * delta
+				pathFol.set_offset(prog)
+				if pathFol.get_unit_offset() <= 0.1 :
+					flip = false	
+			else : 
+				prog += obj.getMoveSpeed(1) * delta	
+				pathFol.set_offset(prog)
+				if pathFol.get_unit_offset() >= 1 - 0.1 :
+					flip = true
+				
+	#		print("mobPathProc : " + str(mobPathProc) + ".  u_offset : " + str($enemiesPath/PathFollow2D.unit_offset))
+			 #update offset		
+			obj.position = pathFol.position
+			obj.rotation = pathFol.rotation
+			obj.setFlip(flip)
+#			if !obj.is_monitoring():
+#				obj.set_monitoring(true)
+			
+			## Do update
+			obj_set.prog = prog
+			obj_set.flip = flip
+	pass
 
 func updateEachTrap(delta):
 	#update mob
