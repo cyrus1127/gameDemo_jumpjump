@@ -12,6 +12,7 @@ export (int) var jump_speed = -500
 export (int) var gravity = 1200
 export (bool) var dropEnable = false
 export (bool) var isTouchScreenOn = false
+export (PackedScene) var move_fx
 
 #var move_direction:Vector2 = Vector2.RIGHT
 var velocity = Vector2()
@@ -27,6 +28,8 @@ var isFaseToLeft = false
 var enemybody_in = false
 var inAtkZoneMob
 
+var offset_counting = 0
+var prev_pos
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -34,6 +37,7 @@ var inAtkZoneMob
 func start(pos = null):
 	if pos : 
 		position = pos
+		prev_pos = pos
 	resume()
 	pass
 
@@ -52,6 +56,7 @@ func stop():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
 #	$Attack_Area2D/CollisionShape2D_L.set_visible(false)
 #	$Attack_Area2D/CollisionShape2D_R .set_visible(false)
 	pass # Replace with function body.
@@ -156,7 +161,7 @@ func get_controller_input():
 #			$AnimatedSprite.animation = "attack_wp1"
 			print("")
 		elif (Input.is_action_just_released("ui_right") || Input.is_action_just_released("ui_left")  || (velocity.x > -1 && velocity.x < 1 && velocity.y >= 0)):
-			$AnimatedSprite.animation = "idle"
+			setIdle()
 		else:
 			if velocity.y != 0:
 				cancelAttack()
@@ -169,6 +174,24 @@ func get_controller_input():
 					isFaseToLeft = left
 			
 	pass
+	
+#=-=-=-=-=-=-=-=-= extra effect handling =-=-=-=-=-=-=-=-=-=-=-=-
+func setIdle():
+	$AnimatedSprite.animation = "idle"
+	offset_counting = 0 # do reset the offset counting
+
+func addMovingEffect() :
+#	print("addMovingEffect : diff ?? " + str(offset_counting))
+	
+	if move_fx && abs(offset_counting) > 25:
+		var nMoveFx = move_fx.instance() as MoveFX
+		nMoveFx.position = position + Vector2(offset_counting,0)
+		nMoveFx.startAnim()
+		get_parent().add_child(nMoveFx)
+		offset_counting = 0 # do reset
+	pass
+
+#=-=-=-=-=-=-=-=-= action detection handling =-=-=-=-=-=-=-=-=-=-=-=-
 
 func player_drop_from_curPlatefrom():
 	$CollisionShape2D.disabled = true
@@ -209,7 +232,7 @@ func _process(delta):
 			if $AnimatedSprite.frame == 3 :
 				isOnAttackAction = false
 				isAttackActiving = false
-				$AnimatedSprite.animation = "idle"
+				setIdle()
 			if $AnimatedSprite.frame == 2 :
 				if  enemybody_in && is_instance_valid(inAtkZoneMob) :
 					emit_signal("hit_monster",inAtkZoneMob)
@@ -219,6 +242,11 @@ func _process(delta):
 			if $AnimatedSprite.frame == 3 :
 				takingHit = false
 	
+	if $AnimatedSprite.animation.match("run") && prev_pos != position :
+		var posDiff = (prev_pos - position)
+		offset_counting += posDiff.x
+		prev_pos = position
+		addMovingEffect()
 	pass
 
 func _physics_process(delta):
@@ -236,9 +264,8 @@ func _physics_process(delta):
 			
 			if velocity.y == 0 && velocity.x == 0 && isTouchScreenOn:
 				if !isOnAttackAction && !$AnimatedSprite.animation.begins_with("idle")  :
-					$AnimatedSprite.animation = "idle"
+					setIdle()
 pass
-
 
 func checkEnemyInAttackZone(body):
 	
