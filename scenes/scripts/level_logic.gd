@@ -32,7 +32,7 @@ var trapPaths = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_viewport_rect().size
-	$Player_RigidBody2D/Camera2D .position = Vector2(-100,-350)
+#	$Player_RigidBody2D/Camera2D .position = Vector2(-100,-350)
 	
 	#Player data ready
 	player_coins =  GLOBAL.playerData.balance
@@ -122,14 +122,14 @@ func addTrap():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	updateEachTrap(delta)
+	updateCamPos(delta)
 	if gameStart :
 		get_input()
-#	if velocity.x != 0:
-#		$map.position += (velocity.normalized() * 1) * delta
-#		$map.position.x = clamp($map.position.x, screen_size.x - map_width , 0)
-#		velocity.x = 0
+
 		
-	
+func updateCamPos(delta):
+	$Camera2D.position = $Player_RigidBody2D.position + Vector2(0,-150)
+	pass
 	
 ## =-=-=-=-=-=-=-=-= Processing function
 func get_input():
