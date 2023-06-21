@@ -244,9 +244,12 @@ func _process(delta):
 	
 	if $AnimatedSprite.animation.match("run") && prev_pos != position :
 		var posDiff = (prev_pos - position)
-		offset_counting += posDiff.x
-		prev_pos = position
-		addMovingEffect()
+		if abs(posDiff.x) > 50 :
+			prev_pos = position
+		else :
+			offset_counting += posDiff.x
+			prev_pos = position
+			addMovingEffect()
 	pass
 
 func _physics_process(delta):
