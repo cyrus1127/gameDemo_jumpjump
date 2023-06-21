@@ -51,7 +51,6 @@ func _process(delta):
 	
 	#check killed animation status
 	if isKilled && $AnimatedSprite.get_frame() == ($AnimatedSprite.frames.get_frame_count($AnimatedSprite.animation) -1):
-		yield(get_tree().create_timer(1), "timeout")
 		killed()
 	
 	pass
