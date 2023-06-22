@@ -1,5 +1,6 @@
 extends Area2D
 signal player_in
+signal player_out
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -15,13 +16,17 @@ func _ready():
 #func _process(delta):
 #	pass
 
-
-func _on_GoalArea2D_body_entered(body):
+func _on_dropAbleArea2D_body_entered(body):
 	var player := body as KinematicBody2D
-	if not player: 
-		return
-	else:
-		print("player in")
+	if player && player.name.match(GLOBAL.playerObjName): 
+		print("dropAbleArea player entered")
 		emit_signal("player_in")
 	pass # Replace with function body.
-	
+
+
+func _on_dropAbleArea2D_body_exited(body):
+	var player := body as KinematicBody2D
+	if player && player.name.match(GLOBAL.playerObjName): 
+		print("dropAbleArea player exited")
+		emit_signal("player_out")
+	pass # Replace with function body.

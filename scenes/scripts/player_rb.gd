@@ -1,5 +1,6 @@
 extends KinematicBody2D
 signal hit_monster
+signal item_touch
 signal monster_touch
 signal hit_check_point
 signal hit_info_board
@@ -11,6 +12,7 @@ export (int) var jump_speed = -500
 export (int) var gravity = 1200
 export (bool) var dropEnable = false
 export (bool) var isTouchScreenOn = false
+export (PackedScene) var move_fx
 
 #var move_direction:Vector2 = Vector2.RIGHT
 var velocity = Vector2()
@@ -22,21 +24,26 @@ var takingHit = false
 
 var isOnAttackAction = false
 var isAttackActiving = false
-var isAtkOnLeft = false
+var isFaseToLeft = false
 var enemybody_in = false
 var inAtkZoneMob
 
+var offset_counting = 0
+var prev_pos
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 
-func start(pos):
-	position = pos
+func start(pos = null):
+	if pos : 
+		position = pos
+		prev_pos = pos
 	resume()
 	pass
 
 func resume():
 	doPause = false
+	$CollisionShape2D.disabled = false
 	pass
 
 func stop():
@@ -44,10 +51,12 @@ func stop():
 #	jump_speed = 0
 #	gravity = 0
 	doPause = true
+	$CollisionShape2D.disabled = true
 	pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
 #	$Attack_Area2D/CollisionShape2D_L.set_visible(false)
 #	$Attack_Area2D/CollisionShape2D_R .set_visible(false)
 	pass # Replace with function body.
@@ -69,8 +78,8 @@ func get_mobile_input():
 			if velocity.y >= 0 && velocity.y <= 10 && jumpVecCosumming == 0: # give some margin
 					velocity.y = jump_speed
 					jumpVecCosumming += jump_speed
-					GLOBAL.change_sfx("jump")
 					jumping = true
+					GLOBAL.change_sfx("jump")
 	#				print("Add jump" + str(velocity))
 	#				if is_on_floor():
 	#					print("hit the top ?? " + str(velocity))	
@@ -81,13 +90,10 @@ func get_mobile_input():
 			jumping = false
 			jumpVecCosumming = 0 
 	
-	if attack:
+	if attack || isOnAttackAction:
 		doActionAttack()
 	else : 
-		if isOnAttackAction:
-	#			$AnimatedSprite.animation = "attack_wp1"
-				print("")
-		if velocity.y != 0:
+		if velocity.y <= -0.1 || velocity.y >= 0.1:
 				cancelAttack()
 				$AnimatedSprite.animation = "jump"	
 		if move_input.x > 0.3 || move_input.x < -0.3:
@@ -102,7 +108,7 @@ func get_mobile_input():
 				if  (right || left) :
 					cancelAttack()
 					$AnimatedSprite.flip_h = left
-					isAtkOnLeft = left
+					isFaseToLeft = left
 					if velocity.y == 0:
 						$AnimatedSprite.animation = "run"
 		
@@ -125,6 +131,8 @@ func get_controller_input():
 	
 	if attack:
 		doActionAttack()
+#	elif takingHit :
+#			$AnimatedSprite.animation = "take_hit"
 	else :
 		if right: 
 			velocity.x += speed
@@ -134,8 +142,8 @@ func get_controller_input():
 			if velocity.y >= 0 && velocity.y <= 10 && jumpVecCosumming == 0: # give some margin
 				velocity.y = jump_speed
 				jumpVecCosumming += jump_speed
-				GLOBAL.change_sfx("jump")
 				jumping = true
+				GLOBAL.change_sfx("jump")
 #				print("Add jump" + str(velocity))
 #				if is_on_floor():
 #					print("hit the top ?? " + str(velocity))	
@@ -148,13 +156,12 @@ func get_controller_input():
 		if down and dropEnable:
 			player_drop_from_curPlatefrom()
 		
-		if takingHit :
-			$AnimatedSprite.animation = "take_hit"
-		elif isOnAttackAction:
+		
+		if isOnAttackAction:
 #			$AnimatedSprite.animation = "attack_wp1"
 			print("")
 		elif (Input.is_action_just_released("ui_right") || Input.is_action_just_released("ui_left")  || (velocity.x > -1 && velocity.x < 1 && velocity.y >= 0)):
-			$AnimatedSprite.animation = "idle"
+			setIdle()
 		else:
 			if velocity.y != 0:
 				cancelAttack()
@@ -164,9 +171,27 @@ func get_controller_input():
 					cancelAttack()
 					$AnimatedSprite.animation = "run"		
 					$AnimatedSprite.flip_h = left
-					isAtkOnLeft = left
+					isFaseToLeft = left
 			
 	pass
+	
+#=-=-=-=-=-=-=-=-= extra effect handling =-=-=-=-=-=-=-=-=-=-=-=-
+func setIdle():
+	$AnimatedSprite.animation = "idle"
+	offset_counting = 0 # do reset the offset counting
+
+func addMovingEffect() :
+#	print("addMovingEffect : diff ?? " + str(offset_counting))
+	
+	if move_fx && abs(offset_counting) > 25:
+		var nMoveFx = move_fx.instance() as MoveFX
+		nMoveFx.position = position + Vector2(offset_counting,0)
+		nMoveFx.startAnim()
+		get_parent().add_child(nMoveFx)
+		offset_counting = 0 # do reset
+	pass
+
+#=-=-=-=-=-=-=-=-= action detection handling =-=-=-=-=-=-=-=-=-=-=-=-
 
 func player_drop_from_curPlatefrom():
 	$CollisionShape2D.disabled = true
@@ -180,6 +205,7 @@ func doActionAttack():
 		$AnimatedSprite.animation = "attack_wp1"
 		GLOBAL.change_sfx("attack1")
 		isOnAttackAction = true
+		velocity.x = 0
 #	yield($AnimatedSprite.animation.ends_with("attack_wp1"), "true")
 	pass
 
@@ -189,8 +215,15 @@ func cancelAttack():
 #	$Attack_Area2D/CollisionShape2D_R .set_visible(false)
 
 func onHit():
-	$AnimatedSprite.animation = "take_hit"
-	takingHit = true
+	if !takingHit:
+		#force other action stop
+		isAttackActiving = false
+		isOnAttackAction = false
+		
+		$AnimatedSprite.set_frame(0)
+		$AnimatedSprite.animation = "take_hit"
+		takingHit = true
+		
 
 func _process(delta):	
 	
@@ -199,38 +232,43 @@ func _process(delta):
 			if $AnimatedSprite.frame == 3 :
 				isOnAttackAction = false
 				isAttackActiving = false
-				$AnimatedSprite.animation = "idle"
+				setIdle()
 			if $AnimatedSprite.frame == 2 :
-				if  enemybody_in && inAtkZoneMob:
+				if  enemybody_in && is_instance_valid(inAtkZoneMob) :
 					emit_signal("hit_monster",inAtkZoneMob)
 #			#do reset to idle
 	if takingHit :
-		if 	$AnimatedSprite.animation.begins_with("take_hit") :
+		if takingHit 	|| $AnimatedSprite.animation.begins_with("take_hit") :
 			if $AnimatedSprite.frame == 3 :
 				takingHit = false
 	
+	if $AnimatedSprite.animation.match("run") && prev_pos != position :
+		var posDiff = (prev_pos - position)
+		if abs(posDiff.x) > 50 :
+			prev_pos = position
+		else :
+			offset_counting += posDiff.x
+			prev_pos = position
+			addMovingEffect()
 	pass
 
 func _physics_process(delta):
 	# move itself	
 	if !doPause :
-		if isTouchScreenOn :
-			get_mobile_input()
-		else : 
-			get_controller_input()
-		
-		if is_on_floor() && jumping:
-#			jumping = false
-#			$AnimatedSprite.animation = "idle"
-			print("")
-		else :
-			velocity.y += gravity * delta
-		velocity = move_and_slide(velocity,Vector2(0, -1))
-		if velocity.y == 0 && velocity.x == 0 && isTouchScreenOn:
-			if !isOnAttackAction:
-				$AnimatedSprite.animation = "idle"
+		if !takingHit:
+			if isTouchScreenOn :
+				get_mobile_input()
+			else : 
+				get_controller_input()
+			
+			if !(is_on_floor() && jumping):
+				velocity.y += gravity * delta
+			velocity = move_and_slide(velocity,Vector2(0, -1))
+			
+			if velocity.y == 0 && velocity.x == 0 && isTouchScreenOn:
+				if !isOnAttackAction && !$AnimatedSprite.animation.begins_with("idle")  :
+					setIdle()
 pass
-
 
 func checkEnemyInAttackZone(body):
 	
@@ -265,27 +303,39 @@ func setEmeIn(body, isIn : bool) -> void:
 
 ## evnet for attack zone 
 func _on_Attack_Area2D_body_entered(body):
-	if !isAtkOnLeft :
+	if isEnemyBody(body) && !isFaseToLeft :
 		setEmeIn(body, true)
 
 func _on_Attack_Area2D_body_exited(body):
-	if !isAtkOnLeft :
+	if isEnemyBody(body) && isFaseToLeft :
 		setEmeIn(body, false)
 
 func _on_Attack_Area2DL_body_entered(body):
-	if isAtkOnLeft :
+	if isEnemyBody(body) && isFaseToLeft :
 		setEmeIn(body, true)
 
 func _on_Attack_Area2DL_body_exited(body):
-	if isAtkOnLeft :
+	if isEnemyBody(body) && !isFaseToLeft :
 		setEmeIn(body, false)
 
 ## evnet for body zone 
 func _on_body_Area2D_body_entered(body):
-	var mob := body as RigidBody2D
-	if mob :
+	if isItemBody(body) : 
+		emit_signal("item_touch",body)
+	if isEnemyBody(body) :
 		emit_signal("monster_touch",body)
 	pass # Replace with function body.
 
+func isEnemyBody(body):
+	var obj_item := body as EnemyObj
+	if obj_item : 
+		return true
+	
+	return false
 
-
+func isItemBody(body):
+	var obj_item := body as ItemObj
+	if obj_item : 
+		return true
+	
+	return false

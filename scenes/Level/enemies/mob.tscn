@@ -1,12 +1,55 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://scenes/Level/enemies/mob.gd" type="Script" id=1]
 [ext_resource path="res://res/animates/m_1/Sprites/Flight.png" type="Texture" id=2]
 [ext_resource path="res://res/animates/m_1/Sprites/Attack1.png" type="Texture" id=3]
 [ext_resource path="res://res/animates/m_1/Sprites/Attack2.png" type="Texture" id=4]
+[ext_resource path="res://scenes/Level/objs/dropItem.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Level/objs/expGetAnim.tscn" type="PackedScene" id=6]
+[ext_resource path="res://res/animates/m_1/Sprites/Death.png" type="Texture" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.3763
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 150, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 300, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 450, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 600, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 750, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=16]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 900, 0, 150, 150 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 1050, 0, 150, 150 )
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -48,45 +91,25 @@ flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 1050, 0, 150, 150 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=27]
 flags = 4
-atlas = ExtResource( 3 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 150, 150 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=28]
 flags = 4
-atlas = ExtResource( 3 )
+atlas = ExtResource( 7 )
 region = Rect2( 150, 0, 150, 150 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=29]
 flags = 4
-atlas = ExtResource( 3 )
+atlas = ExtResource( 7 )
 region = Rect2( 300, 0, 150, 150 )
 
-[sub_resource type="AtlasTexture" id=13]
+[sub_resource type="AtlasTexture" id=30]
 flags = 4
-atlas = ExtResource( 3 )
+atlas = ExtResource( 7 )
 region = Rect2( 450, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=14]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 600, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=15]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 750, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=16]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 900, 0, 150, 150 )
-
-[sub_resource type="AtlasTexture" id=17]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 1050, 0, 150, 150 )
 
 [sub_resource type="AtlasTexture" id=18]
 flags = 4
@@ -130,15 +153,20 @@ region = Rect2( 1050, 0, 150, 150 )
 
 [sub_resource type="SpriteFrames" id=26]
 animations = [ {
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
+"loop": false,
+"name": "attack_1",
+"speed": 8.0
+}, {
 "frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
-"loop": true,
+"loop": false,
 "name": "attack_2",
 "speed": 8.0
 }, {
-"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
-"loop": true,
-"name": "attack_1",
-"speed": 8.0
+"frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
+"loop": false,
+"name": "death",
+"speed": 4.0
 }, {
 "frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ) ],
 "loop": true,
@@ -151,6 +179,9 @@ collision_mask = 0
 gravity_scale = 0.0
 custom_integrator = true
 script = ExtResource( 1 )
+dropItems = [ ExtResource( 5 ) ]
+expGenAnim = ExtResource( 6 )
+dropItem = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1.3159, -17.3699 )
@@ -174,5 +205,6 @@ position = Vector2( -1.3159, -17.3699 )
 __meta__ = {
 "_edit_lock_": true
 }
+
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

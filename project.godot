@@ -19,15 +19,30 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/Level/enemies/mob.gd"
 }, {
+"base": "Node2D",
+"class": "ExpGetAnim",
+"language": "GDScript",
+"path": "res://scenes/Level/objs/expGetAnim.gd"
+}, {
 "base": "Area2D",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://scenes/Level/objs/gameObj.gd"
+"path": "res://scenes/Level/objs/triggerAreas/gameObj.gd"
 }, {
 "base": "Object",
 "class": "ItemData",
 "language": "GDScript",
 "path": "res://scripts/itemData.gd"
+}, {
+"base": "RigidBody2D",
+"class": "ItemObj",
+"language": "GDScript",
+"path": "res://scenes/Level/objs/dropItem.gd"
+}, {
+"base": "Node2D",
+"class": "MoveFX",
+"language": "GDScript",
+"path": "res://scenes/Level/effects/move_fx.gd"
 }, {
 "base": "Object",
 "class": "PlayerData",
@@ -42,8 +57,11 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "BackpackData": "",
 "EnemyObj": "",
+"ExpGetAnim": "",
 "GameObj": "",
 "ItemData": "",
+"ItemObj": "",
+"MoveFX": "",
 "PlayerData": "",
 "TrapObj": ""
 }

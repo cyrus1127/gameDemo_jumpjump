@@ -10,30 +10,30 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 26.1141
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=12]
 flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 181, 110 )
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 192, 176 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=13]
 flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 181, 0, 181, 110 )
+atlas = ExtResource( 5 )
+region = Rect2( 192, 0, 192, 176 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=14]
 flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 362, 0, 181, 110 )
+atlas = ExtResource( 5 )
+region = Rect2( 384, 0, 192, 176 )
 
-[sub_resource type="AtlasTexture" id=5]
+[sub_resource type="AtlasTexture" id=15]
 flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 543, 0, 181, 110 )
+atlas = ExtResource( 5 )
+region = Rect2( 576, 0, 192, 176 )
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=16]
 flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 724, 0, 181, 110 )
+atlas = ExtResource( 5 )
+region = Rect2( 768, 0, 192, 176 )
 
 [sub_resource type="AtlasTexture" id=7]
 flags = 4
@@ -59,31 +59,6 @@ region = Rect2( 576, 0, 192, 174 )
 flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 768, 0, 192, 174 )
-
-[sub_resource type="AtlasTexture" id=12]
-flags = 4
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 192, 176 )
-
-[sub_resource type="AtlasTexture" id=13]
-flags = 4
-atlas = ExtResource( 5 )
-region = Rect2( 192, 0, 192, 176 )
-
-[sub_resource type="AtlasTexture" id=14]
-flags = 4
-atlas = ExtResource( 5 )
-region = Rect2( 384, 0, 192, 176 )
-
-[sub_resource type="AtlasTexture" id=15]
-flags = 4
-atlas = ExtResource( 5 )
-region = Rect2( 576, 0, 192, 176 )
-
-[sub_resource type="AtlasTexture" id=16]
-flags = 4
-atlas = ExtResource( 5 )
-region = Rect2( 768, 0, 192, 176 )
 
 [sub_resource type="AtlasTexture" id=17]
 flags = 4
@@ -135,21 +110,41 @@ flags = 4
 atlas = ExtResource( 6 )
 region = Rect2( 736, 0, 184, 140 )
 
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 181, 110 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 181, 0, 181, 110 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 362, 0, 181, 110 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 543, 0, 181, 110 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 724, 0, 181, 110 )
+
 [sub_resource type="SpriteFrames" id=27]
 animations = [ {
-"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
-"loop": true,
-"name": "type5",
+"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
+"loop": false,
+"name": "type1",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
 "loop": false,
 "name": "type2",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
-"loop": false,
-"name": "type1",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
@@ -161,12 +156,19 @@ animations = [ {
 "loop": true,
 "name": "type4",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
+"loop": true,
+"name": "type5",
+"speed": 5.0
 } ]
 
 [node name="pathTrap" type="Area2D"]
+position = Vector2( 2, -12 )
+collision_layer = 2
+monitoring = false
 gravity = 0.0
 linear_damp = 0.0
-monitoring = false
 script = ExtResource( 1 )
 curActType = 2
 
@@ -187,5 +189,6 @@ playing = true
 __meta__ = {
 "_edit_lock_": true
 }
+
 [connection signal="body_entered" from="." to="." method="_on_TriggerArea_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_TriggerArea_body_exited"]

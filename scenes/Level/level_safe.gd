@@ -13,7 +13,7 @@ var player_exp = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	check_play_pos()
+	screen_size = get_viewport_rect().size
 	
 	#Player data ready
 	player_coins =  GLOBAL.playerData.balance
@@ -35,6 +35,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	updateCamPos(delta)
 	
 	var select = Input.is_action_pressed("ui_select")
 	var attack = Input.is_action_pressed("ui_attack")
@@ -45,10 +46,10 @@ func _process(delta):
 		
 	pass
 
-func check_play_pos():
-	screen_size = get_viewport_rect().size
-	$Player_RigidBody2D/Camera2D .position = Vector2(-100,-350)
-	pass # Replace with function body.
+func updateCamPos(delta):
+	$Camera2D.position = $Player_RigidBody2D.position + Vector2(0,-150)
+	pass
+
 
 func _on_GoalArea2D_player_in():
 #	go next level

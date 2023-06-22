@@ -3,13 +3,13 @@
 [ext_resource path="res://scenes/GUI/HUD_level.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/scripts/level_logic.gd" type="Script" id=2]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://res/FreeTileset/png/BG/BG.png" type="Texture" id=4]
-[ext_resource path="res://scenes/Level/objs/gameOver.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/Level/objs/goalPoint.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/Level/camera_set1_2D.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Level/objs/triggerAreas/gameOver.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Level/objs/triggerAreas/goalPoint.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/Level/objs/coins.tscn" type="PackedScene" id=7]
 [ext_resource path="res://res/FreeTileset/tile001.tres" type="TileSet" id=8]
-[ext_resource path="res://scenes/Level/objs/instanceWakk.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/Level/objs/dropAbleZone.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/Level/objs/triggerAreas/instanceWakk.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/Level/objs/triggerAreas/dropAbleZone.tscn" type="PackedScene" id=10]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
@@ -17,37 +17,6 @@ script = ExtResource( 2 )
 [node name="Player_RigidBody2D" parent="." instance=ExtResource( 3 )]
 position = Vector2( 90, 398.585 )
 z_as_relative = false
-speed = 250
-jump_speed = -500
-gravity = 1300
-
-[node name="Camera2D" type="Camera2D" parent="Player_RigidBody2D"]
-position = Vector2( -90, -398.585 )
-offset = Vector2( 93.834, 339.2 )
-current = true
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="bg_node" type="Node2D" parent="Player_RigidBody2D/Camera2D"]
-position = Vector2( -1299.42, -50.9158 )
-z_index = -1
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="TextureRect" type="TextureRect" parent="Player_RigidBody2D/Camera2D/bg_node"]
-light_mask = 0
-margin_left = 858.0
-margin_right = 1972.0
-margin_bottom = 747.0
-texture = ExtResource( 4 )
-expand = true
-stretch_mode = 2
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
 
 [node name="pos_start" type="Position2D" parent="."]
 position = Vector2( 92.3544, 318.895 )
@@ -124,13 +93,14 @@ scale = Vector2( 0.624, 1 )
 [node name="dropAbleArea9" parent="map" instance=ExtResource( 10 )]
 position = Vector2( -77.7111, 432.233 )
 scale = Vector2( 0.624, 1 )
+monitorable = false
 
 [node name="dropAbleArea10" parent="map" instance=ExtResource( 10 )]
 position = Vector2( -321.055, 387.988 )
 scale = Vector2( 0.624, 1 )
 
 [node name="dropAbleArea3" parent="map" instance=ExtResource( 10 )]
-position = Vector2( 280.214, 111.745 )
+position = Vector2( 282, 112 )
 scale = Vector2( 2.04, 1 )
 
 [node name="dropAbleArea4" parent="map" instance=ExtResource( 10 )]
@@ -145,6 +115,8 @@ position = Vector2( -675.009, 211.011 )
 
 [node name="DeadArea2D" parent="." instance=ExtResource( 5 )]
 position = Vector2( -201.562, 648.852 )
+
+[node name="Camera2D" parent="." instance=ExtResource( 4 )]
 
 [connection signal="btn_pressed_backtotitle" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_backtotitle"]
 [connection signal="btn_pressed_nextlevel" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_nextlevel"]

@@ -32,7 +32,7 @@ var trapPaths = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_viewport_rect().size
-	$Player_RigidBody2D/Camera2D .position = Vector2(-100,-350)
+#	$Player_RigidBody2D/Camera2D .position = Vector2(-100,-350)
 	
 	#Player data ready
 	player_coins =  GLOBAL.playerData.balance
@@ -46,6 +46,7 @@ func _ready():
 	$HUD_level.update_coin(GLOBAL.playerData.balance)
 	$HUD_level.setTouchOn($Player_RigidBody2D.isTouchScreenOn)
 	
+	print("my player ("+$Player_RigidBody2D.name+") : " + str($Player_RigidBody2D))
 	
 	var mapBase = $map/map_base
 	var cell_bounds = mapBase.get_used_rect()
@@ -53,7 +54,7 @@ func _ready():
 	var mapSize = Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size).size
 	map_width = mapSize.x
 	
-	addMob()
+	#look up all path in the map
 	addTrap()
 	
 	yield(get_tree(),"idle_frame")
@@ -62,28 +63,28 @@ func _ready():
 	
 	pass # Replace with function body.
 
-func addMob():
-#	for idx in get_child_count():
-#		var childPath := get_child(idx) as Path2D
-#		if childPath:
-#			print("have Mob Path")
+func addMob(mobPath):
+
+	if mobPath:
+		print("have Mob Path " + mobPath.name)
 #
-#			var pathFol = childPath.get_child(0) as PathFollow2D
-#			var mob = Mob.instance()
-#
-#			mobPaths.push_back(pathFol)
-#			add_child(mob)
-#			pathFol.set_process(true)
-#			mob.position = pathFol.position
-#			mob.rotation = pathFol.rotation
-#
-#			#set the mob with path
-#			var mob_set = {}
-#			mob_set.path = pathFol
-#			mob_set.prog = 0
-#			mob_set.flip = false
-#			mob_set.mob = mob
-#			mobs.push_back(mob_set)
+		var path = mobPath.get_child(0) as PathFollow2D
+		var mob = Mob.instance()
+
+		mobPaths.push_back(path)
+		add_child(mob)
+		mobPath.set_process(true)
+		mob.position = path.position
+		mob.rotation = path.rotation
+
+		#set the mob with path
+		var mob_set = {}
+		mob_set.path = path
+		mob_set.prog = 0
+		mob_set.flip = false
+		mob_set.mob = mob
+		mobs.push_back(mob_set)
+	
 	pass
 			
 func addTrap():
@@ -113,19 +114,23 @@ func addTrap():
 				obj_set.flip = false
 				obj_set.mob = obj
 				traps.push_back(obj_set)			
-		
+			else :
+				if Mob :
+					addMob(childPath)
+	pass	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	updateEachTrap(delta)
+	updateEachMob(delta)
+	updateCamPos(delta)
 	if gameStart :
 		get_input()
-#	if velocity.x != 0:
-#		$map.position += (velocity.normalized() * 1) * delta
-#		$map.position.x = clamp($map.position.x, screen_size.x - map_width , 0)
-#		velocity.x = 0
+
 		
-	
+func updateCamPos(delta):
+	$Camera2D.position = $Player_RigidBody2D.position + Vector2(0,-150)
+	pass
 	
 ## =-=-=-=-=-=-=-=-= Processing function
 func get_input():
@@ -145,6 +150,39 @@ func check_play_pos():
 	
 	pass # Replace with function body.
 
+func updateEachMob(delta):
+	if mobs.size() :
+		for obj_set in mobs:
+			var pathFol = obj_set.path as PathFollow2D
+			var prog = obj_set.prog
+			var flip = obj_set.flip as bool
+			var obj = obj_set.mob as EnemyObj
+			# handle flip
+
+			# caluate
+			if flip :
+				prog -= obj.getMoveSpeed(1) * delta
+				pathFol.set_offset(prog)
+				if pathFol.get_unit_offset() <= 0.1 :
+					flip = false	
+			else : 
+				prog += obj.getMoveSpeed(1) * delta	
+				pathFol.set_offset(prog)
+				if pathFol.get_unit_offset() >= 1 - 0.1 :
+					flip = true
+				
+	#		print("mobPathProc : " + str(mobPathProc) + ".  u_offset : " + str($enemiesPath/PathFollow2D.unit_offset))
+			 #update offset		
+			obj.position = pathFol.position
+			obj.rotation = pathFol.rotation
+			obj.setFlip(flip)
+#			if !obj.is_monitoring():
+#				obj.set_monitoring(true)
+			
+			## Do update
+			obj_set.prog = prog
+			obj_set.flip = flip
+	pass
 
 func updateEachTrap(delta):
 	#update mob
@@ -218,6 +256,7 @@ func _on_HUD_level_btn_pressed_nextlevel():
 
 
 func _on_HUD_level_btn_pressed_retry():
+# warning-ignore:return_value_discarded
 	get_tree().reload_current_scene()
 	pass # Replace with function body.
 
@@ -263,11 +302,14 @@ func _on_Player_RigidBody2D_hit_monster(body):
 				if mob == cMod:
 					rm_idx = i
 					break
-		
+		# remove from the array
 		if rm_idx > -1:
 			mobs.remove(rm_idx)
-		cMod.killed()
-	
+		
+		#purge the killed monster from scene
+		var exps = cMod.processKillDropItems(GLOBAL.playerData.level)
+		GLOBAL.playerData.addExp(exps) 
+
 	pass # Replace with function body.
 
 
@@ -280,12 +322,14 @@ func _on_Player_RigidBody2D_monster_touch(body):
 
 
 func _on_dropAbleArea_player_in():
-	$Player_RigidBody2D.dropEnable = true
+	if !$Player_RigidBody2D.dropEnable:
+		$Player_RigidBody2D.dropEnable = true
 	pass # Replace with function body.
 
 
 func _on_dropAbleArea_player_out():
-	$Player_RigidBody2D.dropEnable = false
+	if $Player_RigidBody2D.dropEnable:
+		$Player_RigidBody2D.dropEnable = false
 	pass # Replace with function body.
 
 
@@ -296,4 +340,38 @@ func _on_Trap_player_collap():
 
 func _on_pathTrap_player_collap():
 	deductPlayHP(10)
+	pass # Replace with function body.
+
+
+func _on_Player_RigidBody2D_item_touch(body):
+	var itemData = (body as ItemObj).getdata()
+	(body as ItemObj).playerPicked()
+	
+	#update data
+	if itemData.type == "Coins":
+		GLOBAL.playerData.balance += itemData.value
+		$HUD_level.update_coin(GLOBAL.playerData.balance)
+	if itemData.type == "Recover":
+		print('get a food')
+		if GLOBAL.playerData.items.size() == 0 :
+			GLOBAL.playerData.items.push_back(itemData)
+		else : 
+			var findItem = null
+			for extItem in GLOBAL.playerData.items :
+				if extItem.name == itemData.name :
+					findItem = extItem
+					break
+					
+			if findItem:
+				findItem.amt += 1
+			else : #no existing item
+				itemData["amt"] = 1
+				GLOBAL.playerData.items.push_back(itemData)
+	if itemData.type == "Equipment" || itemData.type == "Weapon":
+		GLOBAL.playerData.items.push_back(itemData)
+			
+	#check balance
+	
+	
+
 	pass # Replace with function body.

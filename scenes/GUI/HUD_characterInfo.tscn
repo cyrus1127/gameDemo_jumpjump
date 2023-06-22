@@ -9,9 +9,9 @@
 [ext_resource path="res://res/GUI_set_0/imgs/board&bar/board_1.png" type="Texture" id=7]
 [ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_M_on.png" type="Texture" id=8]
 [ext_resource path="res://res/Texture/Equipment/Leather Helmet.png" type="Texture" id=9]
-[ext_resource path="res://res/Texture/Weapon & Tool/Iron Sword.png" type="Texture" id=10]
-[ext_resource path="res://res/Texture/Equipment/Wooden Armor.png" type="Texture" id=11]
-[ext_resource path="res://res/Texture/Weapon & Tool/Iron Shield.png" type="Texture" id=12]
+[ext_resource path="res://res/Texture/Equipment/Leather Armor.png" type="Texture" id=10]
+[ext_resource path="res://res/Texture/Weapon & Tool/Wooden Sword.png" type="Texture" id=11]
+[ext_resource path="res://res/Texture/Weapon & Tool/Wooden Shield.png" type="Texture" id=12]
 [ext_resource path="res://res/Texture/Food/Bread.png" type="Texture" id=13]
 [ext_resource path="res://res/Texture/Food/Cheese.png" type="Texture" id=14]
 [ext_resource path="res://res/GUI_set_0/imgs/board&bar/bar_fill_red.png" type="Texture" id=15]
@@ -89,7 +89,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="btn_filter_0" type="TextureButton" parent="item_info_rect"]
+[node name="btn_filter_all" type="TextureButton" parent="item_info_rect"]
 margin_left = 12.702
 margin_top = 8.22783
 margin_right = 110.702
@@ -100,11 +100,33 @@ texture_pressed = ExtResource( 6 )
 texture_disabled = ExtResource( 5 )
 expand = true
 stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Label" type="Label" parent="item_info_rect/btn_filter_0"]
+[node name="Label" type="Label" parent="item_info_rect/btn_filter_all"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -35.0
+margin_top = -10.0
+margin_right = 33.0
+margin_bottom = 7.0
+text = "all"
+align = 1
+valign = 1
+
+[node name="btn_filter_1" type="TextureButton" parent="item_info_rect"]
+margin_left = 34.6728
+margin_top = 8.22783
+margin_right = 132.673
+margin_bottom = 48.2278
+rect_scale = Vector2( 0.2, 0.2 )
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 6 )
+texture_disabled = ExtResource( 5 )
+expand = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="item_info_rect/btn_filter_1"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -116,14 +138,11 @@ margin_bottom = 7.0
 text = "item"
 align = 1
 valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="btn_filter_1" type="TextureButton" parent="item_info_rect"]
-margin_left = 34.6567
+[node name="btn_filter_2" type="TextureButton" parent="item_info_rect"]
+margin_left = 56.6275
 margin_top = 8.32585
-margin_right = 132.657
+margin_right = 154.628
 margin_bottom = 48.3258
 rect_scale = Vector2( 0.2, 0.2 )
 texture_normal = ExtResource( 8 )
@@ -131,11 +150,8 @@ texture_pressed = ExtResource( 6 )
 texture_disabled = ExtResource( 5 )
 expand = true
 stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Label" type="Label" parent="item_info_rect/btn_filter_1"]
+[node name="Label" type="Label" parent="item_info_rect/btn_filter_2"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -198,15 +214,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="KinematicBody2D" parent="user_info_rect" instance=ExtResource( 16 )]
-position = Vector2( 19.3201, 23.1349 )
-scale = Vector2( 0.5, 0.5 )
-z_index = 1
-speed = 0
-jump_speed = 0
-gravity = 0
-
-[node name="KinematicBody2D2" parent="user_info_rect" instance=ExtResource( 16 )]
+[node name="mode" parent="user_info_rect" instance=ExtResource( 16 )]
 position = Vector2( 19.3201, 23.1349 )
 scale = Vector2( 0.5, 0.5 )
 z_index = 1
@@ -224,16 +232,17 @@ patch_margin_left = 5
 patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="TextureRect" type="TextureRect" parent="user_info_rect/slot_head"]
+[node name="tb_equirping" type="TouchScreenButton" parent="user_info_rect/slot_head"]
+visible = false
+scale = Vector2( 0.3, 0.3 )
+normal = ExtResource( 9 )
+
+[node name="txt_plastehold" type="TextureRect" parent="user_info_rect/slot_head"]
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 9.0
 margin_bottom = 9.0
-texture = ExtResource( 9 )
 expand = true
 stretch_mode = 5
 
@@ -251,12 +260,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="user_info_rect/slot_body"]
+[node name="tb_equirping" type="TouchScreenButton" parent="user_info_rect/slot_body"]
+visible = false
+scale = Vector2( 0.3, 0.3 )
+normal = ExtResource( 10 )
+
+[node name="txt_plastehold" type="TextureRect" parent="user_info_rect/slot_body"]
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 9.0
 margin_bottom = 9.0
-texture = ExtResource( 11 )
 expand = true
 stretch_mode = 5
 
@@ -274,17 +287,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="user_info_rect/slot_weap1"]
+[node name="tb_equirping" type="TouchScreenButton" parent="user_info_rect/slot_weap1"]
+visible = false
+scale = Vector2( 0.3, 0.3 )
+normal = ExtResource( 11 )
+
+[node name="txt_plastehold" type="TextureRect" parent="user_info_rect/slot_weap1"]
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 9.0
 margin_bottom = 9.0
-texture = ExtResource( 10 )
 expand = true
 stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="slot_weap2" type="NinePatchRect" parent="user_info_rect"]
 margin_left = 21.6251
@@ -296,16 +310,17 @@ patch_margin_left = 5
 patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="TextureRect" type="TextureRect" parent="user_info_rect/slot_weap2"]
+[node name="tb_equirping" type="TouchScreenButton" parent="user_info_rect/slot_weap2"]
+visible = false
+scale = Vector2( 0.3, 0.3 )
+normal = ExtResource( 12 )
+
+[node name="txt_plastehold" type="TextureRect" parent="user_info_rect/slot_weap2"]
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 9.0
 margin_bottom = 9.0
-texture = ExtResource( 12 )
 expand = true
 stretch_mode = 5
 
@@ -342,7 +357,8 @@ margin_right = 169.953
 margin_bottom = 73.0
 rect_scale = Vector2( 0.2, 0.2 )
 custom_styles/fg = SubResource( 1 )
-value = 10.0
+step = 1.0
+value = 100.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -474,6 +490,14 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
+
+[connection signal="button_down" from="item_info_rect/btn_filter_all" to="." method="_on_btn_filter_button_down" binds= [ 0 ]]
+[connection signal="button_down" from="item_info_rect/btn_filter_1" to="." method="_on_btn_filter_button_down" binds= [ 1 ]]
+[connection signal="button_down" from="item_info_rect/btn_filter_2" to="." method="_on_btn_filter_button_down" binds= [ 2 ]]
 [connection signal="item_selected" from="item_info_rect/ScrollContainer/VScrollBar/ItemList" to="." method="_on_ItemList_item_selected"]
+[connection signal="pressed" from="user_info_rect/slot_head/tb_equirping" to="." method="_on_eqSlot_pressed" binds= [ 1 ]]
+[connection signal="pressed" from="user_info_rect/slot_body/tb_equirping" to="." method="_on_eqSlot_pressed" binds= [ 2 ]]
+[connection signal="pressed" from="user_info_rect/slot_weap1/tb_equirping" to="." method="_on_eqSlot_pressed" binds= [ 3 ]]
+[connection signal="pressed" from="user_info_rect/slot_weap2/tb_equirping" to="." method="_on_eqSlot_pressed" binds= [ 4 ]]
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
 [connection signal="button_down" from="Control/btn_use" to="." method="_on_btn_use_button_down"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scenes/Level/objs/dropAbleZone.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Level/objs/triggerAreas/dropAbleZone.gd" type="Script" id=1]
 
 [sub_resource type="SegmentShape2D" id=1]
 a = Vector2( -56.2585, 1.63463 )
