@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://scenes/Level/enemies/mob.gd" type="Script" id=1]
 [ext_resource path="res://res/animates/m_1/Sprites/Flight.png" type="Texture" id=2]
@@ -8,8 +8,9 @@
 [ext_resource path="res://scenes/Level/objs/expGetAnim.tscn" type="PackedScene" id=6]
 [ext_resource path="res://res/animates/m_1/Sprites/Death.png" type="Texture" id=7]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 20.3763
+[sub_resource type="CapsuleShape2D" id=31]
+radius = 11.5
+height = 22.0
 
 [sub_resource type="AtlasTexture" id=10]
 flags = 4
@@ -174,27 +175,25 @@ animations = [ {
 "speed": 8.0
 } ]
 
-[node name="Mob" type="RigidBody2D"]
-collision_mask = 0
-gravity_scale = 0.0
-custom_integrator = true
+[sub_resource type="RayShape2D" id=32]
+
+[node name="EnemyObj" type="KinematicBody2D"]
 script = ExtResource( 1 )
-dropItems = [ ExtResource( 5 ) ]
 expGenAnim = ExtResource( 6 )
 dropItem = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1.3159, -17.3699 )
-shape = SubResource( 1 )
+position = Vector2( -2.5, -22.5 )
+shape = SubResource( 31 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( -1.05272, -17.3699 )
+position = Vector2( -5.053, -32.478 )
 frames = SubResource( 26 )
 animation = "idle"
-frame = 4
+frame = 1
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -206,5 +205,11 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 0, -22 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+rotation = -1.5708
+shape = SubResource( 32 )
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

@@ -31,14 +31,12 @@ __meta__ = {
 
 [node name="coin" type="AudioStreamPlayer2D" parent="sfx"]
 stream = ExtResource( 2 )
-attenuation = 0.353553
 
 [node name="jump" type="AudioStreamPlayer2D" parent="sfx"]
 stream = ExtResource( 3 )
 
 [node name="trap0" type="AudioStreamPlayer2D" parent="sfx"]
 stream = ExtResource( 4 )
-attenuation = 0.0473661
 
 [node name="dead" type="AudioStreamPlayer2D" parent="sfx"]
 stream = ExtResource( 5 )

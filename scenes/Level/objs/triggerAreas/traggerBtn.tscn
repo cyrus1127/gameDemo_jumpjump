@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/Level/objs/traps/trap_Anims.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://scenes/Level/objs/triggerAreas/traggerBtn.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 31.5, 28 )
+
+[node name="TraggerBtn" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -30 )
+scale = Vector2( 0.5, 0.5 )
+frames = ExtResource( 1 )
+animation = "type1-T"
+frame = 6
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 1.5, -28 )
+shape = SubResource( 1 )
+
+[connection signal="body_entered" from="." to="." method="_on_TraggerBtn_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_TraggerBtn_body_exited"]

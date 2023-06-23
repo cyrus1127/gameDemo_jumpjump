@@ -14,7 +14,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/backpackData.gd"
 }, {
-"base": "RigidBody2D",
+"base": "KinematicBody2D",
 "class": "EnemyObj",
 "language": "GDScript",
 "path": "res://scenes/Level/enemies/mob.gd"
@@ -49,6 +49,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/playerData.gd"
 }, {
+"base": "Node2D",
+"class": "TraggerBtn",
+"language": "GDScript",
+"path": "res://scenes/Level/objs/triggerAreas/traggerBtn.gd"
+}, {
 "base": "Area2D",
 "class": "TrapObj",
 "language": "GDScript",
@@ -63,6 +68,7 @@ _global_script_class_icons={
 "ItemObj": "",
 "MoveFX": "",
 "PlayerData": "",
+"TraggerBtn": "",
 "TrapObj": ""
 }
 

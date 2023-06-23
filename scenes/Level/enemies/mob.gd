@@ -1,5 +1,5 @@
 class_name EnemyObj
-extends RigidBody2D
+extends KinematicBody2D
 
 signal player_collap
 
@@ -34,11 +34,6 @@ func _ready():
 	$AnimatedSprite.animation = mob_types[randi() % mob_types.size()]   # do random animation 
 	setType(curActType)
 	
-	# set auto_move 
-	if auto_move : 
-		# do set the force
-		pass
-	
 	
 	pass # Replace with function body.
 
@@ -56,6 +51,12 @@ func _process(delta):
 	pass
 
 func _physics_process(delta):
+	
+	if auto_move :
+		if !is_on_floor():
+			velocity.y += gravity * delta
+		velocity = move_and_slide(velocity,Vector2(0, -1))
+	
 	pass
 
 func getMoveSpeed(level):
@@ -114,6 +115,7 @@ func processKillDropItems(playerLv):
 	
 	if !isKilled:
 		isKilled = true
+		auto_move = false # if it was true before
 		setType(ActionType.Death)
 		
 		var dropCount = 1 + randi() % 4
@@ -170,4 +172,16 @@ func _on_AnimatedSprite_animation_finished():
 		#set next aniamtion
 		$AnimatedSprite.animation == animationSequance[animationSeqIdx]
 	
+	pass # Replace with function body.
+
+
+
+func _on_Area2D_body_entered(body):
+	if auto_move : 
+		var tileType := body as TileMap
+		var enmeyType := body as EnemyObj
+		if tileType || enmeyType :
+			print("")
+			
+		
 	pass # Replace with function body.

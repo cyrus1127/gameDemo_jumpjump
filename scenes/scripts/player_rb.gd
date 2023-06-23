@@ -287,7 +287,7 @@ func _on_DeadArea_player_in():
 
 
 func _check_isMob(body) -> bool:
-	var mob := body as RigidBody2D
+	var mob := body as EnemyObj
 	if mob :
 		return true
 	return false
@@ -338,4 +338,10 @@ func isItemBody(body):
 	if obj_item : 
 		return true
 	
+	return false
+
+func isTraggerBtn(body):
+	var obj_item := body as TraggerBtn
+	if obj_item : 
+		return true
 	return false

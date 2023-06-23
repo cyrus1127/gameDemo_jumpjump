@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://res/animates/actor_2/Sprites/Idle.png" type="Texture" id=1]
 [ext_resource path="res://scenes/scripts/player_rb.gd" type="Script" id=2]
@@ -251,6 +251,9 @@ height = 60.0
 [sub_resource type="RectangleShape2D" id=41]
 extents = Vector2( 22.4764, 20.7365 )
 
+[sub_resource type="RectangleShape2D" id=42]
+extents = Vector2( 22, 33 )
+
 [node name="KinematicBody2D" type="KinematicBody2D"]
 collision/safe_margin = 3.5
 script = ExtResource( 2 )
@@ -289,9 +292,8 @@ shape = SubResource( 41 )
 [node name="body_Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="body_Area2D"]
-scale = Vector2( 0.47, 0.454 )
 z_as_relative = false
-shape = SubResource( 40 )
+shape = SubResource( 42 )
 one_way_collision_margin = 20.0
 
 [connection signal="body_entered" from="Attack_Area2DL" to="." method="_on_Attack_Area2DL_body_entered"]

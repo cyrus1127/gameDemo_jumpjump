@@ -8,7 +8,7 @@ export (PackedScene) var Trap
 
 var velocity = Vector2()
 var screen_size
-var isMap_moveable = false 
+#var isMap_moveable = false 
 var map_width
 var gameStart = false
 
@@ -135,14 +135,14 @@ func updateCamPos(delta):
 ## =-=-=-=-=-=-=-=-= Processing function
 func get_input():
 	
-	if isMap_moveable :
-		var right = Input.is_action_pressed("ui_right")
-		var left = Input.is_action_pressed("ui_left")
-		if right:
-			velocity.x -= 1
-		if left:
-			velocity.x += 1
-		
+#	if isMap_moveable :
+#		var right = Input.is_action_pressed("ui_right")
+#		var left = Input.is_action_pressed("ui_left")
+#		if right:
+#			velocity.x -= 1
+#		if left:
+#			velocity.x += 1
+#
 	pass
 
 #var playInTheMiddle = false
@@ -330,6 +330,10 @@ func _on_dropAbleArea_player_in():
 func _on_dropAbleArea_player_out():
 	if $Player_RigidBody2D.dropEnable:
 		$Player_RigidBody2D.dropEnable = false
+	pass # Replace with function body.
+
+func _on_TraggerBtn_player_traggered( id ):
+	print("traggerBtn "+ str(id)+" is traggered")
 	pass # Replace with function body.
 
 
