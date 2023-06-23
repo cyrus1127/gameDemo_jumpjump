@@ -10,11 +10,11 @@ export var baseExp = 10
 export var min_speed = 20
 export var max_speed = 200
 export (ActionType) var curActType = ActionType.Idle
-export (bool) var auto_move = false
-export (Array) var dropItems
 export (PackedScene) var expGenAnim
 export (PackedScene) var dropItem
+export (Array) var dropItems
 
+var auto_move = true
 var speedFraction = 10
 export var speed = 400
 var velocity = Vector2()
@@ -53,9 +53,18 @@ func _process(delta):
 func _physics_process(delta):
 	
 	if auto_move :
+		
+		
 		if !is_on_floor():
 			velocity.y += gravity * delta
+		else:
+			var nx = -min_speed
+			if !$AnimatedSprite.is_flipped_h() :
+				nx = min_speed 
+			velocity.x = nx	
 		velocity = move_and_slide(velocity,Vector2(0, -1))
+		
+		
 	
 	pass
 
@@ -148,7 +157,7 @@ func processKillDropItems(playerLv):
 						(nItem as ItemObj).setItemDetail( items[randi() % items.size()])
 
 				curParent.add_child(nItem)
-				nItem.position = position
+				nItem.position = position + Vector2(randi()%50, -50 - randi()%50 )
 				dropCount -= 1
 				
 		return expPass ## end of the function , pass the find exp to level logic
@@ -174,14 +183,17 @@ func _on_AnimatedSprite_animation_finished():
 	
 	pass # Replace with function body.
 
-
-
 func _on_Area2D_body_entered(body):
 	if auto_move : 
 		var tileType := body as TileMap
 		var enmeyType := body as EnemyObj
-		if tileType || enmeyType :
-			print("")
+		if tileType || (enmeyType && body != self) :
+			setFlip(!$AnimatedSprite.is_flipped_h())
+			if $AnimatedSprite.is_flipped_h():
+				$Area_Direction.rotation_degrees = 180
+			else :
+				$Area_Direction.rotation_degrees = 0
+			
 			
 		
 	pass # Replace with function body.
