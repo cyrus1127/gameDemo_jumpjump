@@ -255,6 +255,7 @@ extents = Vector2( 22.4764, 20.7365 )
 extents = Vector2( 22, 33 )
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
+collision_layer = 3
 collision/safe_margin = 3.5
 script = ExtResource( 2 )
 speed = 250
@@ -267,7 +268,7 @@ position = Vector2( 0, 0.728 )
 scale = Vector2( 1.55, 1.55 )
 frames = SubResource( 39 )
 animation = "idle"
-frame = 1
+frame = 5
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -290,6 +291,8 @@ position = Vector2( 57.7085, -0.666397 )
 shape = SubResource( 41 )
 
 [node name="body_Area2D" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="body_Area2D"]
 z_as_relative = false
