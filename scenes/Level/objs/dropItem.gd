@@ -47,3 +47,16 @@ func setItemDetail(data = null):
 
 func getdata():
 	return myData
+
+var times_hit_floor = 3
+func _on_Area_floor_cast_body_entered(body):
+	var tileType := body as TileMap
+	if tileType :
+		if times_hit_floor == 0:
+			set_sleeping(true) 	
+			call_deferred("set", "mode", MODE_STATIC)
+			$Area_floor_cast.queue_free()
+		else : 
+			times_hit_floor -= 1
+
+	pass # Replace with function body.
