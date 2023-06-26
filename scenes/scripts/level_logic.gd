@@ -307,8 +307,9 @@ func _on_Player_RigidBody2D_hit_monster(body):
 			mobs.remove(rm_idx)
 		
 		#purge the killed monster from scene
-		var exps = cMod.processKillDropItems(GLOBAL.playerData.level)
-		GLOBAL.playerData.addExp(exps) 
+		var exps = cMod.takeHit(GLOBAL.playerData.level, GLOBAL.playerData.getTotalAtk())
+		if exps > 0:
+			GLOBAL.playerData.addExp(exps) 
 
 	pass # Replace with function body.
 

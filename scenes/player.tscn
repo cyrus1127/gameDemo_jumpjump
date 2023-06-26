@@ -252,7 +252,7 @@ height = 60.0
 extents = Vector2( 22.4764, 20.7365 )
 
 [sub_resource type="RectangleShape2D" id=42]
-extents = Vector2( 22, 33 )
+extents = Vector2( 23, 33 )
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
 collision_layer = 3
@@ -268,7 +268,7 @@ position = Vector2( 0, 0.728 )
 scale = Vector2( 1.55, 1.55 )
 frames = SubResource( 39 )
 animation = "idle"
-frame = 5
+frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

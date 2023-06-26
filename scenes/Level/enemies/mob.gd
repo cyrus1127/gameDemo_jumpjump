@@ -3,18 +3,25 @@ extends KinematicBody2D
 
 signal player_collap
 
-enum ActionType {Idle , Move , RangeAttack , CloseAttack, Death}
+enum ActionType {Idle , Move , RangeAttack , CloseAttack, TakeHit, Death}
 
 export var baseLevel = 1
 export var baseExp = 10
 export var min_speed = 20
 export var max_speed = 200
+var hp = 10
+var atk = 1
+
 export (ActionType) var curActType = ActionType.Idle
 export (PackedScene) var expGenAnim
 export (PackedScene) var dropItem
 export (Array) var dropItems
 
 var auto_move = true
+var auto_move_await_time = 3;
+var await_counting = -1;
+var idle_await_counting = -1;
+
 var speedFraction = 10
 export var speed = 400
 var velocity = Vector2()
@@ -32,14 +39,10 @@ var isKilled = false
 func _ready():
 	var mob_types = $AnimatedSprite.frames.get_animation_names() # get full list of animation
 	$AnimatedSprite.animation = mob_types[randi() % mob_types.size()]   # do random animation 
-	setType(curActType)
+	setAnimType(curActType)
 	
 	
 	pass # Replace with function body.
-
-func setStageLevel(nStageLv):
-	nStageLv
-	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -53,63 +56,69 @@ func _process(delta):
 func _physics_process(delta):
 	
 	if auto_move :
-		
-		
 		if !is_on_floor():
 			velocity.y += gravity * delta
 		else:
-			var nx = -min_speed
-			if !$AnimatedSprite.is_flipped_h() :
-				nx = min_speed 
-			velocity.x = nx	
+			if await_counting < 0:
+				var nx = -min_speed
+				if !$AnimatedSprite.is_flipped_h() :
+					nx = min_speed 
+				velocity.x = nx	
+			else :
+				await_counting -= delta
+				velocity.x = 0
+				if await_counting <= 0 && curActType == ActionType.Idle:
+					if randi() % 10 >= 8 :
+						_doChangeDirection()
 		velocity = move_and_slide(velocity,Vector2(0, -1))
-		
-		
 	
 	pass
 
-func getMoveSpeed(level):
-	var spDiff = max_speed - min_speed
-	var stepLength = spDiff / speedFraction
-	return min_speed + stepLength * (level -1)
 
+func setStageLevel(nStageLv):
+	nStageLv
+	pass
+	
 func setFlip(needFlip):
 	$AnimatedSprite.flip_h = needFlip
 
-func _on_VisibilityNotifier2D_screen_exited():
-#	killed()
-	pass # Replace with function body.
-
-func killed():
-	queue_free()
-
-func getShape():
-	return $CollisionShape2D.shape
-	
-func getShapeTranf():
-	return $CollisionShape2D.transform
-
-func setType(nType) -> void:
+func setAnimType(nType) -> void:
 	if  curActType != nType:
 		curActType = nType
 		
 	if curActType == ActionType.Idle || curActType == ActionType.Move :
 		animationSequance = ["idle"]
 		$AnimatedSprite.animation = "idle"
+		
 	if  curActType == ActionType.CloseAttack:
-		animationSequance = ["idle" , "attack_1"]
+		animationSequance = ["attack_1"]
+		await_counting = auto_move_await_time
 		
 	if  curActType == ActionType.RangeAttack:
-		animationSequance = ["idle" , "attack_2"]
+		animationSequance = ["attack_2"]
+		await_counting = auto_move_await_time
+		
+	if curActType == ActionType.TakeHit:
+		animationSequance = ["take_hit"]
+		$AnimatedSprite.animation = "take_hit"
+		$AnimatedSprite.set_frame(0)
+		await_counting = auto_move_await_time
 		
 	if curActType == ActionType.Death:
 		animationSequance = ["death" ]
 		$AnimatedSprite.animation = "death"
 		$AnimatedSprite.set_frame(0)
 
-func updateAnimation():
+func getMoveSpeed(level):
+	var spDiff = max_speed - min_speed
+	var stepLength = spDiff / speedFraction
+	return min_speed + stepLength * (level -1)
+
+func getShape():
+	return $CollisionShape2D.shape
 	
-	pass
+func getShapeTranf():
+	return $CollisionShape2D.transform
 
 func _getExp(playerLv):
 	if playerLv <= baseLevel :
@@ -120,12 +129,32 @@ func _getExp(playerLv):
 	
 	return 0
 
-func processKillDropItems(playerLv):
+func killed():
+	queue_free()
+
+func takeHit(playerLv ,playATK):
+	if hp > 0 && (curActType != ActionType.TakeHit && curActType != ActionType.CloseAttack): 
+		if hp - playATK <= 0:
+			return _processKillDropItems(playerLv) 
+		else :
+			hp -= playATK
+			setAnimType(ActionType.TakeHit)
+			
+			var curParent = get_parent()
+			if curParent :
+				var nAnimLabel = expGenAnim.instance() as ExpGetAnim
+				nAnimLabel.position = position + Vector2(0, -50)
+				curParent.add_child(nAnimLabel)
+				nAnimLabel.startAsHPDeduct(-playATK)
+	
+	return -1
+
+func _processKillDropItems(playerLv):
 	
 	if !isKilled:
 		isKilled = true
 		auto_move = false # if it was true before
-		setType(ActionType.Death)
+		setAnimType(ActionType.Death)
 		
 		var dropCount = 1 + randi() % 4
 		var curParent = get_parent()
@@ -158,6 +187,7 @@ func processKillDropItems(playerLv):
 
 				curParent.add_child(nItem)
 				nItem.position = position + Vector2(randi()%50, -50 - randi()%50 )
+				(nItem as ItemObj).setOneTimeEmit()
 				dropCount -= 1
 				
 		return expPass ## end of the function , pass the find exp to level logic
@@ -166,20 +196,29 @@ func processKillDropItems(playerLv):
 
 func _on_AnimatedSprite_animation_finished():
 	
-	if animationSequance.size() > 0 : 
-#		if animationSeqIdx == 0 :
-#			yield(get_tree().create_timer(5),"timeout")
-#			animationSeqIdx += 1
-#		else :
-			#check current animation frame is done
-#			var fcont = $AnimatedSprite.frame.get_frame_count(animationSequance[animationSeqIdx])
-#			if $AnimatedSprite.frame.frame == fcont -1:
-
-		animationSeqIdx += 1	
-		if animationSeqIdx >= animationSequance.size():
-			animationSeqIdx = 0		
-		#set next aniamtion
-		$AnimatedSprite.animation == animationSequance[animationSeqIdx]
+	if curActType != ActionType.Idle : 
+		setAnimType(ActionType.Idle)
+		await_counting = 0
+	else :
+		if randi() % 10 >= 8 && await_counting <= 0:
+			await_counting = randi() % auto_move_await_time
+			_doChangeDirection()	
+			
+			
+#		if animationSequance.size() > 0 : 
+#		#		if animationSeqIdx == 0 :
+#		#			yield(get_tree().create_timer(5),"timeout")
+#		#			animationSeqIdx += 1
+#		#		else :
+#				#check current animation frame is done
+#		#			var fcont = $AnimatedSprite.frame.get_frame_count(animationSequance[animationSeqIdx])
+#		#			if $AnimatedSprite.frame.frame == fcont -1:
+#
+#			animationSeqIdx += 1	
+#			if animationSeqIdx >= animationSequance.size():
+#				animationSeqIdx = 0		
+#			#set next aniamtion
+#			$AnimatedSprite.animation == animationSequance[animationSeqIdx]
 	
 	pass # Replace with function body.
 
@@ -188,12 +227,12 @@ func _on_Area2D_body_entered(body):
 		var tileType := body as TileMap
 		var enmeyType := body as EnemyObj
 		if tileType || (enmeyType && body != self) :
-			setFlip(!$AnimatedSprite.is_flipped_h())
-			if $AnimatedSprite.is_flipped_h():
-				$Area_Direction.rotation_degrees = 180
-			else :
-				$Area_Direction.rotation_degrees = 0
-			
-			
-		
+			_doChangeDirection()
 	pass # Replace with function body.
+
+func _doChangeDirection():
+	setFlip(!$AnimatedSprite.is_flipped_h())
+	if $AnimatedSprite.is_flipped_h():
+		$Area_Direction.rotation_degrees = 180
+	else :
+		$Area_Direction.rotation_degrees = 0

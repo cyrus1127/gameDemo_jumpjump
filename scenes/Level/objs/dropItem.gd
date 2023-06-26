@@ -5,6 +5,8 @@ extends RigidBody2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
+var isEmitNeed = false
+var times_hit_floor = 3
 var myData = {  "name": "coin", "detail":"coin", "price": 1,  "type": "Coins", "value":100}
 
 # Called when the node enters the scene tree for the first time.
@@ -18,7 +20,20 @@ func _process(delta):
 	pass
 
 func _physics_process(delta):
+	_doOneTimeEmit()
 	pass
+	
+func _doOneTimeEmit():
+	if isEmitNeed:
+		isEmitNeed = false
+		apply_central_impulse(Vector2(-100 + randi() % 200, -100))
+	else:
+		if $Sprite.visible :
+			apply_central_impulse(Vector2(0, 15))
+
+func setOneTimeEmit():
+	if !isEmitNeed :
+		isEmitNeed = true
 
 func playerPicked():
 	GLOBAL.change_sfx("coin")
@@ -48,7 +63,7 @@ func setItemDetail(data = null):
 func getdata():
 	return myData
 
-var times_hit_floor = 3
+
 func _on_Area_floor_cast_body_entered(body):
 	var tileType := body as TileMap
 	if tileType :

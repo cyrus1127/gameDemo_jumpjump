@@ -17,6 +17,11 @@ func _ready():
 func startWithText(nAmount):
 	$Label.text = "+"+ str(nAmount) + " exps"
 	startAnim()
+	
+func startAsHPDeduct(nAmount):
+	$Label.text = ""+ str(nAmount) + " "
+	$Label.set("custom_colors/font_color",Color(1,0,0))
+	startAnim()
 
 func startAnim():
 	
