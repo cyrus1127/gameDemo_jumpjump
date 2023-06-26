@@ -95,9 +95,15 @@ func addExp(nExp):
 
 func getTotalHP():
 	var tHP = hp
-	var eqSlot = []
+	var eqSlot = [ weapon_id, sheld_id,
+					headware_id, bodyware_id]
+	for id in eqSlot :
+		var data = GLOBAL.getEquipmentData(id)
+		if data != null && (data as Dictionary).has("porperties") :
+			var porperties = data["porperties"]
+			tHP += porperties["hp"]
 	
-	return hp
+	return tHP
 	
 # by level
 func getStr():
@@ -113,7 +119,13 @@ func getDex():
 	
 func getTotalAtk():
 	var tAtk = 1 + getStr() * 0.5
-	var eqSlot = []
+	var eqSlot = [ weapon_id, sheld_id,
+					headware_id, bodyware_id]
+	for id in eqSlot :
+		var data = GLOBAL.getEquipmentData(id)
+		if data != null && (data as Dictionary).has("porperties") :
+			var porperties = data["porperties"]
+			tAtk += porperties["atk"]
 	
 	return tAtk
 	

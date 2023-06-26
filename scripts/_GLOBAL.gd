@@ -264,3 +264,11 @@ func getEquipmentTexture(name , isWeapon = false):
 	if texture :
 		return texture
 	return null
+
+func getEquipmentData(id):
+	if id != -1 :
+		var values = items_equipment_data_all["values"]
+		for data in values:
+			if data.id == id:
+				return data
+	return null
