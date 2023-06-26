@@ -27,6 +27,8 @@ var isAttackActiving = false
 var isFaseToLeft = false
 var enemybody_in = false
 var inAtkZoneMob
+var inAtkZoneMobs_L = []
+var inAtkZoneMobs_R = []
 
 var offset_counting = 0
 var prev_pos
@@ -301,22 +303,41 @@ func setEmeIn(body, isIn : bool) -> void:
 			inAtkZoneMob = null
 			enemybody_in = false
 
+# function for multi monsters. however current game setting monster are not able to collaps 
+func setEmeInList(body, isIn : bool, isLeft : bool) -> void:
+	if _check_isMob(body) :			
+		var listTo = inAtkZoneMobs_R
+		if isLeft:
+			 listTo = inAtkZoneMobs_L
+			
+		var idx = listTo.find(body) 
+		if idx >= 0:
+			if !isIn :
+				listTo.remove(idx)
+		else:
+			if isIn :
+				listTo.append(body)
+
 ## evnet for attack zone 
 func _on_Attack_Area2D_body_entered(body):
 	if isEnemyBody(body) && !isFaseToLeft :
 		setEmeIn(body, true)
+		setEmeInList(body, true, true)
 
 func _on_Attack_Area2D_body_exited(body):
-	if isEnemyBody(body) && isFaseToLeft :
+	if isEnemyBody(body):
 		setEmeIn(body, false)
+		setEmeInList(body, false, true)
 
 func _on_Attack_Area2DL_body_entered(body):
 	if isEnemyBody(body) && isFaseToLeft :
 		setEmeIn(body, true)
+		setEmeInList(body, false, true)
 
 func _on_Attack_Area2DL_body_exited(body):
-	if isEnemyBody(body) && !isFaseToLeft :
+	if isEnemyBody(body):
 		setEmeIn(body, false)
+		setEmeInList(body, false, false)
 
 ## evnet for body zone 
 func _on_body_Area2D_body_entered(body):
