@@ -42,11 +42,12 @@ __meta__ = {
 [node name="Screen" type="Sprite" parent="."]
 position = Vector2( 500, 750 )
 scale = Vector2( 1.1, 1 )
-flip_v = true
 
 [node name="Viewport" type="Viewport" parent="."]
 size = Vector2( 1024, 768 )
 transparent_bg = true
 handle_input_locally = false
+hdr = false
+render_target_v_flip = true
 
 [node name="Spatial" parent="Viewport" instance=ExtResource( 5 )]

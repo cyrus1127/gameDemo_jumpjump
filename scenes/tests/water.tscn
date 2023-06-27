@@ -2,7 +2,7 @@
 
 [ext_resource path="res://res/shaders/water_3d/water.shader" type="Shader" id=1]
 [ext_resource path="res://res/shaders/water_3d/textures/water_diffuse.png" type="Texture" id=2]
-[ext_resource path="res://res/shaders/water_3d/textures/water_uv_offset.png" type="Texture" id=3]
+[ext_resource path="res://res/shaders/water_3d/textures/water_normal.png" type="Texture" id=3]
 [ext_resource path="res://res/shaders/water_3d/textures/green-grass-seamless-texture.png" type="Texture" id=4]
 
 [sub_resource type="Environment" id=1]
@@ -10,15 +10,15 @@ background_mode = 3
 background_color = Color( 0.0627451, 0.933333, 1, 1 )
 
 [sub_resource type="PlaneMesh" id=2]
-size = Vector2( 8, 16 )
+size = Vector2( 6, 24 )
 subdivide_width = 80
 subdivide_depth = 40
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 1 )
 shader_param/amplitude = Vector2( 0.1, 0.1 )
-shader_param/frequency = Vector2( 2.296, 2.5 )
-shader_param/time_factor = Vector2( 2, 1.898 )
+shader_param/frequency = Vector2( 2.5, 2.5 )
+shader_param/time_factor = Vector2( 2, 3 )
 shader_param/texture_scale = Vector2( 8, 8 )
 shader_param/uv_offset_scale = Vector2( 0.2, 0.2 )
 shader_param/uv_offset_time_scale = 0.05
@@ -55,15 +55,21 @@ transform = Transform( -3.67477e-08, -0.541517, 0.84069, -2.36705e-08, 0.84069, 
 fov = 56.1235
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.452863, 0.738091, -0.500137, -0.0304969, 0.573451, 0.818672, 0.891058, -0.355494, 0.282204, 5.43155, 1.91447, 4.78934 )
+transform = Transform( -0.993701, 0.0975914, -0.0550798, -0.0583441, -0.0309145, 0.997818, 0.0956757, 0.994746, 0.0364137, 7.62096, 15.0343, 4.78934 )
 
 [node name="water" type="MeshInstance" parent="."]
-transform = Transform( 0.98814, 0.153555, 0, -0.153555, 0.98814, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 0.998417, -0.0562397, 0, 0.0562397, 0.998417, 0, 0, 0, 1, 0.522003, 0.241403, 0 )
+mesh = SubResource( 2 )
+skeleton = NodePath("")
+material/0 = SubResource( 3 )
+
+[node name="water2" type="MeshInstance" parent="."]
+transform = Transform( 0.998417, -0.0562397, 0, 0.0562397, 0.998417, 0, 0, 0, 1, -3.02923, 0.226698, 1.61528 )
 mesh = SubResource( 2 )
 skeleton = NodePath("")
 material/0 = SubResource( 3 )
 
 [node name="underBound" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.19855, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.55304, -2.19855, 0 )
 mesh = SubResource( 4 )
 material/0 = SubResource( 6 )

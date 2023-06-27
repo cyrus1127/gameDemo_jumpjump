@@ -15,5 +15,6 @@ func _ready():
 func _process(delta):
 	var texture = $Viewport.get_texture()
 	if is_instance_valid(texture):
-		$Screen.texture = texture	
+		$Screen.texture = texture
+		$Viewport/Spatial.set("Transparent BG",true)	
 	pass
