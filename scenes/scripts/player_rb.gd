@@ -31,7 +31,7 @@ var inAtkZoneMobs_L = []
 var inAtkZoneMobs_R = []
 
 var offset_counting = 0
-var prev_pos
+var prev_pos = Vector2.ZERO
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
