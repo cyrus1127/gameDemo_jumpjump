@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/GUI/HUD_level.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Level/level_training.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://res/FreeTileset/tile001.tres" type="TileSet" id=8]
 [ext_resource path="res://scenes/Level/objs/triggerAreas/instanceWakk.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/Level/objs/dropItem.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/Level/enemies/mob_boss.tscn" type="PackedScene" id=11]
 
 [sub_resource type="Curve2D" id=2]
 _data = {
@@ -29,6 +30,7 @@ _data = {
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
 Mob = ExtResource( 7 )
+MobBoss = ExtResource( 11 )
 dropItem = ExtResource( 10 )
 
 [node name="Player_RigidBody2D" parent="." instance=ExtResource( 3 )]

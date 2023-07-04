@@ -1,9 +1,8 @@
 class_name EnemyObj
 extends KinematicBody2D
 
-signal player_collap
-
 enum ActionType {Idle , Move , RangeAttack , CloseAttack, TakeHit, Death}
+enum Kind {minion, boss}
 
 export var baseLevel = 1
 export var baseExp = 10
@@ -11,16 +10,20 @@ export var min_speed = 20
 export var max_speed = 200
 var hp = 10
 var atk = 1
+var myName = ""
+var base_ItemDrop = 1
+var base_ItemDrop_rand = 4
 
 export (ActionType) var curActType = ActionType.Idle
 export (PackedScene) var expGenAnim
 export (PackedScene) var dropItem
 export (Array) var dropItems
 
+var curKind = Kind.minion
 var auto_move = true
 var auto_move_await_time = 3;
-var await_counting = -1;
-var idle_await_counting = -1;
+var mvAwait_cntDown = -1;
+var idle_mvAwait_cntDown = -1;
 
 var speedFraction = 10
 export var speed = 400
@@ -37,10 +40,9 @@ var isKilled = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var mob_types = $AnimatedSprite.frames.get_animation_names() # get full list of animation
-	$AnimatedSprite.animation = mob_types[randi() % mob_types.size()]   # do random animation 
+#	var mob_types = $AnimatedSprite.frames.get_animation_names() # get full list of animation
+#	$AnimatedSprite.animation = mob_types[randi() % mob_types.size()]   # do random animation 
 	setAnimType(curActType)
-	
 	
 	pass # Replace with function body.
 
@@ -58,22 +60,29 @@ func _physics_process(delta):
 	if auto_move :
 		if !is_on_floor():
 			velocity.y += gravity * delta
+			velocity = move_and_slide(velocity,Vector2(0, -1))
 		else:
-			if await_counting < 0:
+			if mvAwait_cntDown < 0:
 				var nx = -min_speed
 				if !$AnimatedSprite.is_flipped_h() :
 					nx = min_speed 
 				velocity.x = nx	
 			else :
-				await_counting -= delta
+				mvAwait_cntDown -= delta
 				velocity.x = 0
-				if await_counting <= 0 && curActType == ActionType.Idle:
+				if mvAwait_cntDown <= 0 && curActType == ActionType.Idle:
 					if randi() % 10 >= 8 :
 						_doChangeDirection()
-		velocity = move_and_slide(velocity,Vector2(0, -1))
-	
+		
+#		velocity = move_and_slide(velocity,Vector2(0, -1))
+			var kineCollis =  move_and_collide(Vector2(velocity.x , 4),false,false)
+			if kineCollis && !kineCollis.collider.get_class().match("TileMap") :
+				if isPlayer(kineCollis.collider):
+					print("hit player  ")	
 	pass
 
+func getKind():
+	return curKind
 
 func setStageLevel(nStageLv):
 	nStageLv
@@ -81,6 +90,8 @@ func setStageLevel(nStageLv):
 	
 func setFlip(needFlip):
 	$AnimatedSprite.flip_h = needFlip
+func isFliped():
+	return $AnimatedSprite.is_flipped_h()
 
 func setAnimType(nType) -> void:
 	if  curActType != nType:
@@ -92,17 +103,19 @@ func setAnimType(nType) -> void:
 		
 	if  curActType == ActionType.CloseAttack:
 		animationSequance = ["attack_1"]
-		await_counting = auto_move_await_time
+		$AnimatedSprite.animation = "attack_1"
+		mvAwait_cntDown = auto_move_await_time
 		
 	if  curActType == ActionType.RangeAttack:
 		animationSequance = ["attack_2"]
-		await_counting = auto_move_await_time
+		$AnimatedSprite.animation = "attack_2"
+		mvAwait_cntDown = auto_move_await_time
 		
 	if curActType == ActionType.TakeHit:
 		animationSequance = ["take_hit"]
 		$AnimatedSprite.animation = "take_hit"
 		$AnimatedSprite.set_frame(0)
-		await_counting = auto_move_await_time
+		mvAwait_cntDown = auto_move_await_time
 		
 	if curActType == ActionType.Death:
 		animationSequance = ["death" ]
@@ -156,7 +169,7 @@ func _processKillDropItems(playerLv):
 		auto_move = false # if it was true before
 		setAnimType(ActionType.Death)
 		
-		var dropCount = 1 + randi() % 4
+		var dropCount = base_ItemDrop + randi() % base_ItemDrop_rand
 		var curParent = get_parent()
 		var expPass = _getExp(playerLv)
 		
@@ -193,15 +206,23 @@ func _processKillDropItems(playerLv):
 		return expPass ## end of the function , pass the find exp to level logic
 	return 0
 
+func isPlayer(body):
+	var player := body as KinematicBody2D
+	if player && player.name.match(GLOBAL.playerObjName): 
+		return true
+	
+	return false
+
+#==-=-=-=-=-=-=- delegate 
 
 func _on_AnimatedSprite_animation_finished():
 	
 	if curActType != ActionType.Idle : 
 		setAnimType(ActionType.Idle)
-		await_counting = 0
+		mvAwait_cntDown = 0
 	else :
-		if randi() % 10 >= 8 && await_counting <= 0:
-			await_counting = randi() % auto_move_await_time
+		if randi() % 10 >= 8 && mvAwait_cntDown <= 0:
+			mvAwait_cntDown = randi() % auto_move_await_time
 			_doChangeDirection()	
 			
 			
@@ -226,8 +247,11 @@ func _on_Area2D_body_entered(body):
 	if auto_move : 
 		var tileType := body as TileMap
 		var enmeyType := body as EnemyObj
+		var playerType = isPlayer(body)
 		if tileType || (enmeyType && body != self) :
 			_doChangeDirection()
+#		elif playerType:
+#			mvAwait_cntDown = auto_move_await_time
 	pass # Replace with function body.
 
 func _doChangeDirection():

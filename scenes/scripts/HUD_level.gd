@@ -70,6 +70,22 @@ func showDeadView(isReborn):
 		
 	pass
 
+func showBossHPBar(bossName:String, bossHP:int):
+	if !$HUD_bossHPbar.is_visible() :
+		$HUD_bossHPbar.setVal(bossName, bossHP)
+		$HUD_bossHPbar.show()
+	pass
+
+func updateBossHP(bossHP:int):
+	$HUD_bossHPbar.updateCurHP(bossHP)
+	pass
+	
+func hiddenBossHPBar():
+	$HUD_bossHPbar.hide()
+	pass
+	
+
+# =-=-=-=-=-=-=- delegate
 
 func _on_timer_reborn_timeout():
 	timer_reborn_counting -= 1

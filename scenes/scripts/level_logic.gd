@@ -4,6 +4,7 @@ extends Node2D
 # Declare member variables here. Examples:
 export var haveEnemies = false
 export (PackedScene) var Mob
+export (PackedScene) var MobBoss
 export (PackedScene) var Trap
 
 var velocity = Vector2()
@@ -22,6 +23,8 @@ var jumpCount = 0 # only for each level
 var fallCount = 0 # only for each level
 
 ## =-=-==-=-=- on map enemies
+var max_boss = 1
+var boss_cnt = 0
 var mobs = []
 var mobPaths = []
 
@@ -62,6 +65,28 @@ func _ready():
 	gameStart = true
 	
 	pass # Replace with function body.
+
+
+func genMob(nLoc):
+	if Mob && is_instance_valid(nLoc) :
+		var nMob = Mob.instance()
+		nLoc.offset = randi()
+		nMob.position = nLoc.position
+		add_child(nMob)
+		(nMob as EnemyObj).auto_move = true
+		print("drop monster")
+	pass
+
+func genMobBoss(nLoc):
+	if MobBoss :
+		var nMob = MobBoss.instance()
+		nLoc.offset = randi()
+		nMob.position = nLoc.position
+		add_child(nMob)
+		(nMob as EnemyObj).auto_move = true
+		print("drop boss")
+		$HUD_level.showBossHPBar((nMob as EnemyObj).myName, (nMob as EnemyObj).hp)
+	pass
 
 func addMob(mobPath):
 
@@ -159,29 +184,30 @@ func updateEachMob(delta):
 			var obj = obj_set.mob as EnemyObj
 			# handle flip
 
-			# caluate
-			if flip :
-				prog -= obj.getMoveSpeed(1) * delta
-				pathFol.set_offset(prog)
-				if pathFol.get_unit_offset() <= 0.1 :
-					flip = false	
-			else : 
-				prog += obj.getMoveSpeed(1) * delta	
-				pathFol.set_offset(prog)
-				if pathFol.get_unit_offset() >= 1 - 0.1 :
-					flip = true
+			if pathFol:
+				# caluate
+				if flip :
+					prog -= obj.getMoveSpeed(1) * delta
+					pathFol.set_offset(prog)
+					if pathFol.get_unit_offset() <= 0.1 :
+						flip = false	
+				else : 
+					prog += obj.getMoveSpeed(1) * delta	
+					pathFol.set_offset(prog)
+					if pathFol.get_unit_offset() >= 1 - 0.1 :
+						flip = true
+					
+		#		print("mobPathProc : " + str(mobPathProc) + ".  u_offset : " + str($enemiesPath/PathFollow2D.unit_offset))
+				 #update offset		
+				obj.position = pathFol.position
+				obj.rotation = pathFol.rotation
+				obj.setFlip(flip)
+	#			if !obj.is_monitoring():
+	#				obj.set_monitoring(true)
 				
-	#		print("mobPathProc : " + str(mobPathProc) + ".  u_offset : " + str($enemiesPath/PathFollow2D.unit_offset))
-			 #update offset		
-			obj.position = pathFol.position
-			obj.rotation = pathFol.rotation
-			obj.setFlip(flip)
-#			if !obj.is_monitoring():
-#				obj.set_monitoring(true)
-			
-			## Do update
-			obj_set.prog = prog
-			obj_set.flip = flip
+				## Do update
+				obj_set.prog = prog
+				obj_set.flip = flip
 	pass
 
 func updateEachTrap(delta):
@@ -293,26 +319,34 @@ func _on_Player_RigidBody2D_hit_monster(body):
 	if  cMod :
 		score += 1
 		
-		## remove mob
-		var rm_idx = -1
-		if mobs.size() :
-			for i in mobs.size():
-				var mob_set = mobs[i]
-				var mob = mob_set.mob as EnemyObj
-				if mob == cMod:
-					rm_idx = i
-					break
-		# remove from the array
-		if rm_idx > -1:
-			mobs.remove(rm_idx)
+		#process HP calculate
+		var exps = cMod.takeHit(GLOBAL.playerData.level, GLOBAL.playerData.getTotalAtk())
 		
 		#purge the killed monster from scene
-		var exps = cMod.takeHit(GLOBAL.playerData.level, GLOBAL.playerData.getTotalAtk())
-		if exps > 0:
+		if exps >= 0:
 			GLOBAL.playerData.addExp(exps) 
+			## remove mob
+			if cMod.getKind() == EnemyObj.Kind.minion:
+				var rm_idx = -1
+				if mobs.size() :
+					for i in mobs.size():
+						var mob_set = mobs[i]
+						var mob = mob_set.mob as EnemyObj
+						if mob == cMod:
+							rm_idx = i
+							break
+				# remove from the array
+				if rm_idx > -1:
+					mobs.remove(rm_idx)
+			else :
+				print("is boss")
+				boss_cnt -= 1
+				$HUD_level.hiddenBossHPBar()
+		else :
+			if cMod.getKind() == EnemyObj.Kind.boss:
+				$HUD_level.updateBossHP(cMod.hp)
 
 	pass # Replace with function body.
-
 
 func _on_Player_RigidBody2D_monster_touch(body):
 	var cMod := body as EnemyObj

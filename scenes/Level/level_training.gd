@@ -2,21 +2,11 @@ extends "res://scenes/scripts/level_logic.gd"
 
 export (PackedScene) var dropItem
 
+
+
 func genItem():
 	print("drop items")
 	pass
-
-func genMob():
-	if Mob :
-		var nMob = Mob.instance()
-		var nLoc = $Path_mobGen/PathFollow2D
-		nLoc.offset = randi()
-		nMob.position = nLoc.position
-		add_child(nMob)
-		(nMob as EnemyObj).auto_move = true
-		print("drop monster")
-	pass
-
 
 
 # =-=-=-=-=- override functions =-=--=-=-=-=-
@@ -41,8 +31,10 @@ func _on_TraggerBtn_player_traggered( id ):
 	
 	match(id):
 		0:
-			genMob()
+			genMob($Path2D_monster/PathFollow2D)
 		1:
-			genItem()
+			if boss_cnt < max_boss:
+				boss_cnt += 1
+				genMobBoss($Path_itemGen/PathFollow2D)
 	
 	pass # Replace with function body.

@@ -1,0 +1,85 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scenes/Level/enemies/mob_boss.gd" type="Script" id=1]
+[ext_resource path="res://res/animates/m_1/mob.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://scenes/Level/effects/emit_bullet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Level/objs/dropItem.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Level/objs/expGetAnim.tscn" type="PackedScene" id=6]
+
+[sub_resource type="CapsuleShape2D" id=31]
+radius = 45.5
+height = 44.0
+
+[sub_resource type="RayShape2D" id=32]
+
+[sub_resource type="RectangleShape2D" id=33]
+extents = Vector2( 29.25, 53.75 )
+
+[sub_resource type="RectangleShape2D" id=34]
+extents = Vector2( 36.75, 53.5 )
+
+[node name="EnemyObj" type="KinematicBody2D"]
+script = ExtResource( 1 )
+expGenAnim = ExtResource( 6 )
+dropItem = ExtResource( 5 )
+EmitAttack = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.5, -65.5 )
+shape = SubResource( 31 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -0.053, -96 )
+scale = Vector2( 3, 3 )
+frames = ExtResource( 2 )
+animation = "idle"
+frame = 4
+playing = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+visible = false
+position = Vector2( -1.3159, -17.3699 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Area_Direction" type="Area2D" parent="."]
+position = Vector2( 0, -16 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RayShape" type="CollisionShape2D" parent="Area_Direction"]
+position = Vector2( 47, 0 )
+rotation = -1.5708
+shape = SubResource( 32 )
+
+[node name="Area_CloseComb" type="Area2D" parent="."]
+position = Vector2( 0, -64 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area_CloseComb"]
+position = Vector2( 81.75, 0 )
+shape = SubResource( 33 )
+
+[node name="Area_Emit" type="Area2D" parent="."]
+position = Vector2( 0, -64 )
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area_Emit"]
+position = Vector2( 160.75, 0 )
+shape = SubResource( 34 )
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="body_entered" from="Area_Direction" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_entered" from="Area_CloseComb" to="." method="_on_Area_CloseComb_body_entered"]
+[connection signal="body_exited" from="Area_CloseComb" to="." method="_on_Area_CloseComb_body_exited"]
+[connection signal="body_entered" from="Area_Emit" to="." method="_on_Area_Emit_body_entered"]
