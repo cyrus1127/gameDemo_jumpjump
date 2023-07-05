@@ -1,4 +1,6 @@
+class_name PlayerBody
 extends KinematicBody2D
+
 signal hit_monster
 signal item_touch
 signal monster_touch
@@ -344,7 +346,9 @@ func _on_body_Area2D_body_entered(body):
 	if isItemBody(body) : 
 		emit_signal("item_touch",body)
 	if isEnemyBody(body) :
+		(body as EnemyObj).doActionDecisionWithPlayer(self)
 		emit_signal("monster_touch",body)
+		
 	pass # Replace with function body.
 
 func isEnemyBody(body):

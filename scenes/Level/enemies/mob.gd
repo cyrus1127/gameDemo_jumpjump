@@ -24,6 +24,7 @@ var auto_move = true
 var auto_move_await_time = 3;
 var mvAwait_cntDown = -1;
 var idle_mvAwait_cntDown = -1;
+var react_stepBack = false
 
 var speedFraction = 10
 export var speed = 400
@@ -66,7 +67,13 @@ func _physics_process(delta):
 				var nx = -min_speed
 				if !$AnimatedSprite.is_flipped_h() :
 					nx = min_speed 
-				velocity.x = nx	
+				
+				if react_stepBack :
+					velocity.x = nx * -2
+					velocity.y -= 150
+				else: # normal movement
+					velocity.x = nx		
+				
 			else :
 				mvAwait_cntDown -= delta
 				velocity.x = 0
@@ -74,11 +81,17 @@ func _physics_process(delta):
 					if randi() % 10 >= 8 :
 						_doChangeDirection()
 		
-#		velocity = move_and_slide(velocity,Vector2(0, -1))
-			var kineCollis =  move_and_collide(Vector2(velocity.x , 4),false,false)
+			var kineCollis =  move_and_collide(Vector2(velocity.x , 4),true,true,true)
 			if kineCollis && !kineCollis.collider.get_class().match("TileMap") :
 				if isPlayer(kineCollis.collider):
-					print("hit player  ")	
+					doActionDecisionWithPlayer(kineCollis.collider)
+			else :
+				velocity = move_and_slide(velocity,Vector2(0, -1),true)
+				if react_stepBack :
+					react_stepBack = false
+					_randomAwaitCnt()
+					
+
 	pass
 
 func getKind():
@@ -222,7 +235,7 @@ func _on_AnimatedSprite_animation_finished():
 		mvAwait_cntDown = 0
 	else :
 		if randi() % 10 >= 8 && mvAwait_cntDown <= 0:
-			mvAwait_cntDown = randi() % auto_move_await_time
+			_randomAwaitCnt()
 			_doChangeDirection()	
 			
 			
@@ -243,6 +256,9 @@ func _on_AnimatedSprite_animation_finished():
 	
 	pass # Replace with function body.
 
+func _randomAwaitCnt():
+	mvAwait_cntDown = randi() % auto_move_await_time
+
 func _on_Area2D_body_entered(body):
 	if auto_move : 
 		var tileType := body as TileMap
@@ -260,3 +276,17 @@ func _doChangeDirection():
 		$Area_Direction.rotation_degrees = 180
 	else :
 		$Area_Direction.rotation_degrees = 0
+		
+		
+func doActionDecisionWithPlayer(playerBody):
+	var isPFaceToMe = false
+	if isFliped():
+		isPFaceToMe = playerBody.position.x < position.x
+	else :
+		isPFaceToMe = playerBody.position.x > position.x
+	
+	if isPFaceToMe:
+		react_stepBack = true
+#		_doChangeDirection()
+		
+	pass
