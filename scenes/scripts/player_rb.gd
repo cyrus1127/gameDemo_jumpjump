@@ -21,6 +21,8 @@ var velocity = Vector2()
 var jumping = false
 var jumpVecCosumming = 0
 var doPause = false
+var onGrabBodyObj = null
+var onGrabBodyOffset = Vector2.ZERO
 
 var takingHit = false
 
@@ -42,12 +44,13 @@ func start(pos = null):
 	if pos : 
 		position = pos
 		prev_pos = pos
+	onGrabBodyObj = null
 	resume()
 	pass
 
 func resume():
 	doPause = false
-	$CollisionShape2D.disabled = false
+	$CollisionShape2D.set_deferred("disabled", false)
 	pass
 
 func stop():
@@ -55,7 +58,7 @@ func stop():
 #	jump_speed = 0
 #	gravity = 0
 	doPause = true
-	$CollisionShape2D.disabled = true
+	$CollisionShape2D.set_deferred("disabled", true)
 	pass
 
 # Called when the node enters the scene tree for the first time.
@@ -178,6 +181,41 @@ func get_controller_input():
 					isFaseToLeft = left
 			
 	pass
+
+func get_onGrab_mobile_input():
+	var move_input = Vector2(
+		Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
+#			Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+		0
+	).clamped(1) #just in case someone uses buttons - Joystick already returns clamped value
+	
+	var right = Input.get_action_strength("ui_right")
+	var left = Input.get_action_strength("ui_left")
+	var up = Input.get_action_strength("ui_up")
+	var down = Input.get_action_strength("ui_down")
+	var jump = Input.is_action_pressed("ui_jump") 
+	var jump_release = Input.is_action_just_released("ui_jump")
+	
+	if jump && !jumping && onGrabBodyObj :
+		releaseGrabbing()
+	elif jump_release:
+		if jumpVecCosumming < 0:
+			jumping = false
+			jumpVecCosumming = 0 
+	else :
+		if up:
+			onGrabBodyOffset += Vector2(0,-1)
+		if down :
+			onGrabBodyOffset += Vector2(0,1)
+		if  (right || left) :
+			$AnimatedSprite.flip_h = !left
+			isFaseToLeft = !left
+			if right :
+				onGrabBodyOffset.x = 25
+			if left :
+				onGrabBodyOffset.x = -25
+	
+	pass
 	
 #=-=-=-=-=-=-=-=-= extra effect handling =-=-=-=-=-=-=-=-=-=-=-=-
 func setIdle():
@@ -260,44 +298,72 @@ func _physics_process(delta):
 	# move itself	
 	if !doPause :
 		if !takingHit:
-			if isTouchScreenOn :
-				get_mobile_input()
+			
+			if onGrabBodyObj != null:
+				if isTouchScreenOn :
+					get_onGrab_mobile_input()
+				else : 
+					get_controller_input()
+										
+				if onGrabBodyObj != null :
+					if onGrabBodyObj.isChainEnd() && onGrabBodyOffset.y > 25:
+						releaseGrabbing()
+					else :
+						velocity = Vector2.ZERO
+						var grabPos = onGrabBodyObj.get_global_position()
+						position = grabPos + onGrabBodyOffset
+					
 			else : 
-				get_controller_input()
-			
-			if !(is_on_floor() && jumping):
-				velocity.y += gravity * delta
-			velocity = move_and_slide(velocity,Vector2(0, -1))
-			
-			if velocity.y == 0 && velocity.x == 0 && isTouchScreenOn:
-				if !isOnAttackAction && !$AnimatedSprite.animation.begins_with("idle")  :
-					setIdle()
+				if isTouchScreenOn :
+					get_mobile_input()
+				else : 
+					get_controller_input()
+					
+				if !(is_on_floor() && jumping):
+					velocity.y += gravity * delta
+				velocity = move_and_slide(velocity,Vector2(0, -1))
+				
+				if velocity.y == 0 && velocity.x == 0 && isTouchScreenOn:
+					if !isOnAttackAction && !$AnimatedSprite.animation.begins_with("idle")  :
+						setIdle()
 pass
 
-func checkEnemyInAttackZone(body):
-	
-	pass
+func releaseGrabbing():
+	onGrabBodyObj.doDisconnect()
+	onGrabBodyObj = null
 
-func _on_DeadArea_player_in():
-	
-	pass # Replace with function body.
-
-
-#func _on_Attack_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
-#	var mob := body as RigidBody2D
-#	if mob && ($Attack_Area2D/CollisionShape2D_R.is_visible_in_tree() || $Attack_Area2D/CollisionShape2D_L.is_visible_in_tree()):
-#		emit_signal("hit_monster",body)
-#	pass # Replace with function body.
-
-
-func _check_isMob(body) -> bool:
-	var mob := body as EnemyObj
-	if mob :
+func grabAndHold(bodyToHold) -> bool:
+	if onGrabBodyObj == null :
+		onGrabBodyObj = bodyToHold
+		onGrabBodyOffset = Vector2.ZERO
+		return true
+	elif onGrabBodyObj == bodyToHold:
 		return true
 	return false
 
+	
+func isEnemyBody(body):
+	var obj_item := body as EnemyObj
+	if obj_item : 
+		return true
+	
+	return false
+
+func isItemBody(body):
+	var obj_item := body as ItemObj
+	if obj_item : 
+		return true
+	
+	return false
+
+func isTraggerBtn(body):
+	var obj_item := body as TraggerBtn
+	if obj_item : 
+		return true
+	return false
+	
 func setEmeIn(body, isIn : bool) -> void:
-	if _check_isMob(body) :
+	if isEnemyBody(body) :
 		if isIn :
 			inAtkZoneMob = body
 			enemybody_in = true
@@ -307,7 +373,7 @@ func setEmeIn(body, isIn : bool) -> void:
 
 # function for multi monsters. however current game setting monster are not able to collaps 
 func setEmeInList(body, isIn : bool, isLeft : bool) -> void:
-	if _check_isMob(body) :			
+	if isEnemyBody(body) :			
 		var listTo = inAtkZoneMobs_R
 		if isLeft:
 			 listTo = inAtkZoneMobs_L
@@ -320,7 +386,7 @@ func setEmeInList(body, isIn : bool, isLeft : bool) -> void:
 			if isIn :
 				listTo.append(body)
 
-## evnet for attack zone 
+## =-==-=-=-=-=-=-= delegates =-=-=-=-=-=-=-=
 func _on_Attack_Area2D_body_entered(body):
 	if isEnemyBody(body) && !isFaseToLeft :
 		setEmeIn(body, true)
@@ -351,22 +417,4 @@ func _on_body_Area2D_body_entered(body):
 		
 	pass # Replace with function body.
 
-func isEnemyBody(body):
-	var obj_item := body as EnemyObj
-	if obj_item : 
-		return true
-	
-	return false
 
-func isItemBody(body):
-	var obj_item := body as ItemObj
-	if obj_item : 
-		return true
-	
-	return false
-
-func isTraggerBtn(body):
-	var obj_item := body as TraggerBtn
-	if obj_item : 
-		return true
-	return false

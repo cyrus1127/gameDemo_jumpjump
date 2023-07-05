@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/Level/objs/triggerAreas/gameObj.gd"
 }, {
+"base": "RigidBody2D",
+"class": "Grable_obj",
+"language": "GDScript",
+"path": "res://scenes/Level/objs/grable_obj.gd"
+}, {
 "base": "Object",
 "class": "ItemData",
 "language": "GDScript",
@@ -54,11 +59,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/playerData.gd"
 }, {
-"base": "RigidBody2D",
-"class": "Traggable_obj",
-"language": "GDScript",
-"path": "res://scenes/Level/objs/traggable_obj.gd"
-}, {
 "base": "Node2D",
 "class": "TraggerBtn",
 "language": "GDScript",
@@ -79,12 +79,12 @@ _global_script_class_icons={
 "EnemyObj": "",
 "ExpGetAnim": "",
 "GameObj": "",
+"Grable_obj": "",
 "ItemData": "",
 "ItemObj": "",
 "MoveFX": "",
 "PlayerBody": "",
 "PlayerData": "",
-"Traggable_obj": "",
 "TraggerBtn": "",
 "TrapObj": "",
 "emit_bullet": ""

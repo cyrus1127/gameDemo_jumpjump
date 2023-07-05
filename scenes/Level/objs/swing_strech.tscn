@@ -1,11 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://res/FreeTileset/png/Object/Bush (1).png" type="Texture" id=1]
-[ext_resource path="res://scenes/Level/objs/traggableObj.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Level/objs/grableObj.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Level/objs/swing.gd" type="Script" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 
 [node name="Swing_s" type="Node2D"]
+script = ExtResource( 3 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -25,40 +27,66 @@ __meta__ = {
 }
 
 [node name="PinJoint2D" type="PinJoint2D" parent="."]
+visible = false
 node_a = NodePath("../StaticBody2D")
 node_b = NodePath("../TraggableObj")
+softness = 0.03
 
 [node name="TraggableObj" parent="." instance=ExtResource( 2 )]
 position = Vector2( 0, 41 )
 
 [node name="PinJoint2D2" type="PinJoint2D" parent="."]
+visible = false
 position = Vector2( 0, 41 )
 node_a = NodePath("../TraggableObj")
 node_b = NodePath("../TraggableObj2")
+softness = 0.03
 
 [node name="TraggableObj2" parent="." instance=ExtResource( 2 )]
 position = Vector2( -12, 63.77 )
+rotation = 0.610865
 
 [node name="PinJoint2D3" type="PinJoint2D" parent="."]
+visible = false
 position = Vector2( -11.498, 63 )
 node_a = NodePath("../TraggableObj2")
 node_b = NodePath("../TraggableObj3")
+softness = 0.03
 
 [node name="TraggableObj3" parent="." instance=ExtResource( 2 )]
 position = Vector2( -26, 83 )
+rotation = 0.610865
 
 [node name="PinJoint2D4" type="PinJoint2D" parent="."]
+visible = false
 position = Vector2( -25.498, 83 )
 node_a = NodePath("../TraggableObj3")
 node_b = NodePath("../TraggableObj4")
+softness = 0.03
 
 [node name="TraggableObj4" parent="." instance=ExtResource( 2 )]
 position = Vector2( -40, 103 )
+rotation = 0.610865
 
 [node name="PinJoint2D5" type="PinJoint2D" parent="."]
+visible = false
 position = Vector2( -40.498, 103 )
 node_a = NodePath("../TraggableObj4")
 node_b = NodePath("../TraggableObj5")
+softness = 0.03
 
 [node name="TraggableObj5" parent="." instance=ExtResource( 2 )]
 position = Vector2( -55, 123 )
+rotation = 0.610865
+
+[connection signal="body_entered" from="TraggableObj" to="." method="_on_TraggableObj_body_entered"]
+[connection signal="is_connected" from="TraggableObj" to="." method="_on_TraggableObj_is_connected"]
+[connection signal="is_disconnected" from="TraggableObj" to="." method="_on_TraggableObj_is_disconnected"]
+[connection signal="is_connected" from="TraggableObj2" to="." method="_on_TraggableObj_is_connected"]
+[connection signal="is_disconnected" from="TraggableObj2" to="." method="_on_TraggableObj_is_disconnected"]
+[connection signal="is_connected" from="TraggableObj3" to="." method="_on_TraggableObj_is_connected"]
+[connection signal="is_disconnected" from="TraggableObj3" to="." method="_on_TraggableObj_is_disconnected"]
+[connection signal="is_connected" from="TraggableObj4" to="." method="_on_TraggableObj_is_connected"]
+[connection signal="is_disconnected" from="TraggableObj4" to="." method="_on_TraggableObj_is_disconnected"]
+[connection signal="is_connected" from="TraggableObj5" to="." method="_on_TraggableObj_is_connected"]
+[connection signal="is_disconnected" from="TraggableObj5" to="." method="_on_TraggableObj_is_disconnected"]
