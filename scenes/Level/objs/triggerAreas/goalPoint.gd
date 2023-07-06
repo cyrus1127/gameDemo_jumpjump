@@ -15,6 +15,14 @@ func _ready():
 #func _process(delta):
 #	pass
 
+func disableAndHidden():
+	set_monitoring(false) 
+	hide()
+
+func enableAndShow():
+	set_monitoring(true)
+	show()
+	
 
 func _on_GoalArea2D_body_entered(body):
 	var player := body as KinematicBody2D

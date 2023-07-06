@@ -3,6 +3,7 @@ extends Node2D
 
 # Declare member variables here. Examples:
 export var haveEnemies = false
+export var haveBoss = false
 export (PackedScene) var Mob
 export (PackedScene) var MobBoss
 export (PackedScene) var Trap
@@ -60,6 +61,9 @@ func _ready():
 	#look up all path in the map
 	addTrap()
 	
+	if haveBoss:
+		$map/GoalArea2D.disableAndHidden()
+	
 	yield(get_tree(),"idle_frame")
 	yield(get_tree().create_timer(1),"timeout")
 	gameStart = true
@@ -88,28 +92,35 @@ func genMobBoss(nLoc):
 		$HUD_level.showBossHPBar((nMob as EnemyObj).myName, (nMob as EnemyObj).hp)
 	pass
 
+func addBoss(mobPath):		
+	genMobBoss(mobPath)
+	pass
+
 func addMob(mobPath):
 
 	if mobPath:
 		print("have Mob Path " + mobPath.name)
-#
 		var path = mobPath.get_child(0) as PathFollow2D
-		var mob = Mob.instance()
-
-		mobPaths.push_back(path)
-		add_child(mob)
-		mobPath.set_process(true)
-		mob.position = path.position
-		mob.rotation = path.rotation
-
-		#set the mob with path
-		var mob_set = {}
-		mob_set.path = path
-		mob_set.prog = 0
-		mob_set.flip = false
-		mob_set.mob = mob
-		mobs.push_back(mob_set)
-	
+		if MobBoss && haveBoss && boss_cnt < max_boss:	
+			boss_cnt += 1
+			genMobBoss(path)
+		elif Mob :
+#			var mob = Mob.instance()
+#
+#			mobPaths.push_back(path)
+#			add_child(mob)
+#			mobPath.set_process(true)
+#			mob.position = path.position
+#			mob.rotation = path.rotation
+#
+#			#set the mob with path
+#			var mob_set = {}
+#			mob_set.path = path
+#			mob_set.prog = 0
+#			mob_set.flip = false
+#			mob_set.mob = mob
+#			mobs.push_back(mob_set)
+			genMob(path)
 	pass
 			
 func addTrap():
@@ -140,7 +151,7 @@ func addTrap():
 				obj_set.mob = obj
 				traps.push_back(obj_set)			
 			else :
-				if Mob :
+				if Mob || MobBoss :
 					addMob(childPath)
 	pass	
 
@@ -342,6 +353,8 @@ func _on_Player_RigidBody2D_hit_monster(body):
 				print("is boss")
 				boss_cnt -= 1
 				$HUD_level.hiddenBossHPBar()
+				$map/GoalArea2D.enableAndShow()
+				
 		else :
 			if cMod.getKind() == EnemyObj.Kind.boss:
 				$HUD_level.updateBossHP(cMod.hp)
@@ -414,3 +427,4 @@ func _on_Player_RigidBody2D_item_touch(body):
 	
 
 	pass # Replace with function body.
+
