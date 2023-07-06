@@ -73,7 +73,7 @@ func showDeadView(isReborn):
 func showBossHPBar(bossName:String, bossHP:int):
 	if !$HUD_bossHPbar.is_visible() :
 		$HUD_bossHPbar.setVal(bossName, bossHP)
-		$HUD_bossHPbar.show()
+		$HUD_bossHPbar.showWithTween()
 	pass
 
 func updateBossHP(bossHP:int):

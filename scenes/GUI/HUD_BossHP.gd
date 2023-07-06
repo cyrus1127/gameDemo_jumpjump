@@ -26,3 +26,9 @@ func updateCurHP(nHP):
 	cur_hp = nHP
 	$ProgressBar.value = cur_hp
 	pass
+
+func showWithTween():
+	set("modulate",Color(1,1,1,0))
+	show()
+	$Tween.interpolate_property(self, "modulate", Color(1,1,1,0) , Color(1,1,1,1), 3,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	$Tween.start()
