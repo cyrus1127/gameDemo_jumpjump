@@ -25,9 +25,9 @@ func _ready():
 func _on_TraggableObj_is_connected(body):
 	var weight = (body as RigidBody2D).weight
 	for child in childs:
-		if child != body :
-			(child as Grable_obj).pauseCollision()
-			(child as RigidBody2D).weight = weight / (childs.size()-1)
+#		if child != body :
+		(child as Grable_obj).pauseCollision()
+		(child as RigidBody2D).weight = weight / (childs.size()-1)
 	pass # Replace with function body.
 
 func _on_TraggableObj_is_disconnected(chainChild):
@@ -35,9 +35,9 @@ func _on_TraggableObj_is_disconnected(chainChild):
 			
 	yield(get_tree().create_timer(3),"timeout")
 	for child in childs:
-		if child != chainChild :
-			(child as Grable_obj).resumeCollision()
-			(child as Grable_obj).resetWeight()
+#		if child != chainChild :
+		(child as Grable_obj).resumeCollision()
+		(child as Grable_obj).resetWeight()
 		
 	pass # Replace with function body.
 

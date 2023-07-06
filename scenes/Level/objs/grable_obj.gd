@@ -30,7 +30,7 @@ func _integrate_forces(state):
 #	state.add_central_force(Vector2)
 	if on_grabbing :
 		var moveX = abs(linear_velocity.x)
-	else :
+	elif isLastOfChain :
 		if abs(linear_velocity.x) > 0.5 && get_applied_force().y < 15000:
 			state.add_central_force(Vector2(0, weight * 0.25))
 		elif get_applied_force().y >= 15000 :
@@ -51,16 +51,16 @@ func isPlayer(body):
 func pauseCollision():
 #	$Area2D.set_deferred("monitoring",false)
 #	set_deferred("mode",RigidBody2D.MODE_STATIC)
-	set_collision_layer_bit(0, false)
-	set_collision_mask_bit(0, false)
+	set_collision_layer_bit(1, false)
+	set_collision_mask_bit(1, false)
 #	gravity_scale = 1
 	pass
 
 func resumeCollision():
 #	$Area2D.set_deferred("monitoring",true)
 	if enableGrab:
-		set_collision_layer_bit(0, true)
-		set_collision_mask_bit(0, true)
+		set_collision_layer_bit(1, true)
+		set_collision_mask_bit(1, true)
 #	set_deferred("mode",RigidBody2D.MODE_RIGID)
 #	gravity_scale = 1
 	pass

@@ -10,6 +10,8 @@ extents = Vector2( 6, 9 )
 extents = Vector2( 12, 5.5 )
 
 [node name="GrableObj" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 2
 mass = 2.04082
 script = ExtResource( 1 )
 
