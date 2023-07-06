@@ -19,6 +19,11 @@ default_font = SubResource( 1 )
 [node name="HUD_node_pauseMenu" type="Node2D"]
 script = ExtResource( 3 )
 
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1027.0
+margin_bottom = 604.0
+color = Color( 0, 0, 0, 0.196078 )
+
 [node name="item_info_rect" type="NinePatchRect" parent="."]
 margin_left = 375.919
 margin_top = 97.5406
@@ -154,6 +159,7 @@ expand = true
 __meta__ = {
 "_edit_lock_": true
 }
+
 [connection signal="pressed" from="item_info_rect/btn_filter_0" to="." method="_on_btn_music_pressed"]
 [connection signal="pressed" from="item_info_rect/btn_filter_1" to="." method="_on_btn_resume_pressed"]
 [connection signal="pressed" from="item_info_rect/btn_filter_2" to="." method="_on_btn_quit_pressed"]
