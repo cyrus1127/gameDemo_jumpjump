@@ -95,12 +95,15 @@ func back_to_title(var dataSave : bool = false ) -> void:
 
 func next_scene() -> void:
 	
-	scene_index += 1
-	if scene_index%5 == 0:
-		_next_scene("shop")
-	else :
+	if scene_index > 0 && scene_index%4 == 0:
+		_next_scene("boss")
+	else :	
 		_next_scene("level")
+	scene_index += 1
 	pass
+
+func next_scene_shop() -> void :
+	_next_scene("shop")
 
 func _next_scene(scene:String = "", fade_out:float = 1, fade_in:float = .5) -> void:
 	scene_name = scene
@@ -119,6 +122,8 @@ func _next_scene(scene:String = "", fade_out:float = 1, fade_in:float = .5) -> v
 			stage_index = 0
 			scene_index = 0
 			get_tree().change_scene("res://scenes/title.tscn")
+	elif scene == "boss":
+		get_tree().change_scene("res://scenes/Level/level_boss.tscn")
 	elif scene == "shop":
 		get_tree().change_scene("res://scenes/Level/level_safe.tscn")
 	elif scene == "title":

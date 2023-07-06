@@ -3,7 +3,7 @@ extends Node2D
 
 # Declare member variables here. Examples:
 export var haveEnemies = false
-export var haveBoss = false
+export var bossRoom = false
 export (PackedScene) var Mob
 export (PackedScene) var MobBoss
 export (PackedScene) var Trap
@@ -61,7 +61,7 @@ func _ready():
 	#look up all path in the map
 	addTrap()
 	
-	if haveBoss:
+	if bossRoom:
 		$map/GoalArea2D.disableAndHidden()
 	
 	yield(get_tree(),"idle_frame")
@@ -101,7 +101,7 @@ func addMob(mobPath):
 	if mobPath:
 		print("have Mob Path " + mobPath.name)
 		var path = mobPath.get_child(0) as PathFollow2D
-		if MobBoss && haveBoss && boss_cnt < max_boss:	
+		if MobBoss && bossRoom && boss_cnt < max_boss:	
 			boss_cnt += 1
 			genMobBoss(path)
 		elif Mob :
@@ -278,7 +278,10 @@ pass
 func _on_GoalArea_player_in():
 	$Player_RigidBody2D.stop()
 	GLOBAL.change_sfx("goal")
-	$HUD_level.showResult(score, jumpCount, fallCount)
+	if bossRoom :
+		$HUD_level.showResult(score, jumpCount, fallCount, "Take Rest")
+	else :
+		$HUD_level.showResult(score, jumpCount, fallCount)
 pass # Replace with function body.
 
 
@@ -288,7 +291,10 @@ func _on_HUD_level_btn_pressed_backtotitle():
 
 
 func _on_HUD_level_btn_pressed_nextlevel():
-	GLOBAL.next_scene()
+	if bossRoom:
+		GLOBAL.next_scene_shop()
+	else :	
+		GLOBAL.next_scene()
 	pass # Replace with function body.
 
 

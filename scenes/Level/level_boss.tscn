@@ -18,7 +18,7 @@ _data = {
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
-haveBoss = true
+bossRoom = true
 MobBoss = ExtResource( 7 )
 
 [node name="Player_RigidBody2D" parent="." instance=ExtResource( 3 )]

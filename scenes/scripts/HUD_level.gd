@@ -46,10 +46,15 @@ func update_sp(n_val):
 func update_coin(n_val):
 	$CharacterInfo_short/bar_coinBalance/lbl_bal.text = str(n_val);
 
-func showResult(score:int, jumps:int , falls:int):
+func showResult(score:int, jumps:int , falls:int , btnName:String = ""):
 	$panel_result/rect_result/lbl_score/value.text = str(score)
 	$panel_result/rect_result/lbl_jumps/value.text = str(jumps)
 	$panel_result/rect_result/lbl_falls/value.text = str(falls)
+	
+	$panel_result/rect_result/btn_nextlevel.text = "Next level"
+	if btnName.length() > 0 :
+		$panel_result/rect_result/btn_nextlevel.text = btnName
+	
 	$panel_result.show()
 	pass
 
