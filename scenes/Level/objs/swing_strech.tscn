@@ -12,13 +12,10 @@ script = ExtResource( 3 )
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="Sprite" type="Sprite" parent="StaticBody2D"]
-position = Vector2( 0.143087, 1.25091e-08 )
+position = Vector2( 1, 8 )
 rotation = 3.14159
-scale = Vector2( 0.997864, 1 )
+scale = Vector2( 0.523895, 0.520732 )
 texture = ExtResource( 1 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource( 1 )
