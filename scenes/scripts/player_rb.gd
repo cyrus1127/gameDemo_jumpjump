@@ -335,10 +335,20 @@ func releaseGrabbing():
 func grabAndHold(bodyToHold) -> bool:
 	if onGrabBodyObj == null :
 		onGrabBodyObj = bodyToHold
-		onGrabBodyOffset = Vector2.ZERO
+		if isFaseToLeft :
+			onGrabBodyOffset = Vector2(25,0)	
+		else :
+			onGrabBodyOffset = Vector2(-25,0)		
 		return true
 	elif onGrabBodyObj == bodyToHold:
 		return true
+	else : ## do swiping
+		if onGrabBodyObj != bodyToHold :
+			if onGrabBodyOffset.y <= -15 || onGrabBodyOffset.y >= 15: ## swipe up
+				onGrabBodyObj = bodyToHold
+				var nOffset =  position - onGrabBodyObj.get_global_position()
+#				print("the position diff ->  get_global_position : " + str(onGrabBodyObj.get_global_position()) + " " + str(nOffset))
+				onGrabBodyOffset.y = nOffset.y
 	return false
 
 	

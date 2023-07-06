@@ -5,8 +5,7 @@ extends RigidBody2D
 signal is_connected(body)
 signal is_disconnected(body)
 # Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+export var enableGrab = true
 var base_weight = 50
 var on_grabbing = false
 var org_pos = Vector2.ZERO
@@ -16,6 +15,10 @@ var isLastOfChain = false
 func _ready():
 	resetWeight()
 	org_pos = position
+	
+	if !enableGrab:
+		$Area2D.set_monitoring(false) 
+		pauseCollision()
 	pass # Replace with function body.
 
 
@@ -55,8 +58,9 @@ func pauseCollision():
 
 func resumeCollision():
 #	$Area2D.set_deferred("monitoring",true)
-	set_collision_layer_bit(0, true)
-	set_collision_mask_bit(0, true)
+	if enableGrab:
+		set_collision_layer_bit(0, true)
+		set_collision_mask_bit(0, true)
 #	set_deferred("mode",RigidBody2D.MODE_RIGID)
 #	gravity_scale = 1
 	pass

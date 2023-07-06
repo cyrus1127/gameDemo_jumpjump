@@ -45,6 +45,7 @@ softness = 0.03
 [node name="TraggableObj2" parent="." instance=ExtResource( 2 )]
 position = Vector2( -12, 63.77 )
 rotation = 0.610865
+enableGrab = false
 
 [node name="PinJoint2D3" type="PinJoint2D" parent="."]
 visible = false
@@ -67,6 +68,7 @@ softness = 0.03
 [node name="TraggableObj4" parent="." instance=ExtResource( 2 )]
 position = Vector2( -40, 103 )
 rotation = 0.610865
+enableGrab = false
 
 [node name="PinJoint2D5" type="PinJoint2D" parent="."]
 visible = false
