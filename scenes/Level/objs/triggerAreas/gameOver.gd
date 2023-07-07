@@ -4,7 +4,7 @@ signal player_in
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-
+var isPlayerIn = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,7 +19,15 @@ func _ready():
 
 func _on_DeadArea2D_body_entered(body):
 	var player := body as KinematicBody2D
-	if player && player.name.match(GLOBAL.playerObjName): 
-		print("player in")
+	if player && player.name.match(GLOBAL.playerObjName) && !isPlayerIn: 
+		isPlayerIn = true
+	pass # Replace with function body.
+
+
+
+func _on_DeadArea2D_body_exited(body):
+	var player := body as KinematicBody2D
+	if player && player.name.match(GLOBAL.playerObjName) && isPlayerIn: 
+		isPlayerIn = false
 		emit_signal("player_in")
 	pass # Replace with function body.

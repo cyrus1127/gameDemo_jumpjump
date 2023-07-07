@@ -1,13 +1,14 @@
-[gd_resource type="TileSet" load_steps=18 format=2]
+[gd_resource type="TileSet" load_steps=19 format=2]
 
 [ext_resource path="res://res/FreeTileset/png/Object/Crate.png" type="Texture" id=1]
 [ext_resource path="res://res/FreeTileset/svg/Tile.svg" type="Texture" id=2]
+[ext_resource path="res://res/FreeTileset/png/Tiles_A/water_a.tres" type="Texture" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 40, 40, 0, 40, 0, 0, 40, 0 )
 
-[sub_resource type="ConvexPolygonShape2D" id=2]
-points = PoolVector2Array( 0, 0, 40, 0, 40, 40, 0, 40 )
+[sub_resource type="ConvexPolygonShape2D" id=16]
+points = PoolVector2Array( 40, 40, 0.391846, 40, 0.391846, 0.659363, 40, 0.659363 )
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 0, 0, 40, 0, 40, 40, 0, 40 )
@@ -49,7 +50,6 @@ points = PoolVector2Array( 0, 0, 40, 0, 40, 40, 0, 40 )
 points = PoolVector2Array( 78, 76, 0, 76, 0, 0, 78, 0 )
 
 [resource]
-resource_local_to_scene = true
 8/name = "Crate.png 8"
 8/texture = ExtResource( 1 )
 8/tex_offset = Vector2( 0, 0 )
@@ -99,36 +99,6 @@ resource_local_to_scene = true
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 22/z_index = 0
-23/name = "Tile.svg 23"
-23/texture = ExtResource( 2 )
-23/tex_offset = Vector2( 0, 0 )
-23/modulate = Color( 1, 1, 1, 1 )
-23/region = Rect2( 90, 0, 40, 40 )
-23/tile_mode = 1
-23/autotile/bitmask_mode = 0
-23/autotile/bitmask_flags = [  ]
-23/autotile/icon_coordinate = Vector2( 0, 0 )
-23/autotile/tile_size = Vector2( 40, 40 )
-23/autotile/spacing = 5
-23/autotile/occluder_map = [  ]
-23/autotile/navpoly_map = [  ]
-23/autotile/priority_map = [  ]
-23/autotile/z_index_map = [  ]
-23/occluder_offset = Vector2( 0, 0 )
-23/navigation_offset = Vector2( 0, 0 )
-23/shape_offset = Vector2( 0, 0 )
-23/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-23/shape = SubResource( 2 )
-23/shape_one_way = false
-23/shape_one_way_margin = 1.0
-23/shapes = [ {
-"autotile_coord": Vector2( 0, 0 ),
-"one_way": false,
-"one_way_margin": 1.0,
-"shape": SubResource( 2 ),
-"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
-} ]
-23/z_index = 0
 24/name = "Tile.svg 24"
 24/texture = ExtResource( 2 )
 24/tex_offset = Vector2( 0, 0 )
@@ -148,9 +118,16 @@ resource_local_to_scene = true
 24/navigation_offset = Vector2( 0, 0 )
 24/shape_offset = Vector2( 0, 0 )
 24/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+24/shape = SubResource( 16 )
 24/shape_one_way = false
-24/shape_one_way_margin = 0.0
-24/shapes = [  ]
+24/shape_one_way_margin = 1.0
+24/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 16 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
 24/z_index = 0
 25/name = "Tile.svg 25"
 25/texture = ExtResource( 2 )
@@ -618,3 +595,17 @@ resource_local_to_scene = true
 42/shape_one_way_margin = 0.0
 42/shapes = [  ]
 42/z_index = 0
+43/name = "water_a.tres 43"
+43/texture = ExtResource( 3 )
+43/tex_offset = Vector2( 0, 0 )
+43/modulate = Color( 1, 1, 1, 1 )
+43/region = Rect2( 0, 0, 40, 40 )
+43/tile_mode = 0
+43/occluder_offset = Vector2( 0, 0 )
+43/navigation_offset = Vector2( 0, 0 )
+43/shape_offset = Vector2( 0, 0 )
+43/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+43/shape_one_way = false
+43/shape_one_way_margin = 0.0
+43/shapes = [  ]
+43/z_index = 0

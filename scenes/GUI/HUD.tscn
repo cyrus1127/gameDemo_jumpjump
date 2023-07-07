@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://fonts/norwester.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://scenes/scripts/HUD.gd" type="Script" id=2]
@@ -7,6 +7,12 @@
 [ext_resource path="res://res/GUI_set_0/imgs/board&bar/board_0.png" type="Texture" id=5]
 [ext_resource path="res://res/GUI_set_0/imgs/board&bar/board_2.png" type="Texture" id=6]
 [ext_resource path="res://fonts/Freedom-nZ4J.otf" type="DynamicFontData" id=7]
+[ext_resource path="res://scenes/GUI/others/noticeblock.tscn" type="PackedScene" id=8]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_S_on.png" type="Texture" id=9]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_L_on.png" type="Texture" id=10]
+[ext_resource path="res://res/GUI_set_0/imgs/icon_cross.png" type="Texture" id=11]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_L_pressed.png" type="Texture" id=12]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_S_pressed.png" type="Texture" id=13]
 
 [sub_resource type="DynamicFont" id=1]
 size = 80
@@ -31,7 +37,7 @@ font_data = ExtResource( 7 )
 shortcut = SubResource( 6 )
 
 [sub_resource type="DynamicFont" id=8]
-size = 26
+size = 32
 outline_size = 1
 font_data = ExtResource( 4 )
 
@@ -40,6 +46,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 101.09 ]
 }
+noticeblock = ExtResource( 8 )
 
 [node name="Timer_msg" type="Timer" parent="."]
 wait_time = 2.0
@@ -76,6 +83,9 @@ custom_colors/font_color = Color( 0.0588235, 0.933333, 1, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "Jump"
 align = 1
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="btn_start" type="Button" parent="."]
 anchor_left = 0.5
@@ -95,10 +105,6 @@ shortcut_in_tooltip = false
 action_mode = 0
 shortcut = SubResource( 7 )
 text = "Start"
-clip_text = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="btn_shop" type="Button" parent="."]
 anchor_left = 0.5
@@ -119,9 +125,6 @@ action_mode = 0
 shortcut = SubResource( 7 )
 text = "Shop"
 clip_text = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="playerInfo" type="Node2D" parent="."]
 position = Vector2( 40.5441, 101.151 )
@@ -171,12 +174,43 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="leaderBoard" type="Node2D" parent="."]
-position = Vector2( 742.751, 99.8972 )
+[node name="btn_NB_open" type="TouchScreenButton" parent="."]
+position = Vector2( 877, 117 )
+scale = Vector2( 2, 2 )
+normal = ExtResource( 10 )
+pressed = ExtResource( 12 )
 
-[node name="NinePatchRect" type="NinePatchRect" parent="leaderBoard"]
-margin_right = 129.0
-margin_bottom = 204.0
+[node name="lbl_msg2" type="Label" parent="btn_NB_open"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -23.0
+margin_top = -7.0
+margin_right = 64.756
+margin_bottom = 27.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_colors/font_color = Color( 0.207843, 0.447059, 0.388235, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 8 )
+text = "Notice"
+align = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="NoticeBoard" type="Control" parent="."]
+margin_left = 555.0
+margin_top = 100.0
+margin_right = 984.0
+margin_bottom = 510.0
+rect_scale = Vector2( 1e-05, 1 )
+rect_pivot_offset = Vector2( 429, 0 )
+
+[node name="NinePatchRect" type="NinePatchRect" parent="NoticeBoard"]
+margin_right = 215.0
+margin_bottom = 205.0
 rect_scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 patch_margin_left = 10
@@ -188,38 +222,56 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lbl_msg" type="Label" parent="leaderBoard"]
+[node name="lbl_msg" type="Label" parent="NoticeBoard"]
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 16.7461
-margin_top = 23.8675
-margin_right = 241.746
-margin_bottom = 57.8675
-custom_colors/font_color = Color( 0.505882, 1, 0.133333, 1 )
+margin_left = -112.5
+margin_top = 16.0
+margin_right = 112.5
+margin_bottom = 50.0
+custom_colors/font_color = Color( 0.207843, 0.447059, 0.388235, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 8 )
-text = "Top Scores"
+text = "Notice"
 align = 1
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="ItemList" type="ItemList" parent="leaderBoard"]
-margin_left = 27.0
+[node name="ScrollContainer" type="ScrollContainer" parent="NoticeBoard"]
+margin_left = 16.0
 margin_top = 56.0
-margin_right = 234.0
-margin_bottom = 387.0
-items = [ "AAAA", null, false, "000000", null, false, "BBBB", null, false, "000000", null, false ]
-max_columns = 2
-same_column_width = true
+margin_right = 413.0
+margin_bottom = 395.0
+follow_focus = true
+scroll_horizontal_enabled = false
 __meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
+"_edit_lock_": true
 }
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NoticeBoard/ScrollContainer"]
+
+[node name="btn_NB_close" type="TouchScreenButton" parent="NoticeBoard"]
+position = Vector2( -3, -3 )
+scale = Vector2( 2.57143, 2.71429 )
+normal = ExtResource( 9 )
+pressed = ExtResource( 13 )
+
+[node name="Sprite" type="Sprite" parent="NoticeBoard/btn_NB_close"]
+texture = ExtResource( 11 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="NoticeBoard_n" type="Node2D" parent="."]
+visible = false
+position = Vector2( 555, 100 )
+
+[node name="Tween" type="Tween" parent="."]
 
 [connection signal="timeout" from="Timer_msg" to="." method="_on_Timer_msg_timeout"]
 [connection signal="pressed" from="btn_start" to="." method="_on_btn_start_pressed"]
 [connection signal="pressed" from="btn_shop" to="." method="_on_btn_shop_pressed"]
+[connection signal="pressed" from="btn_NB_open" to="." method="_on_btn_NB_open_pressed"]
+[connection signal="pressed" from="NoticeBoard/btn_NB_close" to="." method="_on_btn_NB_close_pressed"]

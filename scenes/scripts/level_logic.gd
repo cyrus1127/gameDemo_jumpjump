@@ -267,11 +267,15 @@ func deductPlayHP(d_HP):
 
 func _on_DeadArea2D_player_in():
 	$Player_RigidBody2D.stop()
+	$map/DeadArea.set_monitoring(false)
 	GLOBAL.change_sfx("dead")
 	# reset player positon
 	deductPlayHP(30)
 	if player_hp > 0: # give reset# game over
 		$HUD_level.showDeadView(true)
+	else:
+		print("game over")
+		
 pass 
 
 
@@ -307,6 +311,8 @@ func _on_HUD_level_btn_pressed_retry():
 func _on_HUD_level_timeToReset():
 	$HUD_level.update_hp(player_hp)
 	$Player_RigidBody2D.start($pos_start.position)
+	yield(get_tree().create_timer(1),"timeout")
+	$map/DeadArea.set_monitoring(true)
 	pass # Replace with function body.
 
 
@@ -359,7 +365,8 @@ func _on_Player_RigidBody2D_hit_monster(body):
 				print("is boss")
 				boss_cnt -= 1
 				$HUD_level.hiddenBossHPBar()
-				$map/GoalArea2D.enableAndShow()
+				if is_instance_valid($map/GoalArea2D):
+					$map/GoalArea2D.enableAndShow()
 				
 		else :
 			if cMod.getKind() == EnemyObj.Kind.boss:
