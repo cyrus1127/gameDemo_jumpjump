@@ -78,13 +78,18 @@ func _on_btn_shop_pressed():
 	pass # Replace with function body.
 
 
+var noticeOnShow = false
 func _on_btn_NB_close_pressed():
-	$Tween.interpolate_property($NoticeBoard,"rect_scale",Vector2(1,1),Vector2(0,1), 1.5,Tween.TRANS_ELASTIC,Tween.EASE_OUT)
-	$Tween.start()
+	if noticeOnShow :
+		noticeOnShow = false
+		$Tween.interpolate_property($NoticeBoard,"rect_scale",Vector2(1,1),Vector2(0,1), 1.5,Tween.TRANS_ELASTIC,Tween.EASE_OUT)
+		$Tween.start()
 	pass # Replace with function body.
 
 
 func _on_btn_NB_open_pressed():
-	$Tween.interpolate_property($NoticeBoard,"rect_scale",Vector2(0,1),Vector2(1,1), 1.5,Tween.TRANS_ELASTIC,Tween.EASE_OUT)
-	$Tween.start()
+	if !noticeOnShow :
+		noticeOnShow = true
+		$Tween.interpolate_property($NoticeBoard,"rect_scale",Vector2(0,1),Vector2(1,1), 1.5,Tween.TRANS_ELASTIC,Tween.EASE_OUT)
+		$Tween.start()
 	pass # Replace with function body.
