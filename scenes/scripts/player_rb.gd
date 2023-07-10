@@ -18,6 +18,7 @@ export (PackedScene) var move_fx
 
 #var move_direction:Vector2 = Vector2.RIGHT
 var velocity = Vector2()
+var jump_air = false
 var jumping = false
 var jumpVecCosumming = 0
 var doPause = false
@@ -74,24 +75,31 @@ func get_mobile_input():
 #			Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 		0
 	).clamped(1) #just in case someone uses buttons - Joystick already returns clamped value
-	var down = Input.get_action_strength("ui_down")
-	var jump = Input.is_action_pressed("ui_jump") 
+	var down = false
+	if Input.get_action_strength("ui_down") > 0.5:
+		down = true
+	var jump = Input.is_action_pressed("ui_jump") && !$CollisionShape2D.disabled
 	var jump_release = Input.is_action_just_released("ui_jump")
 	var attack = Input.is_action_pressed("ui_attack")
-	
+#	print("touch down - " + str(down))
 	if jump and down and dropEnable:
-			player_drop_from_curPlatefrom()
+		player_drop_from_curPlatefrom()
 	elif jump and !jumping:
-			if velocity.y >= 0 && velocity.y <= 10 && jumpVecCosumming == 0: # give some margin
-					velocity.y = jump_speed
-					jumpVecCosumming += jump_speed
-					jumping = true
-					GLOBAL.change_sfx("jump")
-	#				print("Add jump" + str(velocity))
-	#				if is_on_floor():
-	#					print("hit the top ?? " + str(velocity))	
-			else:
-				print("jumping not finished" + str(velocity))
+		if velocity.y >= 0 && velocity.y <= 10 && jumpVecCosumming == 0: # give some margin
+			velocity.y = jump_speed
+			jumpVecCosumming += jump_speed
+			jumping = true
+			GLOBAL.change_sfx("jump")
+#				print("Add jump" + str(velocity))
+#				if is_on_floor():
+#					print("hit the top ?? " + str(velocity))	
+		elif jump_air : # air jump (double jump)
+			jump_air = false
+			velocity.y = jump_speed
+			jumpVecCosumming += jump_speed
+			jumping = true
+			GLOBAL.change_sfx("jump")
+		
 	elif jump_release:
 		if jumpVecCosumming < 0:
 			jumping = false
@@ -151,11 +159,12 @@ func get_controller_input():
 				jumpVecCosumming += jump_speed
 				jumping = true
 				GLOBAL.change_sfx("jump")
-#				print("Add jump" + str(velocity))
-#				if is_on_floor():
-#					print("hit the top ?? " + str(velocity))	
-			else:
-				print("jumping not finished" + str(velocity))
+			elif jump_air : # air jump (double jump)
+				jump_air = false
+				velocity.y = jump_speed
+				jumpVecCosumming += jump_speed
+				jumping = true
+				GLOBAL.change_sfx("jump")
 		if jump_release:
 			if jumpVecCosumming < 0:
 				jumping = false
@@ -319,8 +328,11 @@ func _physics_process(delta):
 				else : 
 					get_controller_input()
 					
-				if !(is_on_floor() && jumping):
+				if !(is_on_floor() && jumping): #case fall
 					velocity.y += gravity * delta
+					if is_on_floor() && !jump_air:
+						jump_air = true
+						
 				velocity = move_and_slide(velocity,Vector2(0, -1))
 				
 				if velocity.y == 0 && velocity.x == 0 && isTouchScreenOn:
