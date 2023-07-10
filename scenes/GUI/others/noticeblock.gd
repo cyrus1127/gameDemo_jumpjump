@@ -26,6 +26,6 @@ func setContent(nText):
 func getSize() -> float:
 	if $lbl_content && text_context.length():
 		var th = $lbl_content.rect_position.y + $lbl_content.rect_size.y
-		print(str($lbl_content.text) + str($lbl_content.rect_size))
+#		print(str($lbl_content.text) + str($lbl_content.rect_size))
 		return th
 	return 0.0

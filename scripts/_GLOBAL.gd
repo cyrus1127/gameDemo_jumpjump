@@ -57,8 +57,8 @@ func _ready():
 
 func _process(delta) -> void:
 	# MENU ESC
-	if not GLOBAL.scene_name in ["intro"]: # , "title"
-		var esc:bool = Input.is_action_just_pressed("ui_cancel")
+#	if not GLOBAL.scene_name in ["intro"]: # , "title"
+#		var esc:bool = Input.is_action_just_pressed("ui_cancel")
 	
 #		if esc && !get_tree().paused:
 #			get_tree().paused = true
@@ -69,6 +69,7 @@ func _process(delta) -> void:
 #			get_tree().paused = false
 #			if has_node("/root/esc_scene"):
 #				get_node("/root/esc_scene").queue_free()
+	pass
 
 func restart_scene() -> void:
 #	yield(get_tree().create_timer(1), "timeout")
@@ -105,12 +106,12 @@ func next_scene() -> void:
 func next_scene_shop() -> void :
 	_next_scene("shop")
 
-func _next_scene(scene:String = "", fade_out:float = 1, fade_in:float = .5) -> void:
+func _next_scene(scene:String = "", fade_out:float = 3, fade_in:float = 2.5) -> void:
 	scene_name = scene
 		
-	scene_fade = scene_fade_out(fade_out)
+	scene_fade = scene_fade_in(fade_in)
 #	yield(scene_fade, "tween_completed")
-	yield(get_tree().create_timer(fade_out),"timeout")
+	yield(get_tree().create_timer(fade_in),"timeout")
 	
 	if scene == "" || scene == "level":
 		file_path = "res://scenes/Level/level"+str(stage_index + 1)+".tscn"
@@ -136,30 +137,32 @@ func _next_scene(scene:String = "", fade_out:float = 1, fade_in:float = .5) -> v
 			get_tree().change_scene(file_path)
 		else:
 			print('scene not exists')
-
-	scene_fade = scene_fade_in(fade_in)
+	
+	scene_fade = scene_fade_out(fade_out)
 #	yield(scene_fade, "tween_all_completed")
-	yield(get_tree().create_timer(fade_in),"timeout")
-	$color.hide()
+#	yield(get_tree().create_timer(fade_out),"timeout")
+
 	get_tree().paused = false
 
 func scene_fade_out(time:float) -> Tween:
 	get_tree().paused = true
-	return scene_fade(0, 1, time)
-
-func scene_fade_in(time:float) -> Tween:
 	return scene_fade(1, 0, time)
 
+func scene_fade_in(time:float) -> Tween:
+	return scene_fade(0, 1, time)
+
 func scene_fade(start:int, end:int, time:float) -> Tween:
-	$color.modulate = Color(0,0,0,start)
+#	$color.set("color",Color(0,0,0,start))
 	$color.show()
 
-	var tween = Tween.new()
+	var tween = $Tween
 	tween.stop_all()
+#	add_child(tween)
 		
-	tween.interpolate_property($color, "modulate", Color(0,0,0,start), Color(0,0,0,end), time, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	if tween.start() :
-		print("tween started")
+	tween.interpolate_property($color, "color", Color(0,0,0,start), Color(0,0,0,end), time, Tween.EASE_IN, Tween.EASE_OUT)
+#	tween.interpolate_property($color, "rect_scale", Vector2(start,start), Vector2(end,end), time, Tween.EASE_IN, Tween.EASE_OUT)
+	tween.interpolate_callback(self, time , "_on_Tween_tween_completed")
+	tween.start()
 	
 	return tween
 
@@ -239,12 +242,10 @@ func musicOnOff() -> void:
 
 
 # =-=-=-=-=-=-=-=-  Tween transation event function
-func _on_Tween_tween_started(object, key):
-	print("tween start run")
-	pass # Replace with function body.
-
-func _on_Tween_tween_completed(object, key):
+func _on_Tween_tween_completed():
 	print("tween run finished ")
+	if $color.get_frame_color()  == Color(0,0,0,0) :
+		$color.hide()
 	pass # Replace with function body.
 
 
