@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+export (PackedScene) var loadingCover0
+
 var tile_size:int = 32
 var file:File = File.new()
 var file_path:String
@@ -108,11 +110,18 @@ func next_scene_shop() -> void :
 
 func _next_scene(scene:String = "", fade_out:float = 3, fade_in:float = 2.5) -> void:
 	scene_name = scene
-		
-	scene_fade = scene_fade_in(fade_in)
-#	yield(scene_fade, "tween_completed")
-	yield(get_tree().create_timer(fade_in),"timeout")
+	var ex_dur = 0
 	
+	# do start loading animation
+	if scene != "title":
+		ex_dur = scene_type1Tranaction(true,0.5)
+		yield(get_tree().create_timer(fade_in + ex_dur),"timeout")
+		scene_fade = scene_fade_in(fade_in)
+	else :
+		scene_fade = scene_fade_in(fade_in)
+		yield(get_tree().create_timer(fade_in + ex_dur),"timeout")
+	
+	# do load the target scene
 	if scene == "" || scene == "level":
 		file_path = "res://scenes/Level/level"+str(stage_index + 1)+".tscn"
 		if file.file_exists(file_path):
@@ -137,21 +146,27 @@ func _next_scene(scene:String = "", fade_out:float = 3, fade_in:float = 2.5) -> 
 			get_tree().change_scene(file_path)
 		else:
 			print('scene not exists')
-	
+	 
+	# do end loading animation
 	scene_fade = scene_fade_out(fade_out)
-#	yield(scene_fade, "tween_all_completed")
-#	yield(get_tree().create_timer(fade_out),"timeout")
+	yield(get_tree().create_timer(fade_out),"timeout")
+	if scene != "title":
+		scene_type1Tranaction(false)
 
 	get_tree().paused = false
+		
+# =-=-=-=-=-=-=-=-  scene load transation  function
+
+func scene_fade_in(time:float) -> Tween:
+	return scene_fade(0, 1, time)
 
 func scene_fade_out(time:float) -> Tween:
 	get_tree().paused = true
 	return scene_fade(1, 0, time)
 
-func scene_fade_in(time:float) -> Tween:
-	return scene_fade(0, 1, time)
 
-func scene_fade(start:int, end:int, time:float) -> Tween:
+
+func scene_fade(start:int, end:int, time:float, delayDur : float = 0) -> Tween:
 #	$color.set("color",Color(0,0,0,start))
 	$color.show()
 
@@ -159,12 +174,53 @@ func scene_fade(start:int, end:int, time:float) -> Tween:
 	tween.stop_all()
 #	add_child(tween)
 		
-	tween.interpolate_property($color, "color", Color(0,0,0,start), Color(0,0,0,end), time, Tween.EASE_IN, Tween.EASE_OUT)
+	tween.interpolate_property($color, "color", Color(0,0,0,start), Color(0,0,0,end), time, Tween.EASE_IN, Tween.EASE_OUT,delayDur)
 #	tween.interpolate_property($color, "rect_scale", Vector2(start,start), Vector2(end,end), time, Tween.EASE_IN, Tween.EASE_OUT)
-	tween.interpolate_callback(self, time , "_on_Tween_tween_completed")
+	tween.interpolate_callback(self, time+(delayDur *2) , "_on_Tween_tween_completed")
 	tween.start()
 	
 	return tween
+
+var onScreenLC = []
+func scene_type1Tranaction(move_in:bool , delayDur : float = 0) -> float:
+	
+	if loadingCover0 :
+		var lc_delay = 0
+		if move_in : 
+			onScreenLC.clear()
+			for index in 8 :
+				var n_lc = loadingCover0.instance()
+				n_lc.position = Vector2(0 , -1+ (80 * index))
+				onScreenLC.push_back(n_lc)
+				add_child(n_lc)
+				(n_lc as LoadingCover).startAnimShow(lc_delay)
+				lc_delay	 += 0.25
+				delayDur += 0.25
+		else:
+			for lc in onScreenLC:
+				(lc as LoadingCover).startAnimHide(lc_delay)
+				lc_delay	 += 0.25
+	
+	var pos_s = Vector2(-43, 527)
+	var pos_e = Vector2(945,527)
+	var dur_anim = 0.5
+	if !move_in :
+		pos_s = pos_e
+		pos_e += Vector2(100,0)
+	$loadingSprite.set("position", pos_s)
+	$Tween_Sprite.stop_all()
+	
+	$Tween_Sprite.interpolate_property($loadingSprite,"position",pos_s, pos_e, dur_anim, Tween.TRANS_LINEAR,Tween.EASE_IN_OUT, delayDur)
+	$Tween_Sprite.start()
+	
+	return dur_anim + delayDur
+
+func _on_Tween_tween_completed():
+	print("tween run finished ")
+	if $color.get_frame_color()  == Color(0,0,0,0) :
+		$color.hide()
+	pass # Replace with function body.
+
 
 
 # =-=-=-=-=-=-=-- Player data save/load handling
@@ -232,7 +288,7 @@ func change_music(node_name:String, delay:float = 1) -> void:
 func change_sfx(node_name:String, delay:float = 1) -> void:
 	if !GLOBAL.get_node("sfx/"+node_name).is_playing():
 		GLOBAL.get_node("sfx/"+node_name).play()
-#
+
 	pass
 	
 func musicOnOff() -> void:
@@ -240,13 +296,6 @@ func musicOnOff() -> void:
 
 
 
-
-# =-=-=-=-=-=-=-=-  Tween transation event function
-func _on_Tween_tween_completed():
-	print("tween run finished ")
-	if $color.get_frame_color()  == Color(0,0,0,0) :
-		$color.hide()
-	pass # Replace with function body.
 
 
 # =-=-=-=-=-=-=-=-= Texture helper function

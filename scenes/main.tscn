@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/scripts/main.gd" type="Script" id=1]
 [ext_resource path="res://res/AppIcons/3310_newlogo_circle.png" type="Texture" id=2]
 [ext_resource path="res://fonts/norwester.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://scenes/Level/effects/move_fx.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 41
@@ -20,23 +21,14 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="ph_icon" type="TextureRect" parent="."]
-visible = false
-margin_left = 456.0
-margin_top = 200.0
-margin_right = 616.0
-margin_bottom = 360.0
-texture = ExtResource( 2 )
-expand = true
-stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Sprite_icon" type="Sprite" parent="."]
 position = Vector2( 507, 267 )
 scale = Vector2( 0.16154, 0.16154 )
+z_index = 1
 texture = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="tweenController" type="Tween" parent="."]
 
@@ -55,6 +47,51 @@ text = "3310Games
 "
 align = 1
 valign = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="move_fx_node_l" parent="." instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 456, 291 )
+scale = Vector2( 2, 2 )
+z_index = 0
+includePosTransaction = true
+
+[node name="move_fx_node_r" parent="." instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 559, 291 )
+scale = Vector2( 2, 2 )
+z_index = 0
+includePosTransaction = true
+
+[node name="move_fx_node_l3" parent="." instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 456, 291 )
+scale = Vector2( 2, 2 )
+z_index = 0
+includePosTransaction = true
+
+[node name="move_fx_node_r3" parent="." instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 559, 291 )
+scale = Vector2( 2, 2 )
+z_index = 0
+includePosTransaction = true
+
+[node name="move_fx_node_l2" parent="." instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 485, 290 )
+scale = Vector2( 2, 2 )
+z_index = 0
+includePosTransaction = true
+
+[node name="move_fx_node_r2" parent="." instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 529, 290 )
+scale = Vector2( 2, 2 )
+z_index = 0
+includePosTransaction = true
 
 [connection signal="tween_completed" from="tweenController" to="." method="_on_Tween_tween_completed"]
 [connection signal="tween_started" from="tweenController" to="." method="_on_Tween_tween_started"]

@@ -45,6 +45,11 @@ _global_script_classes=[ {
 "path": "res://scenes/Level/objs/dropItem.gd"
 }, {
 "base": "Node2D",
+"class": "LoadingCover",
+"language": "GDScript",
+"path": "res://scenes/GUI/loading/loading_transactionType1.gd"
+}, {
+"base": "Node2D",
 "class": "MoveFX",
 "language": "GDScript",
 "path": "res://scenes/Level/effects/move_fx.gd"
@@ -87,6 +92,7 @@ _global_script_class_icons={
 "Grable_obj": "",
 "ItemData": "",
 "ItemObj": "",
+"LoadingCover": "",
 "MoveFX": "",
 "PlayerBody": "",
 "PlayerData": "",
