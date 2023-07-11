@@ -1,0 +1,396 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://scenes/GUI/HUD_skillPanel.gd" type="Script" id=1]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_S_off.png" type="Texture" id=2]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_S_pressed.png" type="Texture" id=3]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_S_on.png" type="Texture" id=4]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_M_off.png" type="Texture" id=5]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_M_pressed.png" type="Texture" id=6]
+[ext_resource path="res://res/GUI_set_0/imgs/board&bar/board_1.png" type="Texture" id=7]
+[ext_resource path="res://res/GUI_set_0/imgs/buttons/btn_M_on.png" type="Texture" id=8]
+[ext_resource path="res://res/GUI_set_0/imgs/attack_icon.png" type="Texture" id=9]
+[ext_resource path="res://fonts/Lobster_1.3.otf" type="DynamicFontData" id=10]
+[ext_resource path="res://res/GUI_set_0/imgs/board&bar/bar_fill_blue.png" type="Texture" id=11]
+[ext_resource path="res://fonts/norwester.otf" type="DynamicFontData" id=21]
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 20
+outline_size = 5
+outline_color = Color( 0.0196078, 0.0117647, 0.0117647, 1 )
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 30
+font_data = ExtResource( 21 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 20
+font_data = ExtResource( 21 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 20
+font_data = ExtResource( 21 )
+
+[node name="HUD_skillmap" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="item_info_rect" type="NinePatchRect" parent="."]
+margin_right = 189.0
+margin_bottom = 86.0
+rect_scale = Vector2( 5, 5 )
+texture = ExtResource( 7 )
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+margin_left = 22.0
+margin_top = 25.0
+margin_right = 922.0
+margin_bottom = 410.0
+mouse_filter = 2
+custom_styles/bg = SubResource( 8 )
+follow_focus = true
+scroll_vertical_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer"]
+margin_right = 1000.0
+margin_bottom = 385.0
+rect_min_size = Vector2( 1000, 385 )
+
+[node name="Control" type="Control" parent="ScrollContainer/HBoxContainer"]
+margin_bottom = 385.0
+
+[node name="BarFillLightblue" type="Sprite" parent="ScrollContainer/HBoxContainer/Control"]
+position = Vector2( 185.385, 84 )
+scale = Vector2( 4.02927, 3.66667 )
+texture = ExtResource( 11 )
+
+[node name="BarFillLightblue2" type="Sprite" parent="ScrollContainer/HBoxContainer/Control"]
+position = Vector2( 410.615, 84 )
+scale = Vector2( 4.02927, 3.66667 )
+texture = ExtResource( 11 )
+
+[node name="BarFillLightblue3" type="Sprite" parent="ScrollContainer/HBoxContainer/Control"]
+position = Vector2( 607.615, 188 )
+scale = Vector2( 4.02927, 3.66667 )
+texture = ExtResource( 11 )
+
+[node name="BarFillLightblue6" type="Sprite" parent="ScrollContainer/HBoxContainer/Control"]
+position = Vector2( 520, 132.234 )
+rotation = 1.5708
+scale = Vector2( 2.8023, 3.66667 )
+texture = ExtResource( 11 )
+
+[node name="BarFillLightblue4" type="Sprite" parent="ScrollContainer/HBoxContainer/Control"]
+position = Vector2( 611.615, 84 )
+scale = Vector2( 4.02927, 3.66667 )
+texture = ExtResource( 11 )
+
+[node name="BarFillLightblue5" type="Sprite" parent="ScrollContainer/HBoxContainer/Control"]
+position = Vector2( 841.615, 85 )
+scale = Vector2( 4.02927, 3.66667 )
+texture = ExtResource( 11 )
+
+[node name="btn_skill_" type="TextureButton" parent="ScrollContainer/HBoxContainer/Control"]
+margin_left = 26.0
+margin_top = 41.0
+margin_right = 101.0
+margin_bottom = 116.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 3 )
+texture_disabled = ExtResource( 2 )
+expand = true
+stretch_mode = 5
+
+[node name="Sprite" type="Sprite" parent="ScrollContainer/HBoxContainer/Control/btn_skill_"]
+position = Vector2( 14, 5 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 9 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/Control/btn_skill_"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -20.0
+custom_fonts/font = SubResource( 9 )
+text = "lv 1"
+align = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="btn_skill_2" type="TextureButton" parent="ScrollContainer/HBoxContainer/Control"]
+margin_left = 254.0
+margin_top = 39.0
+margin_right = 329.0
+margin_bottom = 114.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 3 )
+texture_disabled = ExtResource( 2 )
+expand = true
+stretch_mode = 5
+
+[node name="Sprite" type="Sprite" parent="ScrollContainer/HBoxContainer/Control/btn_skill_2"]
+position = Vector2( 14, 5 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 9 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/Control/btn_skill_2"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -20.0
+custom_fonts/font = SubResource( 9 )
+text = "lv 0"
+align = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="btn_skill_3" type="TextureButton" parent="ScrollContainer/HBoxContainer/Control"]
+margin_left = 479.229
+margin_top = 39.0
+margin_right = 554.229
+margin_bottom = 114.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 3 )
+texture_disabled = ExtResource( 2 )
+expand = true
+stretch_mode = 5
+
+[node name="Sprite" type="Sprite" parent="ScrollContainer/HBoxContainer/Control/btn_skill_3"]
+position = Vector2( 14, 5 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 9 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/Control/btn_skill_3"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -20.0
+custom_fonts/font = SubResource( 9 )
+text = "lv 0"
+align = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="btn_skill_4" type="TextureButton" parent="ScrollContainer/HBoxContainer/Control"]
+margin_left = 676.229
+margin_top = 143.0
+margin_right = 751.229
+margin_bottom = 218.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 3 )
+texture_disabled = ExtResource( 2 )
+expand = true
+stretch_mode = 5
+
+[node name="Sprite" type="Sprite" parent="ScrollContainer/HBoxContainer/Control/btn_skill_4"]
+position = Vector2( 14, 5 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 9 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/Control/btn_skill_4"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -20.0
+custom_fonts/font = SubResource( 9 )
+text = "lv 0"
+align = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="btn_skill_5" type="TextureButton" parent="ScrollContainer/HBoxContainer/Control"]
+margin_left = 680.229
+margin_top = 39.0
+margin_right = 755.229
+margin_bottom = 114.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 3 )
+texture_disabled = ExtResource( 2 )
+expand = true
+stretch_mode = 5
+
+[node name="Sprite" type="Sprite" parent="ScrollContainer/HBoxContainer/Control/btn_skill_5"]
+position = Vector2( 14, 5 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 9 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/Control/btn_skill_5"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -20.0
+custom_fonts/font = SubResource( 9 )
+text = "lv 0"
+align = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="btn_skill_6" type="TextureButton" parent="ScrollContainer/HBoxContainer/Control"]
+margin_left = 910.229
+margin_top = 40.0
+margin_right = 985.229
+margin_bottom = 115.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 3 )
+texture_disabled = ExtResource( 2 )
+expand = true
+stretch_mode = 5
+
+[node name="Sprite" type="Sprite" parent="ScrollContainer/HBoxContainer/Control/btn_skill_6"]
+position = Vector2( 14, 5 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 9 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="ScrollContainer/HBoxContainer/Control/btn_skill_6"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -20.0
+custom_fonts/font = SubResource( 9 )
+text = "lv 0"
+align = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Control" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="btn_filter_all" type="TextureButton" parent="Control"]
+visible = false
+margin_left = 63.51
+margin_top = 41.139
+margin_right = 161.51
+margin_bottom = 81.139
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 6 )
+texture_disabled = ExtResource( 5 )
+expand = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Control/btn_filter_all"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -35.0
+margin_top = -10.0
+margin_right = 33.0
+margin_bottom = 7.0
+text = "all"
+align = 1
+valign = 1
+
+[node name="lbl_name" type="Label" parent="Control"]
+visible = false
+margin_left = 27.364
+margin_top = 101.364
+margin_right = 172.364
+margin_bottom = 137.364
+custom_fonts/font = SubResource( 5 )
+text = "XXXXX	"
+autowrap = true
+
+[node name="lbl_name2" type="Label" parent="Control"]
+visible = false
+margin_left = 26.364
+margin_top = 140.364
+margin_right = 170.364
+margin_bottom = 255.364
+custom_fonts/font = SubResource( 6 )
+text = "XXXXXX"
+autowrap = true
+
+[node name="btn_use" type="TextureButton" parent="Control"]
+visible = false
+margin_left = 45.003
+margin_top = 312.54
+margin_right = 155.003
+margin_bottom = 352.54
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 6 )
+expand = true
+
+[node name="lbl_" type="Label" parent="Control/btn_use"]
+margin_right = 110.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 7 )
+text = "Use"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="btn_set" type="TextureButton" parent="Control"]
+visible = false
+margin_left = 44.0
+margin_top = 362.0
+margin_right = 154.0
+margin_bottom = 402.0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 6 )
+texture_disabled = ExtResource( 5 )
+expand = true
+
+[node name="lbl_" type="Label" parent="Control/btn_set"]
+margin_right = 110.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 7 )
+text = "Set"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[connection signal="button_down" from="ScrollContainer/HBoxContainer/Control/btn_skill_" to="." method="_on_btn_filter_button_down" binds= [ 0 ]]
+[connection signal="button_down" from="ScrollContainer/HBoxContainer/Control/btn_skill_2" to="." method="_on_btn_filter_button_down" binds= [ 0 ]]
+[connection signal="button_down" from="ScrollContainer/HBoxContainer/Control/btn_skill_3" to="." method="_on_btn_filter_button_down" binds= [ 0 ]]
+[connection signal="button_down" from="ScrollContainer/HBoxContainer/Control/btn_skill_4" to="." method="_on_btn_filter_button_down" binds= [ 0 ]]
+[connection signal="button_down" from="ScrollContainer/HBoxContainer/Control/btn_skill_5" to="." method="_on_btn_filter_button_down" binds= [ 0 ]]
+[connection signal="button_down" from="ScrollContainer/HBoxContainer/Control/btn_skill_6" to="." method="_on_btn_filter_button_down" binds= [ 0 ]]
+[connection signal="button_down" from="Control/btn_filter_all" to="." method="_on_btn_filter_button_down" binds= [ 0 ]]
+[connection signal="button_down" from="Control/btn_use" to="." method="_on_btn_use_button_down"]
+[connection signal="button_down" from="Control/btn_set" to="." method="_on_btn_use_button_down"]

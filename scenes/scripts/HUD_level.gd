@@ -129,12 +129,6 @@ func _on_HUD_node_shopView_shop_closed():
 	pass # Replace with function body.
 
 
-func _on_TextureButton_pressed():
-	$HUD_node_pauseMenu.show()
-	emit_signal("meun_onshow")
-	pass # Replace with function body.
-
-
 func _on_HUD_node_pauseMenu_menu_closed():
 	emit_signal("meun_closed")
 	pass # Replace with function body.
@@ -145,20 +139,24 @@ func _on_HUD_node_shopView_item_selected(index):
 	pass # Replace with function body.
 
 
-func _on_btn_trigger_pressed():
-	emit_signal("character_info_onshow")
+func _on_btn_characterInfo_trigger_pressed():
+#	emit_signal("character_info_onshow")
+	emit_signal("meun_onshow")
 	$HUD_node_characterInfo.show()
 	$HUD_node_characterInfo.update()
 	$Control.hide()
 	$CharacterInfo_short.hide()
+	$btn_pause.hide()
 	pass # Replace with function body.
 
 
 func _on_HUD_node_characterInfo_closed():
-	emit_signal("character_info_closed")
+#	emit_signal("character_info_closed")
+	emit_signal("meun_closed")
 	if touchEnable :
 		$Control.show()
 	$CharacterInfo_short.show()
+	$btn_pause.show()
 	pass # Replace with function body.
 
 
@@ -172,4 +170,10 @@ func _on_jump_button_down():
 
 
 func _on_attack_button_down():
+	pass # Replace with function body.
+
+
+func _on_btn_pause_pressed():
+	$HUD_node_pauseMenu.show()
+	emit_signal("meun_onshow")
 	pass # Replace with function body.

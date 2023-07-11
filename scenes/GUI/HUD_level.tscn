@@ -259,10 +259,11 @@ visible = false
 
 [node name="HUD_node_shopView" parent="." instance=ExtResource( 11 )]
 visible = false
+z_index = 2
 
 [node name="timer_reborn" type="Timer" parent="."]
 
-[node name="TextureButton" type="TextureButton" parent="."]
+[node name="btn_pause" type="TextureButton" parent="."]
 margin_left = 957.104
 margin_top = 10.984
 margin_right = 1012.1
@@ -270,9 +271,6 @@ margin_bottom = 65.984
 action_mode = 0
 texture_normal = ExtResource( 6 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CharacterInfo_short" type="TextureButton" parent="."]
 margin_left = 11.6799
@@ -283,9 +281,6 @@ action_mode = 0
 texture_normal = ExtResource( 2 )
 expand = true
 stretch_mode = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Sprite" type="Sprite" parent="CharacterInfo_short"]
 position = Vector2( 51.5441, 50.4316 )
@@ -379,8 +374,8 @@ inputName = "ui_attack"
 [connection signal="shop_closed" from="HUD_node_shopView" to="." method="_on_HUD_node_shopView_shop_closed"]
 [connection signal="userInfo_changed" from="HUD_node_shopView" to="." method="_on_HUD_node_shopView_userInfo_changed"]
 [connection signal="timeout" from="timer_reborn" to="." method="_on_timer_reborn_timeout"]
-[connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
-[connection signal="pressed" from="CharacterInfo_short" to="." method="_on_btn_trigger_pressed"]
+[connection signal="pressed" from="btn_pause" to="." method="_on_btn_pause_pressed"]
+[connection signal="pressed" from="CharacterInfo_short" to="." method="_on_btn_characterInfo_trigger_pressed"]
 [connection signal="menu_closed" from="HUD_node_pauseMenu" to="." method="_on_HUD_node_pauseMenu_menu_closed"]
 [connection signal="pressed" from="Control/tsbtn_jump" to="Control/tsbtn_jump" method="_on_button_down"]
 [connection signal="released" from="Control/tsbtn_jump" to="Control/tsbtn_jump" method="_on_button_release"]
