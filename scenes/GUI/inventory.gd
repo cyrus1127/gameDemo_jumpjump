@@ -1,6 +1,7 @@
 extends Node2D
 
 signal listHaveChanged
+signal player_recovered(hp_val,sp_val)
 # Declare member variables here. Examples:
 enum CateType{
 	All,
@@ -156,6 +157,15 @@ func _on_btn_use_button_down():
 		if itemIndexInFullList >= 0:
 			if curType.match("Recover"):
 				var curAmt = onlistingItem[itemIndex].amt
+				var rcType = onlistingItem[itemIndex].recoverType
+				var val = onlistingItem[itemIndex].value
+				
+				if rcType.match("hp") :
+					emit_signal("player_recovered",val,0)
+				elif rcType.match("sp"):
+					emit_signal("player_recovered",0,val)
+				
+				# decrease 
 				if curAmt - 1 == 0:
 					allItems.remove(itemIndexInFullList)
 					itemIndex = 0 #reset the selected index

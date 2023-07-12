@@ -46,7 +46,7 @@ func _ready():
 	
 	#Scene ready
 	$Player_RigidBody2D.start($pos_start.position)
-	$HUD_level.update_hp(player_hp)
+	$HUD_level.initBaseHPSP(player_hp, player_sp)
 	$HUD_level.update_coin(GLOBAL.playerData.balance)
 	$HUD_level.setTouchOn($Player_RigidBody2D.isTouchScreenOn)
 	
@@ -255,14 +255,21 @@ func updateEachTrap(delta):
 			obj_set.prog = prog
 			obj_set.flip = flip
 	pass
-	
-func deductPlayHP(d_HP):
+
+func updatePlayHP(d_HP):
 	if gameStart :
-		player_hp -= d_HP
-		$Player_RigidBody2D.onHit()
+		player_hp += d_HP
+		
+		# define is on hit status
+		if d_HP < 0 : 
+			$Player_RigidBody2D.onHit()
+		
+		#update the HUD	
 		$HUD_level.update_hp(player_hp)
 		if player_hp <= 0: # give reset
 			$HUD_level.showDeadView(false)
+		elif player_hp >= GLOBAL.playerData.hp: # give reset
+			player_hp = GLOBAL.playerData.hp
 	pass
 
 func _on_DeadArea2D_player_in():
@@ -270,7 +277,7 @@ func _on_DeadArea2D_player_in():
 	$map/DeadArea.set_monitoring(false)
 	GLOBAL.change_sfx("dead")
 	# reset player positon
-	deductPlayHP(30)
+	updatePlayHP(-30)
 	if player_hp > 0: # give reset# game over
 		$HUD_level.showDeadView(true)
 	else:
@@ -377,7 +384,7 @@ func _on_Player_RigidBody2D_hit_monster(body):
 func _on_Player_RigidBody2D_monster_touch(body):
 	var cMod := body as EnemyObj
 	if  cMod:
-		deductPlayHP(10)
+		updatePlayHP(-10)
 		
 	pass # Replace with function body.
 
@@ -399,12 +406,12 @@ func _on_TraggerBtn_player_traggered( id ):
 
 
 func _on_Trap_player_collap():
-	deductPlayHP(10)
+	updatePlayHP(-10)
 	pass # Replace with function body.
 
 
 func _on_pathTrap_player_collap():
-	deductPlayHP(10)
+	updatePlayHP(-10)
 	pass # Replace with function body.
 
 
@@ -437,7 +444,8 @@ func _on_Player_RigidBody2D_item_touch(body):
 			
 	#check balance
 	
-	
-
 	pass # Replace with function body.
 
+func _on_HUD_level_player_recovered(hp_val, sp_val):
+	updatePlayHP(hp_val)
+	pass # Replace with function body.

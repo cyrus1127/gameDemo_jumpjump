@@ -9,19 +9,16 @@ signal meun_onshow
 signal item_selected
 signal character_info_onshow
 signal character_info_closed
+signal player_recovered(hp_val,sp_val)
 
 
 # Declare member variables here. Examples:
-var init_hp = 100
-var init_sp = 100
 var timer_reborn_counting
 
 export var touchEnable = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	update_hp(init_hp)
-	update_sp(init_sp)
 	update_coin(GLOBAL.playerData.balance)
 	$panel_result.hide()
 	
@@ -35,12 +32,21 @@ func setTouchOn(var isNeed : bool = false):
 		$Control.hide()
 	pass
 
+func initBaseHPSP(n_hp, n_sp):
+	$CharacterInfo_short/bar_hp.max_value = n_hp
+	$CharacterInfo_short/bar_sp.max_value = n_sp
+	update_hp(n_hp)
+	update_sp(n_sp)
+	$HUD_node_characterInfo.initBaseHPSP(n_hp, n_sp)
+
 func update_hp(n_val):
-	$CharacterInfo_short/bar_hp.value = n_val;
+	$CharacterInfo_short/bar_hp.value = n_val
+	$HUD_node_characterInfo.update_hp(n_val)
 	pass
 
 func update_sp(n_val):
-	$CharacterInfo_short/bar_sp.value = n_val;
+	$CharacterInfo_short/bar_sp.value = n_val
+	$HUD_node_characterInfo.update_sp(n_val)
 	pass
 	
 func update_coin(n_val):
@@ -176,4 +182,8 @@ func _on_attack_button_down():
 func _on_btn_pause_pressed():
 	$HUD_node_pauseMenu.show()
 	emit_signal("meun_onshow")
+	pass # Replace with function body.
+
+func _on_HUD_node_characterInfo_player_recovered(hp, sp):
+	emit_signal("player_recovered",hp, sp)
 	pass # Replace with function body.

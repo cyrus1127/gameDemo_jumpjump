@@ -196,6 +196,7 @@ position = Vector2( 168, -98 )
 [connection signal="btn_pressed_retry" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_retry"]
 [connection signal="meun_closed" from="HUD_level" to="." method="_on_HUD_level_meun_closed"]
 [connection signal="meun_onshow" from="HUD_level" to="." method="_on_HUD_level_meun_onshow"]
+[connection signal="player_recovered" from="HUD_level" to="." method="_on_HUD_level_player_recovered"]
 [connection signal="timeToReset" from="HUD_level" to="." method="_on_HUD_level_timeToReset"]
 [connection signal="coin_hit" from="map/Coin" to="." method="_on_Coin_coin_hit"]
 [connection signal="coin_hit" from="map/Coin2" to="." method="_on_Coin_coin_hit"]

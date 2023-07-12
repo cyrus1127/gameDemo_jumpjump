@@ -103,6 +103,7 @@ rotation = -0.284866
 [connection signal="btn_pressed_retry" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_retry"]
 [connection signal="meun_closed" from="HUD_level" to="." method="_on_HUD_level_meun_closed"]
 [connection signal="meun_onshow" from="HUD_level" to="." method="_on_HUD_level_meun_onshow"]
+[connection signal="player_recovered" from="HUD_level" to="." method="_on_HUD_level_player_recovered"]
 [connection signal="timeToReset" from="HUD_level" to="." method="_on_HUD_level_timeToReset"]
 [connection signal="player_in" from="map/DeadArea" to="." method="_on_DeadArea2D_player_in"]
 [connection signal="player_in" from="map/GoalArea2D" to="." method="_on_GoalArea_player_in"]

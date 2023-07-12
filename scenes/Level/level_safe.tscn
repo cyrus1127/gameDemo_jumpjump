@@ -70,6 +70,7 @@ texture = ExtResource( 9 )
 [connection signal="character_info_onshow" from="HUD_level" to="." method="_on_HUD_level_character_info_onshow"]
 [connection signal="meun_closed" from="HUD_level" to="." method="_on_HUD_level_meun_closed"]
 [connection signal="meun_onshow" from="HUD_level" to="." method="_on_HUD_level_meun_onshow"]
+[connection signal="player_recovered" from="HUD_level" to="." method="_on_HUD_level_player_recovered"]
 [connection signal="timeToReset" from="HUD_level" to="." method="_on_HUD_level_timeToReset"]
 [connection signal="player_in_Shop" from="ItemShop" to="." method="_on_ItemShop_player_in_Shop"]
 [connection signal="player_leave_Shop" from="ItemShop" to="." method="_on_ItemShop_player_leave_Shop"]

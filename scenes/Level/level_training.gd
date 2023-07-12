@@ -14,9 +14,12 @@ func addTrap():
 	print("in Training room currently, auto gen trap & monster function is disabled")
 	pass
 
-func deductPlayHP(d_HP):
+func updatePlayHP(d_HP):
 	if gameStart :
-#		player_hp -= d_HP
+		if d_HP < 0 :
+			.updatePlayHP(-1)
+		else:
+			.updatePlayHP(d_HP)
 		$Player_RigidBody2D.onHit()
 		$HUD_level.update_hp(player_hp)
 		if player_hp <= 0: # give reset

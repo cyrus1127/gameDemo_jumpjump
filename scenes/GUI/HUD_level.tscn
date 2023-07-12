@@ -320,9 +320,6 @@ margin_bottom = 26.837
 custom_styles/fg = SubResource( 5 )
 custom_styles/bg = SubResource( 6 )
 value = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="bar_sp" type="ProgressBar" parent="CharacterInfo_short"]
 margin_left = 100.0
@@ -370,6 +367,7 @@ inputName = "ui_attack"
 [connection signal="button_down" from="panel_result_dead/btn_retry" to="." method="_on_btn_retry_button_down"]
 [connection signal="button_down" from="panel_result_dead/btn_backtotitle_dead" to="." method="_on_btn_backtotitle_dead_button_down"]
 [connection signal="closed" from="HUD_node_characterInfo" to="." method="_on_HUD_node_characterInfo_closed"]
+[connection signal="player_recovered" from="HUD_node_characterInfo" to="." method="_on_HUD_node_characterInfo_player_recovered"]
 [connection signal="item_selected" from="HUD_node_shopView" to="." method="_on_HUD_node_shopView_item_selected"]
 [connection signal="shop_closed" from="HUD_node_shopView" to="." method="_on_HUD_node_shopView_shop_closed"]
 [connection signal="userInfo_changed" from="HUD_node_shopView" to="." method="_on_HUD_node_shopView_userInfo_changed"]

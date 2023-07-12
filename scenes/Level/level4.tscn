@@ -134,6 +134,7 @@ __meta__ = {
 }
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2( 167.625, 178.606 )
 offset = 56.2928
 rotate = false
 loop = false
@@ -151,6 +152,7 @@ __meta__ = {
 position = Vector2( -302.354, -374.894 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D2"]
+position = Vector2( 197.105, -62.2554 )
 offset = 33.7551
 rotate = false
 loop = false
@@ -168,6 +170,7 @@ position = Vector2( 354.739, 393.803 )
 [connection signal="btn_pressed_retry" from="HUD_level" to="." method="_on_HUD_level_btn_pressed_retry"]
 [connection signal="meun_closed" from="HUD_level" to="." method="_on_HUD_level_meun_closed"]
 [connection signal="meun_onshow" from="HUD_level" to="." method="_on_HUD_level_meun_onshow"]
+[connection signal="player_recovered" from="HUD_level" to="." method="_on_HUD_level_player_recovered"]
 [connection signal="timeToReset" from="HUD_level" to="." method="_on_HUD_level_timeToReset"]
 [connection signal="coin_hit" from="map/Coin2" to="." method="_on_Coin_coin_hit"]
 [connection signal="coin_hit" from="map/Coin3" to="." method="_on_Coin_coin_hit"]

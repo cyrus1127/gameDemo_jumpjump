@@ -1,6 +1,7 @@
 extends Node2D
 
 signal closed
+signal player_recovered(hp , sp)
 
 # Declare member variables here. Examples:
 var slots = []
@@ -22,7 +23,6 @@ func update():
 	reviewEquipments()
 #	# load player backpack records
 	if GLOBAL.playerData.items:
-
 		$user_info_rect/lbl_level.text = "LV : " + str(GLOBAL.playerData.level)
 		$user_info_rect/ProgressBar_exp.value = GLOBAL.playerData.left_exp
 		$user_info_rect/ProgressBar_exp.max_value = GLOBAL.playerData.getExp(GLOBAL.playerData.level)
@@ -30,12 +30,25 @@ func update():
 		$user_info_rect/lbl_p_str.text = "STR : " + str(GLOBAL.playerData.getStr())
 		$user_info_rect/lbl_p_dev.text = "DEV : " + str(GLOBAL.playerData.getDex())
 		
-		
 	pass
 
 func getItems() -> Array:
 	var allItems := GLOBAL.playerData.items as Array
 	return allItems
+	
+func initBaseHPSP(n_hp, n_sp):
+	$user_info_rect/ProgressBar_HP.max_value = n_hp
+	$user_info_rect/ProgressBar_SP.max_value = n_sp
+	update_hp(n_hp)
+	update_sp(n_sp)
+
+func update_hp(n_val):
+	$user_info_rect/ProgressBar_HP.value = n_val;
+	pass
+
+func update_sp(n_val):
+	$user_info_rect/ProgressBar_SP.value = n_val;
+	pass
 
 # check and update gear info
 func reviewEquipments():
@@ -66,6 +79,8 @@ func isWearingEquipment(item):
 				return true
 
 	return false
+
+#=-=-=-=-=--= delegates =-=-=-=-=-=-=-=
 
 func _on_eqSlot_pressed(extra_arg_0):
 	
@@ -122,4 +137,9 @@ func _on_btn_skill_pressed():
 	$user_info_rect.hide()
 	$HUD_inventory.hide()
 	$HUD_skillmap.show()
+	pass # Replace with function body.
+
+
+func _on_HUD_inventory_player_recovered(hp_val, sp_val):
+	emit_signal("player_recovered",hp_val,sp_val)
 	pass # Replace with function body.
